@@ -23,8 +23,6 @@
 #import <Foundation/Foundation.h>
 #include <termios.h>
 
-#define m_nFreqSpectrumSteps (112)
-
 typedef enum {
     EXPANSION_433M = 0,
     EXPANSION_868M,

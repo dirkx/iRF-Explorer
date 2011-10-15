@@ -46,7 +46,7 @@
     
     unsigned long nFreqSpectrumSteps;
     // derived viewport info
-    float fSpanMhz, fMaxMhz, fCenterMhz;
+    float fSpanMhz, fEndMhz, fCenterMhz;
     
     BOOL expansionBoardActive;
     RF_speed_t commsSpeed;
@@ -66,7 +66,7 @@
 @property (assign, readonly) float fStartMhz, fStepMhz;
 @property (assign, readonly) unsigned long nFreqSpectrumSteps;
 @property (assign, readonly) float fMinFreqMhz, fMaxFreqMhz, fMaxSpanMhz, fFullRangeMhz;
-@property (assign, readonly) float fMaxMhz, fMinSpanMhz;
+@property (assign, readonly) float fEndMhz, fMinSpanMhz;
 @property (assign, readonly) NSString * mainBoard, *expansionBoard, *firmware;
 @property (assign, readonly) float fAmplitudeMin, fAmplitudeMax, fAmplitudeMinSpan, fAmplitudeFullRange;
 @property (assign, readonly) BOOL expansionBoardActive;

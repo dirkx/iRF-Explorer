@@ -21,75 +21,146 @@
 //
 
 #import "dBmLegendView.h"
+#import "StringScaleDefinition.h"
+#import "TickScaler.h"
 
 @implementation dBmLegendView
+@synthesize ticks, graphView;
 
 -(RFExplorer *)device { 
-    return device;
+    return device; 
 }
 
 -(void)setDevice:(RFExplorer *)_device {
-    [device release];
-    device = [_device retain];
+    if (device)
+        [device release];
+
+    if (_device)
+        device = [_device retain];
+    else
+        device = nil;
     
-    [self setNeedsDisplay:TRUE];
+    NSLog(@"Set device (again!) for %@", self.className);
+    
+    [self setNeedsDisplay:YES];
+}
+
+-(void)setNeedsDisplay:(BOOL)flag {
+    [super setNeedsDisplay:flag];
+    
+    if (device == nil)
+        return;
+    
+    if (device.fAmplitudeBottom == device.fAmplitudeTop) 
+        return;
+        
+    NumericScaleDefinition * ns = [TickScaler calculateIdealScaleFromMin:device.fAmplitudeBottom  
+                                                                 withMax:device.fAmplitudeTop
+                                   ];
+    
+    StringScaleDefinition * scale = [[StringScaleDefinition alloc] initWithNumericScaleDefinition:ns 
+                                                              withDataMin:device.fAmplitudeBottom 
+                                                              withDataMax:device.fAmplitudeTop 
+                                                                 withUnit:@"dBm"];
+    self.ticks = scale.ticks;
+    NSLog(@"Range %f .. %f: %@", device.fAmplitudeBottom, device.fAmplitudeTop, ticks);
+    
+    [scale release];
 }
 
 -(void)drawRect:(NSRect)dirtyRect {    
     NSRect rect = self.bounds;
+    NSRect graphRect = graphView.bounds;
+    
+    NSLog(@"drawRect of %@", self.className);
     
     const float kMargin = 4;
-    const float OS = 16.0;
-    const int kSteps = 5;
     
     NSGraphicsContext * nsGraphicsContext = [NSGraphicsContext currentContext];
     CGContextRef cref = (CGContextRef) [nsGraphicsContext graphicsPort];
     
-    if (0) {
+    if (FALSE) {
         CGContextSetRGBFillColor (cref, 1,1,1,1);
         CGContextFillRect (cref, rect);
     };
     
-    // 30.0 is a magic delta - prolly the height of the scrollbar.
-    // and 1.0 is the offset.
-    float height = rect.size.height - 30.0;
+    float height = graphRect.size.height;
+    
     float sy = 0.90 * height;
-    float oy = 0.05 * height + rect.origin.y - 1.0;
-    float ox = rect.size.width + rect.origin.y - kMargin;
+    float Sy = sy / device.fAmplitudeSpan;
+
+    float oy = rect.origin.y + rect.size.height - 0.95 * height;
+    float ox = rect.size.width + rect.origin.x - 2*kMargin;
     
     CGContextSetLineWidth(cref, 1.0);
+    CGContextSetRGBStrokeColor(cref, 0.4,0,0,1);
+
+    float y0 = oy;
+    float y1 = oy+sy;
+
+    // Marks at the actual possible range.
+    CGPoint l0[] = { 
+        CGPointMake(ox,y0), 
+        CGPointMake(ox+kMargin,y0) 
+    };    
+    CGContextStrokeLineSegments(cref, l0, 2 );
+
+    CGPoint l1[] = { 
+        CGPointMake(ox,y1), 
+        CGPointMake(ox+kMargin,y1) 
+    };    
+    CGContextStrokeLineSegments(cref, l1, 2 );
+    
     CGContextSetRGBStrokeColor(cref, 0,0,0.4,1);
 
+    if (ticks == nil || ticks.count == 0)
+        return;
+
+    // Vertical line may be longer if the tick range is rounded
+    // to a value just outside the actual data range.
+    //
+    float v0 = ((TickMark*)[ticks objectAtIndex:0]).value;
+    float y00 = oy + Sy * (v0 - device.fAmplitudeBottom);
+    if (y00 < y0) {
+        y0 = y00;
+    }
+
+    float v1 = ((TickMark*)[ticks lastObject]).value;
+    float y11 = oy + Sy * (v1 - device.fAmplitudeBottom);
+    if (y11 > y1) {
+        y1 = y11;
+    };
+
     CGPoint l[] = { 
-        CGPointMake(ox,oy), 
-        CGPointMake(ox,oy+sy) 
+        CGPointMake(ox,y0), 
+        CGPointMake(ox,y1) 
     };    
     CGContextStrokeLineSegments(cref, l, 2 );
 
-    for(int i = 0; i <= kSteps; i++) {
-        float y = oy + sy * i / kSteps;
+    for(NSUInteger i = 0; i < ticks.count; i++) {
+        TickMark * m = [ticks objectAtIndex:i];
+        float v = m.value;
+        float y = oy + Sy * (v - device.fAmplitudeBottom);
+
         CGPoint l[] = { 
-#if 1
-            // for calibration/testing scale -- lets it touch the main graph.
-            CGPointMake(ox+((i ==0 || i == kSteps) ? kMargin : 0.0),y), 
-#else
             CGPointMake(ox,y),
-#endif
-            CGPointMake(ox-OS,y) 
+            CGPointMake(ox-kMargin,y) 
         };    
         CGContextStrokeLineSegments(cref, l, 2 );
-    };
-    
-    if (device.fAmplitudeBottom < 0.0) {
-        NSString * topLabel = [NSString stringWithFormat:@"%03.1f\n dBm", device.fAmplitudeBottom];
-        [topLabel drawAtPoint:NSMakePoint(kMargin,oy+2.0) 
+        
+        NSSize s = [m.labelStr sizeWithAttributes:nil];
+        
+        float lx = ox - s.width-2*kMargin;
+        float ly = y - s.height / 2.0 + kMargin / 2.0;
+        
+        [m.labelStr drawAtPoint:NSMakePoint(lx,ly)
                withAttributes:nil];
-    };
-    
-    if (device.fAmplitudeTop < 0.0) {
-        NSString * botLabel = [NSString stringWithFormat:@"%03.1f\n dBm", device.fAmplitudeTop];
-        [botLabel drawAtPoint:NSMakePoint(kMargin,oy+sy-32.0) 
-               withAttributes:nil];
-    }
+    };    
+
+}
+-(void)dealloc {
+    [super dealloc];
+    self.device = nil;
+    self.ticks = nil;
 }
 @end

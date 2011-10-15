@@ -22,13 +22,45 @@
 		32A0D5C9143CEEE000464DCD /* PreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A0D5C8143CEEE000464DCD /* PreferenceController.m */; };
 		32A0D5CB143CEF0900464DCD /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32A0D5CA143CEF0900464DCD /* Preferences.xib */; };
 		32A0D5D1143CF75E00464DCD /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32A0D5D0143CF75E00464DCD /* IOKit.framework */; };
+		32ACFE811448D3270098AB7C /* TickScaler.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE761448D3270098AB7C /* TickScaler.m */; };
+		32ACFE821448D3270098AB7C /* BasicNiceNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE781448D3270098AB7C /* BasicNiceNumber.m */; };
+		32ACFE831448D3270098AB7C /* NiceNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE7A1448D3270098AB7C /* NiceNumber.m */; };
+		32ACFE841448D3270098AB7C /* NumericScaleDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE7C1448D3270098AB7C /* NumericScaleDefinition.m */; };
+		32ACFE851448D3270098AB7C /* StringScaleDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE7E1448D3270098AB7C /* StringScaleDefinition.m */; };
+		32ACFE861448D3270098AB7C /* TickMark.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE801448D3270098AB7C /* TickMark.m */; };
 		32CBD2BF14485B8B004C88C2 /* dBmLegendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32CBD2BE14485B8B004C88C2 /* dBmLegendView.m */; };
 		32E2291A143D29F200FD9D19 /* SerialDeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E22919143D29F200FD9D19 /* SerialDeviceTracker.m */; };
 		32E92CC914482B9E000D12E9 /* TODO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 32E92CC814482B9D000D12E9 /* TODO.txt */; };
 		32EC05DC1448A1C600B53197 /* Icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = 32EC05DB1448A1C600B53197 /* Icons.icns */; };
+		32F7D8D31449879B008886F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32F7D8D21449879B008886F3 /* Foundation.framework */; };
+		32F7D8D61449879B008886F3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F7D8D51449879B008886F3 /* main.m */; };
+		32F7D8DF1449881A008886F3 /* TickScaler.h in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE751448D3270098AB7C /* TickScaler.h */; };
+		32F7D8E01449881A008886F3 /* TickScaler.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE761448D3270098AB7C /* TickScaler.m */; };
+		32F7D8E11449881A008886F3 /* BasicNiceNumber.h in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE771448D3270098AB7C /* BasicNiceNumber.h */; };
+		32F7D8E21449881A008886F3 /* BasicNiceNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE781448D3270098AB7C /* BasicNiceNumber.m */; };
+		32F7D8E31449881A008886F3 /* NiceNumber.h in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE791448D3270098AB7C /* NiceNumber.h */; };
+		32F7D8E41449881A008886F3 /* NiceNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE7A1448D3270098AB7C /* NiceNumber.m */; };
+		32F7D8E51449881A008886F3 /* NumericScaleDefinition.h in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE7B1448D3270098AB7C /* NumericScaleDefinition.h */; };
+		32F7D8E61449881A008886F3 /* NumericScaleDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE7C1448D3270098AB7C /* NumericScaleDefinition.m */; };
+		32F7D8E71449881A008886F3 /* StringScaleDefinition.h in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE7D1448D3270098AB7C /* StringScaleDefinition.h */; };
+		32F7D8E81449881A008886F3 /* StringScaleDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE7E1448D3270098AB7C /* StringScaleDefinition.m */; };
+		32F7D8E91449881A008886F3 /* TickMark.h in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE7F1448D3270098AB7C /* TickMark.h */; };
+		32F7D8EA1449881A008886F3 /* TickMark.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE801448D3270098AB7C /* TickMark.m */; };
 		32F9B73E144596F200226BE8 /* FrequencyLegendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F9B73D144596F200226BE8 /* FrequencyLegendView.m */; };
 		32F9B74214459AC000226BE8 /* RFExplorer.m in Sources */ = {isa = PBXBuildFile; fileRef = 32F9B74114459ABF00226BE8 /* RFExplorer.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		32F7D8CE1449879B008886F3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		32312E7014441E6600488611 /* LCDImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCDImage.h; sourceTree = "<group>"; };
@@ -60,12 +92,28 @@
 		32A0D5C8143CEEE000464DCD /* PreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferenceController.m; sourceTree = "<group>"; };
 		32A0D5CA143CEF0900464DCD /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		32A0D5D0143CF75E00464DCD /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		32ACFE751448D3270098AB7C /* TickScaler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TickScaler.h; sourceTree = "<group>"; };
+		32ACFE761448D3270098AB7C /* TickScaler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TickScaler.m; sourceTree = "<group>"; };
+		32ACFE771448D3270098AB7C /* BasicNiceNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicNiceNumber.h; sourceTree = "<group>"; };
+		32ACFE781448D3270098AB7C /* BasicNiceNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicNiceNumber.m; sourceTree = "<group>"; };
+		32ACFE791448D3270098AB7C /* NiceNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NiceNumber.h; sourceTree = "<group>"; };
+		32ACFE7A1448D3270098AB7C /* NiceNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NiceNumber.m; sourceTree = "<group>"; };
+		32ACFE7B1448D3270098AB7C /* NumericScaleDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NumericScaleDefinition.h; sourceTree = "<group>"; };
+		32ACFE7C1448D3270098AB7C /* NumericScaleDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NumericScaleDefinition.m; sourceTree = "<group>"; };
+		32ACFE7D1448D3270098AB7C /* StringScaleDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringScaleDefinition.h; sourceTree = "<group>"; };
+		32ACFE7E1448D3270098AB7C /* StringScaleDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringScaleDefinition.m; sourceTree = "<group>"; };
+		32ACFE7F1448D3270098AB7C /* TickMark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TickMark.h; sourceTree = "<group>"; };
+		32ACFE801448D3270098AB7C /* TickMark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TickMark.m; sourceTree = "<group>"; };
 		32CBD2BD14485B8B004C88C2 /* dBmLegendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dBmLegendView.h; sourceTree = "<group>"; };
 		32CBD2BE14485B8B004C88C2 /* dBmLegendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = dBmLegendView.m; sourceTree = "<group>"; };
 		32E22918143D29F200FD9D19 /* SerialDeviceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerialDeviceTracker.h; sourceTree = "<group>"; };
 		32E22919143D29F200FD9D19 /* SerialDeviceTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SerialDeviceTracker.m; sourceTree = "<group>"; };
 		32E92CC814482B9D000D12E9 /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TODO.txt; path = iRFExplorer/TODO.txt; sourceTree = "<group>"; };
 		32EC05DB1448A1C600B53197 /* Icons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icons.icns; sourceTree = "<group>"; };
+		32F7D8D01449879B008886F3 /* testScale */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = testScale; sourceTree = BUILT_PRODUCTS_DIR; };
+		32F7D8D21449879B008886F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		32F7D8D51449879B008886F3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		32F7D8D81449879B008886F3 /* testScale-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "testScale-Prefix.pch"; sourceTree = "<group>"; };
 		32F9B73C144596F200226BE8 /* FrequencyLegendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrequencyLegendView.h; sourceTree = "<group>"; };
 		32F9B73D144596F200226BE8 /* FrequencyLegendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrequencyLegendView.m; sourceTree = "<group>"; };
 		32F9B74014459ABF00226BE8 /* RFExplorer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFExplorer.h; sourceTree = "<group>"; };
@@ -79,6 +127,14 @@
 			files = (
 				32A0D5D1143CF75E00464DCD /* IOKit.framework in Frameworks */,
 				32A0D5AB143CEBDC00464DCD /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32F7D8CD1449879B008886F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32F7D8D31449879B008886F3 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +187,8 @@
 			children = (
 				32E92CC814482B9D000D12E9 /* TODO.txt */,
 				32A0D5B0143CEBDC00464DCD /* iRFExplorer */,
+				32ACFE741448D3010098AB7C /* TickScaling */,
+				32F7D8D41449879B008886F3 /* testScale */,
 				32A0D5A9143CEBDC00464DCD /* Frameworks */,
 				32A0D5A7143CEBDC00464DCD /* Products */,
 			);
@@ -140,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				32A0D5A6143CEBDC00464DCD /* iRFExplorer.app */,
+				32F7D8D01449879B008886F3 /* testScale */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -149,6 +208,7 @@
 			children = (
 				32A0D5D0143CF75E00464DCD /* IOKit.framework */,
 				32A0D5AA143CEBDC00464DCD /* Cocoa.framework */,
+				32F7D8D21449879B008886F3 /* Foundation.framework */,
 				32A0D5AC143CEBDC00464DCD /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -194,6 +254,43 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		32ACFE741448D3010098AB7C /* TickScaling */ = {
+			isa = PBXGroup;
+			children = (
+				32ACFE751448D3270098AB7C /* TickScaler.h */,
+				32ACFE761448D3270098AB7C /* TickScaler.m */,
+				32ACFE771448D3270098AB7C /* BasicNiceNumber.h */,
+				32ACFE781448D3270098AB7C /* BasicNiceNumber.m */,
+				32ACFE791448D3270098AB7C /* NiceNumber.h */,
+				32ACFE7A1448D3270098AB7C /* NiceNumber.m */,
+				32ACFE7B1448D3270098AB7C /* NumericScaleDefinition.h */,
+				32ACFE7C1448D3270098AB7C /* NumericScaleDefinition.m */,
+				32ACFE7D1448D3270098AB7C /* StringScaleDefinition.h */,
+				32ACFE7E1448D3270098AB7C /* StringScaleDefinition.m */,
+				32ACFE7F1448D3270098AB7C /* TickMark.h */,
+				32ACFE801448D3270098AB7C /* TickMark.m */,
+			);
+			name = TickScaling;
+			path = iRFExplorer;
+			sourceTree = "<group>";
+		};
+		32F7D8D41449879B008886F3 /* testScale */ = {
+			isa = PBXGroup;
+			children = (
+				32F7D8D51449879B008886F3 /* main.m */,
+				32F7D8D71449879B008886F3 /* Supporting Files */,
+			);
+			path = testScale;
+			sourceTree = "<group>";
+		};
+		32F7D8D71449879B008886F3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				32F7D8D81449879B008886F3 /* testScale-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -214,6 +311,23 @@
 			productReference = 32A0D5A6143CEBDC00464DCD /* iRFExplorer.app */;
 			productType = "com.apple.product-type.application";
 		};
+		32F7D8CF1449879B008886F3 /* testScale */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 32F7D8DD1449879B008886F3 /* Build configuration list for PBXNativeTarget "testScale" */;
+			buildPhases = (
+				32F7D8CC1449879B008886F3 /* Sources */,
+				32F7D8CD1449879B008886F3 /* Frameworks */,
+				32F7D8CE1449879B008886F3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = testScale;
+			productName = testScale;
+			productReference = 32F7D8D01449879B008886F3 /* testScale */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -232,6 +346,7 @@
 			projectRoot = "";
 			targets = (
 				32A0D5A5143CEBDC00464DCD /* iRFExplorer */,
+				32F7D8CF1449879B008886F3 /* testScale */,
 			);
 		};
 /* End PBXProject section */
@@ -270,6 +385,32 @@
 				32F9B74214459AC000226BE8 /* RFExplorer.m in Sources */,
 				32CBD2BF14485B8B004C88C2 /* dBmLegendView.m in Sources */,
 				32591B2314488CCB0093DDC9 /* Spectrum.m in Sources */,
+				32ACFE811448D3270098AB7C /* TickScaler.m in Sources */,
+				32ACFE821448D3270098AB7C /* BasicNiceNumber.m in Sources */,
+				32ACFE831448D3270098AB7C /* NiceNumber.m in Sources */,
+				32ACFE841448D3270098AB7C /* NumericScaleDefinition.m in Sources */,
+				32ACFE851448D3270098AB7C /* StringScaleDefinition.m in Sources */,
+				32ACFE861448D3270098AB7C /* TickMark.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		32F7D8CC1449879B008886F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32F7D8DF1449881A008886F3 /* TickScaler.h in Sources */,
+				32F7D8E01449881A008886F3 /* TickScaler.m in Sources */,
+				32F7D8E11449881A008886F3 /* BasicNiceNumber.h in Sources */,
+				32F7D8E21449881A008886F3 /* BasicNiceNumber.m in Sources */,
+				32F7D8E31449881A008886F3 /* NiceNumber.h in Sources */,
+				32F7D8E41449881A008886F3 /* NiceNumber.m in Sources */,
+				32F7D8E51449881A008886F3 /* NumericScaleDefinition.h in Sources */,
+				32F7D8E61449881A008886F3 /* NumericScaleDefinition.m in Sources */,
+				32F7D8E71449881A008886F3 /* StringScaleDefinition.h in Sources */,
+				32F7D8E81449881A008886F3 /* StringScaleDefinition.m in Sources */,
+				32F7D8E91449881A008886F3 /* TickMark.h in Sources */,
+				32F7D8EA1449881A008886F3 /* TickMark.m in Sources */,
+				32F7D8D61449879B008886F3 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +511,24 @@
 			};
 			name = Release;
 		};
+		32F7D8DB1449879B008886F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "testScale/testScale-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		32F7D8DC1449879B008886F3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "testScale/testScale-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -390,6 +549,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		32F7D8DD1449879B008886F3 /* Build configuration list for PBXNativeTarget "testScale" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				32F7D8DB1449879B008886F3 /* Debug */,
+				32F7D8DC1449879B008886F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

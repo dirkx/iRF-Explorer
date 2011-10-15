@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'testScale' target in the 'testScale' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif

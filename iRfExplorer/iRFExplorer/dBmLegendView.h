@@ -21,12 +21,20 @@
 //
 
 #import <AppKit/AppKit.h>
+#import "NumericScaleDefinition.h"
+#import "StringScaleDefinition.h"
+
 #import "RFExplorer.h"
 
 @interface dBmLegendView : NSView {
     RFExplorer * device;
+    NSView *graphView;
+    NSArray * ticks;
 }
 
 @property (retain) RFExplorer * device;
+@property (retain) NSArray * ticks;
+@property (retain) NSView *graphView;
+
 
 @end

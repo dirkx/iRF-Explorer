@@ -87,8 +87,15 @@
                selector: @selector(spectrumScrolledNotification:)
                    name: NSViewBoundsDidChangeNotification
                  object: [spectrumScollView contentView]];
+ 
+    // the legends need to know about the graph - so they can make the same
+    // scaling calculations.
+    dbmLegendView.graphView = spectrumView;
+    frequencyLegendView.graphView = spectrumView;
     
-    [drawerView open:(self)];
+    // We always start with the drawer opened ? Or shall we keep state
+    // in prefs ? Or nicer to open it when we have settings ?
+    // [drawerView open:(self)];
 }
 
 -(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication*)sender
@@ -113,6 +120,48 @@
                                                        withPath:path];
 }
 
+-(void)setAllControls:(BOOL)onOff {
+    freqSpanSlider.enabled = onOff;
+    freqSpanTextField.enabled = onOff;
+    centerFreqSlider.enabled = onOff;
+    centerFreqTextField.enabled = onOff;
+    dbmBotSlider.enabled = onOff;
+    dbmBotTextField.enabled = onOff;
+    dbmTopSlider.enabled = onOff;
+    dbmTopTextField.enabled = onOff;
+    liveButton.enabled = onOff;
+
+    // always do this - or only once during startup ?
+    //
+    if (onOff)
+        [drawerView open:(self)];
+
+    if(onOff)
+        return;
+    
+    freqSpanTextField.stringValue = 
+    centerFreqTextField.stringValue = 
+    dbmBotTextField.stringValue = 
+    dbmTopTextField.stringValue = @"";
+    
+    boardLabel.stringValue = @"";    
+    expansionLabel.stringValue = @"";
+    
+    infoBandCenterFreq.stringValue = @"";
+    infoBandMinFreq.stringValue = @"";
+    infoBandMaxFreq.stringValue = @"";
+    infoBandSpanFreq.stringValue = @"";
+    infoBoardTitle.stringValue = @"";
+    infoBoardMinFreq.stringValue = @"";
+    infoBoardMaxFreq.stringValue = @"";
+    infoAttenTop.stringValue = @"";
+    infoAttenBott.stringValue = @"";
+    infoDevFirmware.stringValue = @"";
+    infoDevMain.stringValue = @"";
+    infoDevExpansion.stringValue = @"";
+    infoDevBaudrate.stringValue = @"";
+}
+
 // callback from the preference panel - either on initial init
 // or as the user changes things.
 //
@@ -131,27 +180,8 @@
     deviceLabel.stringValue = rfExplorer ? settingDeviceTitle : @"<unset>";
 
     firmwareLabel.stringValue = rfExplorer ? @"Contacting..." : @"Comms failed";
-    firmwareLabel.enabled = FALSE;
-    
-    boardLabel.stringValue = @"";
-    boardLabel.enabled = FALSE;
-    
-    expansionLabel.stringValue = @"";
-    expansionLabel.enabled = FALSE;   
-    
-    infoBandCenterFreq.stringValue = @"";
-    infoBandMinFreq.stringValue = @"";
-    infoBandMaxFreq.stringValue = @"";
-    infoBandSpanFreq.stringValue = @"";
-    infoBoardTitle.stringValue = @"";
-    infoBoardMinFreq.stringValue = @"";
-    infoBoardMaxFreq.stringValue = @"";
-    infoAttenTop.stringValue = @"";
-    infoAttenBott.stringValue = @"";
-    infoDevFirmware.stringValue = @"";
-    infoDevMain.stringValue = @"";
-    infoDevExpansion.stringValue = @"";
-    infoDevBaudrate.stringValue = @"";
+        
+    [self setAllControls:FALSE];
     
     [dbmLegendView setNeedsDisplay:TRUE];
     [frequencyLegendView setNeedsDisplay:TRUE];
@@ -188,8 +218,8 @@
 }
 
 -(IBAction)setFreqSpanValue:(id)sender {
-    float v = [sender floatValue];
-    float r = rfExplorer.fMaxSpanMhz - rfExplorer.fMinSpanMhz;
+    double v = [sender floatValue];
+    double r = rfExplorer.fMaxSpanMhz - rfExplorer.fMinSpanMhz;
     
     if (sender == freqSpanSlider) {
         v = rfExplorer.fMinSpanMhz + v * r;
@@ -207,6 +237,7 @@
     
     if (sender == freqSpanSlider || sender == freqSpanTextField)
         rfExplorer.fSpanMhz = v;
+    
 }
 
 -(IBAction)setDbmBotValue:(id)sender {
@@ -286,6 +317,8 @@
 
 - (void) spectrumScrolledNotification: (NSNotification *) notification
 {
+    // make sure frequency legend follows the main display.
+    [frequencyLegendView setNeedsDisplay:YES];
 }
 
 #pragma mark Updating form the RF Explorer
@@ -316,15 +349,13 @@
 }
 
 -(void)newConfig:(RFExplorer *)explorer {
-    assert(explorer == rfExplorer);
-    
     [self setCenterFreqValue:[NSNumber numberWithFloat:explorer.fCenterMhz]];
     [self setFreqSpanValue:[NSNumber numberWithFloat:explorer.fSpanMhz]];
     [self setDbmBotValue:[NSNumber numberWithFloat:explorer.fAmplitudeBottom]];
     [self setDbmTopValue:[NSNumber numberWithFloat:explorer.fAmplitudeTop]];
     
     infoBandMinFreq.stringValue = [NSString stringFromMhz:explorer.fStartMhz];
-    infoBandMaxFreq.stringValue = [NSString stringFromMhz:explorer.fMaxMhz];
+    infoBandMaxFreq.stringValue = [NSString stringFromMhz:explorer.fEndMhz];
     infoBandCenterFreq.stringValue = [NSString stringFromMhz:explorer.fCenterMhz];
     infoBandSpanFreq.stringValue = [NSString stringFromMhz:explorer.fSpanMhz];
 
@@ -336,8 +367,10 @@
     
     infoBoardTitle.stringValue = explorer.expansionBoardActive ? explorer.expansionBoard : explorer.mainBoard;
 
-    [spectrumView scrollRectToVisible:[spectrumView rectFoStartFreqMhz:explorer.fStartMhz]];
+    // [spectrumView scrollRectToVisible:[spectrumView rectFoStartFreqMhz:explorer.fStartMhz]];
 
+    [self setAllControls:TRUE];
+    
     [dbmLegendView setNeedsDisplay:TRUE];
     [spectrumView setNeedsDisplay:TRUE];
     [frequencyLegendView setNeedsDisplay:TRUE];

@@ -30,7 +30,7 @@
     fAmplitudeSpan, 
     fAmplitudeMin, fAmplitudeMax, fAmplitudeMinSpan, fAmplitudeFullRange,
     nFreqSpectrumSteps, 
-    fMaxMhz, fMinSpanMhz,
+    fEndMhz, fMinSpanMhz,
     expansionBoardActive,
     fMinFreqMhz, fMaxFreqMhz, fMaxSpanMhz, fFullRangeMhz,
     mainBoard, expansionBoard, firmware, commsSpeed;
@@ -131,7 +131,7 @@
     fFullRangeMhz = _fMaxFreqMhz - _fMinFreqMhz;
     
     fSpanMhz = fStepMhz * nFreqSpectrumSteps;
-    fMaxMhz = fStartMhz + fSpanMhz;
+    fEndMhz = fStartMhz + fSpanMhz;
     fCenterMhz = fStartMhz + fSpanMhz / 2;
     
     expansionBoardActive = _bExpansionBoardActive;

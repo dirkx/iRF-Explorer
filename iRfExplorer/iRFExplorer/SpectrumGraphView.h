@@ -25,22 +25,11 @@
 #import "RFExplorer.h"   
 
 @interface SpectrumGraphView : NSView {
-    double minSetpoint, maxSetPoint;
-    BOOL fixedRange;
-
     Spectrum *spectrum;
-    RFExplorer *device;
-    
-@private
-    double min,max;
+    RFExplorer *device;    
 }
 
 @property (retain) Spectrum *spectrum;
 @property (retain) RFExplorer *device;
 
-@property (assign) double minSetpoint;
-@property (assign) double maxSetPoint;
-@property (assign) BOOL fixedRange;
-
--(NSRect)rectFoStartFreqMhz:(float)fMhz;
 @end
