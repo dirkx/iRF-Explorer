@@ -71,12 +71,10 @@
     NSRect rect = self.bounds;
     NSRect graphRect = graphView.bounds;
     
-    NSLog(@"drawRect of %@", self.className);
+    // NSLog(@"drawRect of %@", self.className);
     
     const float kMargin = 4;
  
-
-
     
     NSGraphicsContext * nsGraphicsContext = [NSGraphicsContext currentContext];
     CGContextRef cref = (CGContextRef) [nsGraphicsContext graphicsPort];
@@ -130,18 +128,19 @@
     CGContextSetRGBStrokeColor(cref, 0,0,0.4,1);
 
     // Vertical line may be longer if the tick range is rounded
-    // to a value just outside the actual data range.
+    // to a value just outside the actual data range. But we do
+    // up to 4 pixels grace.
     //
     float v0 = ((TickMark*)[ticks objectAtIndex:0]).value;
     float y00 = oy + Sy * (v0 - device.fAmplitudeBottom);
     if (y00 < y0) {
-        y0 = y00;
+        y0 = MAX(y00, y0 - 4);
     }
 
     float v1 = ((TickMark*)[ticks lastObject]).value;
     float y11 = oy + Sy * (v1 - device.fAmplitudeBottom);
     if (y11 > y1) {
-        y1 = y11;
+        y1 = MIN(y11, y1 + 4);
     };
 
     CGPoint l[] = { 
@@ -155,6 +154,11 @@
         float v = m.value;
         float y = oy + Sy * (v - device.fAmplitudeBottom);
 
+        if (y < oy - 4)
+            continue;
+        if (y > oy + sy + 4)
+            continue;
+        
         CGPoint l[] = { 
             CGPointMake(ox,y),
             CGPointMake(ox-kMargin,y) 
@@ -179,7 +183,7 @@
                                nil];
 
         NSSize s = [graphLabel sizeWithAttributes:attr];
-        NSPoint center = NSMakePoint(self.bounds.origin.x + s.height/2 + 4, self.bounds.origin.y + self.bounds.size.height * 0.66);
+        NSPoint center = NSMakePoint(self.bounds.origin.x + s.height/2 + 4, self.bounds.origin.y + self.bounds.size.height * 0.55);
         
         NSAffineTransform *rotate = [[NSAffineTransform alloc] init];
         

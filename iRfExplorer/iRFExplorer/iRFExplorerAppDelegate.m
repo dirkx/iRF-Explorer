@@ -121,6 +121,10 @@
                                                        withPath:path];
 }
 
+-(void)setDecaySpeed:(float)decaySpeedInSeconds {
+    spectrumView.decayInSeconds = decaySpeedInSeconds;
+}
+
 -(void)setAllControls:(BOOL)onOff {
     freqSpanSlider.enabled = onOff;
     freqSpanTextField.enabled = onOff;

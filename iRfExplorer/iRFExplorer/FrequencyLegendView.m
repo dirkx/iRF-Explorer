@@ -67,7 +67,7 @@ extern float SOY;
     
     const float OS = 8.0;
 
-    NSLog(@"drawRect of %@", self.className);
+    // NSLog(@"drawRect of %@", self.className);
 
     NSGraphicsContext * nsGraphicsContext = [NSGraphicsContext currentContext];
     CGContextRef cref = (CGContextRef) [nsGraphicsContext graphicsPort];
@@ -86,7 +86,7 @@ extern float SOY;
     }    
     
     if (0) {
-        CGContextSetRGBFillColor (cref, 1,1,1,1);
+        CGContextSetRGBFillColor (cref, 1,1,.2,1);
         CGContextFillRect (cref, rect);
     };
 
@@ -141,6 +141,11 @@ extern float SOY;
         float v = m.value;
         
         float x = ox + (v - device.fStartMhz) * sx;
+        
+        if (x < ox - 4)
+            continue;
+        if (x > ox + Sx + 4)
+            continue;
         
         CGPoint tick[] = { CGPointMake(x,oy), CGPointMake(x, oy-OS * ((i % 5) ? 1 : 2)) };    
         CGContextStrokeLineSegments(cref, tick, 2 );

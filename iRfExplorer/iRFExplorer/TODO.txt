@@ -19,6 +19,9 @@ Current_Config
 Spectrum
     is the band from minFreq to minFreq-Span -- or is it centered around minFreq
 
+Numbers of samples in Spectrum
+    We look at the byte just after $S. What is a sensible/acceptable range ?
+
 Hardcoding of dBm range of -001 (max) to -120 (min) with 10dBm separation.
     Can we learn this somehow ?
     Is it the same for all devices ?

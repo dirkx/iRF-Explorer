@@ -24,7 +24,7 @@
 
 @implementation SpectrumGraphView
 
-@synthesize device;
+@synthesize device, decayInSeconds;
 
 const float SOX = 12.0; // spacing left/right (total)
 const float SOY = 12.0; // spacing top/bottom (total)
@@ -38,6 +38,13 @@ const int OS = 8;
 -(void)setSpectrum:(Spectrum *)_spectrum {
     [spectrum release];
     spectrum = [_spectrum retain];
+
+    if (lastUpdate) 
+        avgUpdateDelta = (avgUpdateDelta * 10 - [lastUpdate timeIntervalSinceNow])/11;
+
+    [lastUpdate release];
+    lastUpdate = [[NSDate date] retain];
+    
     [self setNeedsDisplay:YES];
 
     if (!(avgVals|| maxVals))
@@ -55,9 +62,8 @@ const int OS = 8;
             float m = mm;
             if (v > m)
                 m = v;
-            else
-            if (decay>0.0)
-                m -= (m - v) * decay;
+            if (decayInSeconds > 0.0)
+                m -= (m - v) / decayInSeconds * avgUpdateDelta;
             if (mm != m)
                 [maxVals replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:m]];
         }
@@ -95,7 +101,7 @@ const int OS = 8;
 }
 
 -(void)setAndResetDecay:(BOOL)newState {
-    decay = newState ? 0.1 : 0.0;
+    decayInSeconds = newState ? 5.0 : 0.0;
 }
 
 -(void)drawRect:(NSRect)dirtyRect {    

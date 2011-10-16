@@ -492,7 +492,8 @@
                 if ((l > 2) && (buff[1] == 'S')) {
                     long steps = buff[2];
                     long i = 3 + steps + 2;
-                    if (l >= i) {
+                    // current device seems to be 112 only.
+                    if (l >= i && steps > 30 && steps < 140) {
                         // queue 0 .. i -1;
                         if (logRH) 
                             NSLog(@"Submit Short S (%ld bytes)", i);

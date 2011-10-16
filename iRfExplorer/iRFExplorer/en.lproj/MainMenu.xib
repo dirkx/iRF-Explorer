@@ -845,7 +845,6 @@
 							<string key="NSFrame">{{1, 31}, {488, 342}}</string>
 							<reference key="NSSuperview" ref="229004048"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="697554"/>
 							<string key="NSReuseIdentifierKey">_NS:461</string>
 							<object class="NSMutableArray" key="NSTabViewItems">
 								<bool key="EncodedWithXMLCoder">YES</bool>
@@ -864,7 +863,7 @@
 													<object class="NSCustomView" id="264138786">
 														<reference key="NSNextResponder" ref="673196566"/>
 														<int key="NSvFlags">290</int>
-														<string key="NSFrameSize">{455, 54}</string>
+														<string key="NSFrame">{{61, 8}, {394, 54}}</string>
 														<reference key="NSSuperview" ref="673196566"/>
 														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="100482138"/>
@@ -875,7 +874,7 @@
 													<object class="NSCustomView" id="998006967">
 														<reference key="NSNextResponder" ref="673196566"/>
 														<int key="NSvFlags">276</int>
-														<string key="NSFrameSize">{59, 288}</string>
+														<string key="NSFrame">{{0, 53}, {59, 235}}</string>
 														<reference key="NSSuperview" ref="673196566"/>
 														<reference key="NSWindow"/>
 														<reference key="NSNextKeyView" ref="635884974"/>
@@ -1778,7 +1777,6 @@
 											<string key="NSFrame">{{240, 8}, {229, 18}}</string>
 											<reference key="NSSuperview" ref="22981695"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:3936</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="597349489">
@@ -1897,7 +1895,6 @@
 						<string key="NSFrame">{{72, 76}, {61, 20}}</string>
 						<reference key="NSSuperview" ref="688471690"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:239</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="88767699">

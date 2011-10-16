@@ -28,12 +28,17 @@
     Spectrum *spectrum;
     NSMutableArray *avgVals, *maxVals;
     RFExplorer *device;
-    float decay;
     float avglen;
+    
+    NSDate *lastUpdate;
+    
+    NSTimeInterval avgUpdateDelta;
+    float decayInSeconds;
 }
 
 @property (retain) Spectrum *spectrum;
 @property (retain) RFExplorer *device;
+@property (assign) float decayInSeconds;
 
 -(void)setAndResetShowMax:(BOOL)newState;
 -(void)setAndResetShowAvg:(BOOL)newState;

@@ -29,6 +29,7 @@
 @optional
 -(void)setSettingDeviceTitle:(NSString*)title;
 -(void)setSettingDeviceIsSlow:(BOOL)isSlow;
+-(void)setDecaySpeed:(float)decaySpeedInSeconds;
 -(void)changedPreferences;
 -(SerialDeviceTracker*)serialDeviceTracker;
 @end
@@ -37,12 +38,18 @@
     id <SerialSettingsDelegate> delegate;
     IBOutlet SerialDevicesPopUpButton * deviceSelectionButton;
     IBOutlet NSButton * slowSpeedButton;
+    IBOutlet NSTextField *decayLabel;
+    IBOutlet NSSlider *decaySlider;
 }
 
 @property (retain) id <SerialSettingsDelegate> delegate;
 @property (retain) IBOutlet SerialDevicesPopUpButton * deviceSelectionButton;
+
 @property (retain) IBOutlet NSButton * slowSpeedButton;
+@property (retain) IBOutlet NSTextField *decayLabel;
+@property (retain) IBOutlet NSSlider *decaySlider;
 
 // -(void)updateDeviceList:(NSDictionary *)devices;
 -(void)readPreferences;
+-(IBAction)decaySliderChange:(id)sender;
 @end

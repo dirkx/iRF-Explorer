@@ -24,6 +24,7 @@
 
 @implementation PreferenceController
 @synthesize slowSpeedButton, deviceSelectionButton;
+@synthesize decayLabel, decaySlider;
 @synthesize delegate;
 
 -(void)readPreferences {
@@ -57,6 +58,11 @@
     if (devStr)
         [deviceSelectionButton selectItemWithTitle:devStr];
 
+    // bit of a lie - really the slider value.
+    decaySlider.floatValue = [[ud valueForKey:@"decayValue"] floatValue];
+    
+    [self decaySliderChange:decaySlider];
+
     [super windowDidLoad];
 }
 
@@ -80,6 +86,23 @@
         [delegate setSettingDeviceTitle:deviceTitle];
         [delegate changedPreferences];
     }
+}
+
+-(IBAction)decaySliderChange:(NSSlider *)sender {
+    float v = sender.floatValue;
+    // bit of a lie - really the slider value.
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:v] forKey:@"decayValue"];
+
+    v = 0.2 + 0.2 * v * v * v;
+    if (v > 10) 
+        v = floorf(v);
+    else if (v > 3)
+         v = 2.0 * floorf(v/2.0);
+    
+
+    NSString * fmt = (v > 10) ? @"%.0f second%s" : @"%.1f second%s";
+    [decayLabel setStringValue:[NSString stringWithFormat:fmt, v, (v >= 2.0) ? "s" : ""]];
+    [delegate setDecaySpeed:v];
 }
 
 - (void) dealloc {
