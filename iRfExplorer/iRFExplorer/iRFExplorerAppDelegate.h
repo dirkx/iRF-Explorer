@@ -29,6 +29,7 @@
 #import "FrequencyLegendView.h"
 #import "dBmLegendView.h"
 #import "RFExplorer.h"
+#import "SpectrumBackgroundView.h"
 
 @interface iRFExplorerAppDelegate : NSObject <NSApplicationDelegate, 
                                        NSTabViewDelegate,
@@ -52,6 +53,7 @@
     IBOutlet SpectrumGraphView *spectrumView;
     IBOutlet FrequencyLegendView *frequencyLegendView;
     IBOutlet dBmLegendView * dbmLegendView;
+    IBOutlet SpectrumBackgroundView * spectrumBackgroundView;
     
     // tab 2 -- plays live screen captures
     IBOutlet NSImageView *liveImageCell;
@@ -89,7 +91,9 @@
     IBOutlet NSSlider * dbmTopSlider;
     IBOutlet NSTextField * dbmBotTextField;
     IBOutlet NSSlider * dbmBotSlider;
-
+    IBOutlet NSButton * showMaxButton;
+    IBOutlet NSButton * showAvgxButton;
+    IBOutlet NSButton * decayButton;
     IBOutlet NSWindow *window;
 }
 
@@ -101,6 +105,7 @@
 @property (retain) IBOutlet NSView *spectrumView;
 @property (retain) IBOutlet FrequencyLegendView * frequencyLegendView;
 @property (retain) IBOutlet dBmLegendView * dbmLegendView;
+@property (retain) IBOutlet SpectrumBackgroundView * spectrumBackgroundView;
 
 @property (assign) IBOutlet NSWindow *window;
 @property (assign) IBOutlet NSDrawer *drawerView;
@@ -121,7 +126,7 @@
 // tab 3 -- info stuff
 @property (retain) IBOutlet NSTextField *infoBandCenterFreq, *infoBandMinFreq, *infoBandMaxFreq, *infoBandSpanFreq, *infoBoardTitle, *infoBoardMinFreq, *infoBoardMaxFreq, *infoAttenTop,*infoAttenBott,*infoDevFirmware, *infoDevMain, *infoDevExpansion, *infoDevBaudrate;
 
-// Panel
+// Drawer
 @property (retain) IBOutlet NSTextField * centerFreqTextField;
 @property (retain) IBOutlet NSSlider * centerFreqSlider;
 @property (retain) IBOutlet NSTextField * freqSpanTextField;
@@ -130,6 +135,9 @@
 @property (retain) IBOutlet NSSlider * dbmTopSlider;
 @property (retain) IBOutlet NSTextField * dbmBotTextField;
 @property (retain) IBOutlet NSSlider * dbmBotSlider;
+@property (retain) IBOutlet NSButton * showMaxButton;
+@property (retain) IBOutlet NSButton * showAvgxButton;
+@property (retain) IBOutlet NSButton * decayButton;
 
 // Info Tab
 
@@ -137,11 +145,12 @@
 -(IBAction)toggleLiveScreenUpdate:(id)sender;
 -(IBAction)configScreenUpdating:(id)sender;
 
-// Callbacks -- Panel
+// Callbacks -- Drawer
 -(IBAction)setCenterFreqValue:(id)sender;
 -(IBAction)setFreqSpanValue:(id)sender;
 -(IBAction)setDbmBotValue:(id)sender;
 -(IBAction)setDbmTopValue:(id)sender;
+-(IBAction)showButtonChange:(id)sender;
 
 // Callbacks -- SerialDeviceTracker
 -(void)changeInDevices:(BOOL)deviceAdded 

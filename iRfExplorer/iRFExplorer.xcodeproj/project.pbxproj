@@ -13,6 +13,7 @@
 		323F4E9214402B5A00FF7998 /* SerialDevicesPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 323F4E9114402B5A00FF7998 /* SerialDevicesPopUpButton.m */; };
 		3251BC7814406EC300196405 /* NSStringExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3251BC7714406EC300196405 /* NSStringExtensions.m */; };
 		32591B2314488CCB0093DDC9 /* Spectrum.m in Sources */ = {isa = PBXBuildFile; fileRef = 32591B2214488CCA0093DDC9 /* Spectrum.m */; };
+		3294AD71144B352200CC8859 /* SpectrumBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3294AD70144B352200CC8859 /* SpectrumBackgroundView.m */; };
 		32A0D5AB143CEBDC00464DCD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32A0D5AA143CEBDC00464DCD /* Cocoa.framework */; };
 		32A0D5B5143CEBDD00464DCD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32A0D5B3143CEBDD00464DCD /* InfoPlist.strings */; };
 		32A0D5B7143CEBDD00464DCD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A0D5B6143CEBDD00464DCD /* main.m */; };
@@ -75,6 +76,8 @@
 		3251BC7714406EC300196405 /* NSStringExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringExtensions.m; sourceTree = "<group>"; };
 		32591B2114488CCA0093DDC9 /* Spectrum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spectrum.h; sourceTree = "<group>"; };
 		32591B2214488CCA0093DDC9 /* Spectrum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spectrum.m; sourceTree = "<group>"; };
+		3294AD6F144B352200CC8859 /* SpectrumBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumBackgroundView.h; sourceTree = "<group>"; };
+		3294AD70144B352200CC8859 /* SpectrumBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpectrumBackgroundView.m; sourceTree = "<group>"; };
 		32A0D5A6143CEBDC00464DCD /* iRFExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iRFExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32A0D5AA143CEBDC00464DCD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		32A0D5AD143CEBDC00464DCD /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -178,6 +181,8 @@
 				32F9B73D144596F200226BE8 /* FrequencyLegendView.m */,
 				32CBD2BD14485B8B004C88C2 /* dBmLegendView.h */,
 				32CBD2BE14485B8B004C88C2 /* dBmLegendView.m */,
+				3294AD6F144B352200CC8859 /* SpectrumBackgroundView.h */,
+				3294AD70144B352200CC8859 /* SpectrumBackgroundView.m */,
 			);
 			name = GUI;
 			sourceTree = "<group>";
@@ -391,6 +396,7 @@
 				32ACFE841448D3270098AB7C /* NumericScaleDefinition.m in Sources */,
 				32ACFE851448D3270098AB7C /* StringScaleDefinition.m in Sources */,
 				32ACFE861448D3270098AB7C /* TickMark.m in Sources */,
+				3294AD71144B352200CC8859 /* SpectrumBackgroundView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,6 +563,7 @@
 				32F7D8DC1449879B008886F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

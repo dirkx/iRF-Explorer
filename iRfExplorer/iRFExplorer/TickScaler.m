@@ -257,9 +257,6 @@ NSArray * baseNiceNumber, *niceNbrs;
 		}
 		else if (!hasZero)
 		{
-			// dataMin and dataMax are > 0
-			// int rest = ((int)dataMin) % ((int)tickDiff); // XXXXXXXXX
-			// double rest = dataMin - trunc(dataMin/tickDiff)*tickDiff;
             double rest = fmod(dataMin, tickDiff);
 
 			currentValue = dataMin - rest;
@@ -287,13 +284,9 @@ NSArray * baseNiceNumber, *niceNbrs;
 		}
 		else
 		{
-			// dataMin and dataMax are < 0
-//			int rest = ((int)dataMax) % ((int)tickDiff); // XXXXXXXXX
-//			double rest = dataMaxX - trunc(dataMaxX/tickDiff)*tickDiff;
             double rest = fmod(dataMax, tickDiff);
 			currentValue = dataMax - rest;
 			max = currentValue;
-            NSLog(@"Neg case - max=%f rest=%f (datamin %f, tickdiff %f)\n", max, rest, dataMin, tickDiff);
 		}
 		// going down
 		while (currentValue > dataMin && nbrOfTicks < MAXMAX)
@@ -396,14 +389,19 @@ NSArray * baseNiceNumber, *niceNbrs;
 	}
 	
 	double dcScore = 0;
-	if (scaleInt.dataCoverage > 0.75)
+    
+	if (scaleInt.dataCoverage > 0.85) // normally lower!
 	{
 		dcScore = scaleInt.dataCoverage;	
 	}
-	else
+	else if (scaleInt.dataCoverage > 0.80) // normally lower!
 	{
 		dcScore = scaleInt.dataCoverage / 2;
-	}
+	} 
+    else 
+    {
+        dcScore = -2;
+    }
 	
 	if (scaleInt.nbrOfTicks > 3*maxNbrOfTicks)
 		granularity = -2;

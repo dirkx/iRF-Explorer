@@ -63,7 +63,6 @@
                                                               withDataMax:device.fAmplitudeTop 
                                                                  withUnit:@"dBm"];
     self.ticks = scale.ticks;
-    NSLog(@"Range %f .. %f: %@", device.fAmplitudeBottom, device.fAmplitudeTop, ticks);
     
     [scale release];
 }
@@ -75,6 +74,9 @@
     NSLog(@"drawRect of %@", self.className);
     
     const float kMargin = 4;
+ 
+
+
     
     NSGraphicsContext * nsGraphicsContext = [NSGraphicsContext currentContext];
     CGContextRef cref = (CGContextRef) [nsGraphicsContext graphicsPort];
@@ -84,12 +86,17 @@
         CGContextFillRect (cref, rect);
     };
     
+    /* 2011-10-16 17:27:35.315 iRFExplorer[44812:707] LE: Frame: {{ 4,  5}, { 59, 278}} and bounds {{0, 0}, {59, 278}}
+     * 2011-10-16 17:27:35.316 iRFExplorer[44812:707] GR: Frame: {{88, 75}, {355, 180}} and bounds {{0, 0}, {355, 180}}
+     */
+    float dy = self.graphView.frame.origin.y - self.frame.origin.y + ( self.graphView.frame.size.height - self.frame.size.height);
+        
     float height = graphRect.size.height;
     
     float sy = 0.90 * height;
     float Sy = sy / device.fAmplitudeSpan;
 
-    float oy = rect.origin.y + rect.size.height - 0.95 * height;
+    float oy = rect.origin.y + rect.size.height - 0.95 * height + dy;
     float ox = rect.size.width + rect.origin.x - 2*kMargin;
     
     CGContextSetLineWidth(cref, 1.0);
@@ -97,24 +104,30 @@
 
     float y0 = oy;
     float y1 = oy+sy;
-
+    if (ticks == nil || ticks.count == 0) {
+        CGPoint v[] = { 
+            CGPointMake(ox,y0), 
+            CGPointMake(ox,y1) 
+        };    
+        CGContextStrokeLineSegments(cref, v, 2 );
+        return;
+    };
+    
     // Marks at the actual possible range.
     CGPoint l0[] = { 
         CGPointMake(ox,y0), 
         CGPointMake(ox+kMargin,y0) 
     };    
     CGContextStrokeLineSegments(cref, l0, 2 );
-
+    
     CGPoint l1[] = { 
         CGPointMake(ox,y1), 
         CGPointMake(ox+kMargin,y1) 
     };    
     CGContextStrokeLineSegments(cref, l1, 2 );
     
-    CGContextSetRGBStrokeColor(cref, 0,0,0.4,1);
 
-    if (ticks == nil || ticks.count == 0)
-        return;
+    CGContextSetRGBStrokeColor(cref, 0,0,0.4,1);
 
     // Vertical line may be longer if the tick range is rounded
     // to a value just outside the actual data range.
@@ -156,7 +169,28 @@
         [m.labelStr drawAtPoint:NSMakePoint(lx,ly)
                withAttributes:nil];
     };    
+    
+    if (TRUE) {
+        NSString * graphLabel = @"signal (dBm)";
 
+        NSDictionary * attr = [NSDictionary dictionaryWithObjectsAndKeys:
+                               // [NSFont fontWithName:@"Helvetica" size:36], NSFontAttributeName,
+                               [NSColor darkGrayColor], NSForegroundColorAttributeName, 
+                               nil];
+
+        NSSize s = [graphLabel sizeWithAttributes:attr];
+        NSPoint center = NSMakePoint(self.bounds.origin.x + s.height/2 + 4, self.bounds.origin.y + self.bounds.size.height * 0.66);
+        
+        NSAffineTransform *rotate = [[NSAffineTransform alloc] init];
+        
+        [rotate translateXBy:center.x yBy:center.y];
+        [rotate rotateByDegrees:-90.f];
+        [rotate concat];
+        
+        [graphLabel drawAtPoint:NSMakePoint(-s.width/2,-s.height/2) withAttributes:attr];
+        
+        [rotate release];
+    }
 }
 -(void)dealloc {
     [super dealloc];

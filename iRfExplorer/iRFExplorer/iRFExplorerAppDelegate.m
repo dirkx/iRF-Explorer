@@ -40,7 +40,7 @@
 // tab 1 spectrum
 //
 @synthesize spectrumView, spectrumScollView, frequencyLegendView;
-@synthesize dbmLegendView;
+@synthesize dbmLegendView, spectrumBackgroundView;
 
 // tab 2 live view
 //
@@ -53,6 +53,7 @@
 // Tab -3 info
 //
 @synthesize infoBandCenterFreq, infoBandMinFreq, infoBandMaxFreq, infoBandSpanFreq, infoBoardTitle, infoBoardMinFreq, infoBoardMaxFreq, infoAttenTop, infoAttenBott, infoDevFirmware, infoDevMain, infoDevExpansion, infoDevBaudrate;
+@synthesize showMaxButton, showAvgxButton, decayButton;
 
 // Drawer
 //
@@ -130,7 +131,10 @@
     dbmTopSlider.enabled = onOff;
     dbmTopTextField.enabled = onOff;
     liveButton.enabled = onOff;
-
+    showAvgxButton.enabled = onOff;
+    showMaxButton.enabled = onOff;
+    decayButton.enabled = onOff;
+    
     // always do this - or only once during startup ?
     //
     if (onOff)
@@ -160,6 +164,10 @@
     infoDevMain.stringValue = @"";
     infoDevExpansion.stringValue = @"";
     infoDevBaudrate.stringValue = @"";
+    
+    showAvgxButton.state = NSOffState;
+    showMaxButton.state = NSOffState;
+    decayButton.state = NSOffState;
 }
 
 // callback from the preference panel - either on initial init
@@ -188,7 +196,20 @@
     [self configScreenUpdating:self];
 }
 
-#pragma mark Callbacks form the Side config panel
+#pragma mark Callbacks form the Side config drawer
+
+-(IBAction)showButtonChange:(NSButton *)sender  {
+    
+    if (sender == showMaxButton) {
+        [spectrumView setAndResetShowMax:(sender.state == NSOnState)];
+    } else
+    if (sender == showAvgxButton) {
+        [spectrumView setAndResetShowAvg:(sender.state == NSOnState)];
+    } else
+    if (sender == decayButton) {
+        [spectrumView setAndResetDecay:(sender.state == NSOnState)];
+    };
+}
 
 -(IBAction)setCenterFreqValue:(id)sender {
     float v = [sender floatValue];
@@ -370,6 +391,7 @@
     // [spectrumView scrollRectToVisible:[spectrumView rectFoStartFreqMhz:explorer.fStartMhz]];
 
     [self setAllControls:TRUE];
+    [spectrumView resetCalculations];
     
     [dbmLegendView setNeedsDisplay:TRUE];
     [spectrumView setNeedsDisplay:TRUE];

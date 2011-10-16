@@ -26,10 +26,18 @@
 
 @interface SpectrumGraphView : NSView {
     Spectrum *spectrum;
-    RFExplorer *device;    
+    NSMutableArray *avgVals, *maxVals;
+    RFExplorer *device;
+    float decay;
+    float avglen;
 }
 
 @property (retain) Spectrum *spectrum;
 @property (retain) RFExplorer *device;
+
+-(void)setAndResetShowMax:(BOOL)newState;
+-(void)setAndResetShowAvg:(BOOL)newState;
+-(void)setAndResetDecay:(BOOL)newState;
+-(void)resetCalculations;
 
 @end
