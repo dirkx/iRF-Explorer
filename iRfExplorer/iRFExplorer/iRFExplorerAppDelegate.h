@@ -30,6 +30,7 @@
 #import "dBmLegendView.h"
 #import "RFExplorer.h"
 #import "SpectrumBackgroundView.h"
+#import "SpectrogramView.h"
 
 @interface iRFExplorerAppDelegate : NSObject <NSApplicationDelegate, 
                                        NSTabViewDelegate,
@@ -44,7 +45,7 @@
 
     NSString *settingDeviceTitle;
     BOOL settingDeviceIsSlow;
-
+    
     IBOutlet NSTabView *mainView;
     IBOutlet NSDrawer *drawerView;
     
@@ -61,7 +62,10 @@
     IBOutlet NSTextField *pausedLabel;
     BOOL playing;
     
-    // tab 3 -- lots of info
+    // Just the spectrogram
+    IBOutlet SpectrogramView * spectrogramView;
+    
+    // tab 4 -- lots of info
     IBOutlet NSTextField *infoBandCenterFreq;
     IBOutlet NSTextField *infoBandMinFreq;
     IBOutlet NSTextField *infoBandMaxFreq;
@@ -122,13 +126,15 @@
 
 @property (retain) SerialDeviceTracker *serialDeviceTracker;
 
+// tab 3 - spectrogram
+@property (retain) IBOutlet SpectrogramView * spectrogramView;
 
-// tab 3 -- info stuff
+// tab 4 -- info stuff
 @property (retain) IBOutlet NSTextField *infoBandCenterFreq, *infoBandMinFreq, *infoBandMaxFreq, *infoBandSpanFreq, *infoBoardTitle, *infoBoardMinFreq, *infoBoardMaxFreq, *infoAttenTop,*infoAttenBott,*infoDevFirmware, *infoDevMain, *infoDevExpansion, *infoDevBaudrate;
 
 // Drawer
 @property (retain) IBOutlet NSTextField * centerFreqTextField;
-@property (retain) IBOutlet NSSlider * centerFreqSlider;
+@property (retain) IBOutlet NSSlider * centerFreqSlider;    
 @property (retain) IBOutlet NSTextField * freqSpanTextField;
 @property (retain) IBOutlet NSSlider * freqSpanSlider;
 @property (retain) IBOutlet NSTextField * dbmTopTextField;

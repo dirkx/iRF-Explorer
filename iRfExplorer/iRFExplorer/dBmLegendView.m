@@ -32,15 +32,10 @@
 }
 
 -(void)setDevice:(RFExplorer *)_device {
-    if (device)
+    if (device != _device) {
         [device release];
-
-    if (_device)
         device = [_device retain];
-    else
-        device = nil;
-    
-    NSLog(@"Set device (again!) for %@", self.className);
+    };
     
     [self setNeedsDisplay:YES];
 }
@@ -174,6 +169,9 @@
                withAttributes:nil];
     };    
     
+    // Labeling of the axis. We do this last - so we do not
+    // have to bother about restoring the rotation/translation
+    // matrix state.
     if (TRUE) {
         NSString * graphLabel = @"signal (dBm)";
 
@@ -197,8 +195,10 @@
     }
 }
 -(void)dealloc {
-    [super dealloc];
     self.device = nil;
     self.ticks = nil;
+    self.graphView = nil;
+
+    [super dealloc];
 }
 @end

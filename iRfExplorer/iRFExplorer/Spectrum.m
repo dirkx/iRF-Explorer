@@ -38,8 +38,9 @@
     startFreqMhz = _startFreqMhz;
     stepFreqMhz = _stepFreqMhz;
     endFreqMhz = startFreqMhz + stepFreqMhz * [vals count];
-
+    
     dbValues = [[NSArray arrayWithArray:vals] retain];
+    
     NSMutableArray * f = [NSMutableArray arrayWithCapacity:[vals count]];
     
     minDbm = maxDbm = [[vals objectAtIndex:0] floatValue];
@@ -64,5 +65,6 @@
 -(void)dealloc {
     [frequenciesMhz release];
     [dbValues release];
+    [super dealloc];
 }
 @end

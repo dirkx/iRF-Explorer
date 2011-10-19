@@ -2,7 +2,6 @@
 //  RFExporerCmds.m
 //  iRFExplorer
 //
-//  Created by Dirk-Willem van Gulik on 08/10/2011.
 //  Copyright 2011 WebWeaving. All rights reserved.
 //                 Dirk-Willem van Gulik <dirkx(at)webweaving(dot)org>
 // 
@@ -17,7 +16,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// 
 //
 //  Protocol details from:
 //      http://code.google.com/p/rfexplorer/wiki/RFExplorerRS232Interface
@@ -33,45 +31,91 @@
 #include <IOKit/serial/ioss.h>
 
 @implementation RFExporerCmds
-@synthesize delegate, path, isSlow;
+@synthesize delegate;
 
 #pragma mark init and related sundry such as thread kickoff.
 
 - (id)init {
-    self = [super init];
-    if (!self) 
-        return nil;
-    
-    fd = -1;
-    return self;
+    NSLog(@"One should never call init on %@ - specify Path and Speed", self.className);
+    return nil;
 }
 
 - (id)initWithPath:(NSString *)_path withSlowSpeed:(BOOL)_isSlow {
-    self = [self init];
-    self.path = _path;
-    self.isSlow = _isSlow;
-    [self reopen];
+    path = [_path retain];
+    isSlow = _isSlow;
     
-    return self;
-}
-
--(void)setFd:(int)_fd {
-    if (fd == _fd)
-        return;
+    struct termios termattr ;
+    int nfd = -1;
     
-    if (fd != -1 && _fd != -1) {
-        [receiveWorker cancel];
+    if (path == nil) {
+        NSLog(@"%@ - reopen: No path specified.", self.className);
+        goto error;
+    };
+    
+    const char * cpath = [path cStringUsingEncoding:NSASCIIStringEncoding];
+    if ((nfd = open(cpath , O_RDWR | O_NOCTTY | O_NONBLOCK))<0) {
+        NSLog(@"Failed to open '%s': %s", cpath, strerror(errno));
+        goto error;
+    };
+    
+    if (ioctl(fd, TIOCEXCL) == -1) {
+        NSLog(@"Error - failed to get a lock on '%s': %s (if you get this in the profiler - then change device-perms)",  cpath, strerror(errno));
+        goto error;
     }
-    fd = _fd;
     
-    NSLog(@"Kicking of worker on fd %d", fd);
+    int flag = 0;
+    if (fcntl(fd, F_SETFL, &flag) == -1)
+    {
+        NSLog(@"Error clearing O_NONBLOCK %s - %s(%d).\n",
+              cpath, strerror(errno), errno);
+        goto error;
+    }
+    
+    if (tcgetattr( nfd, &termattr )<0) {
+        NSLog(@"Failed tcgetatttr() '%@': %s", path, strerror(errno));
+        goto error;
+    };
+    
+    termattr.c_cflag &= ~( CSIZE | PARENB | PARODD | CSTOPB );
+    termattr.c_cflag |= CS8; // 8N1
+    cfsetispeed( &termattr, isSlow ? B2400 : B57600);
+    cfsetospeed( &termattr, isSlow ? B2400 : B57600);
+    
+    if ((tcsetattr( nfd, TCSANOW, &termattr )) < 0) {
+        NSLog(@"Failed to set serial to 8N1: %s", strerror(errno));
+        close(nfd);
+        return FALSE;
+    }
+    
+    int s = isSlow ? B2400 : (500 * 1000);
+    
+    if (ioctl(nfd, IOSSIOSPEED, &s) < 0) {
+        NSLog(@"Failed to set baudrate to %d: %s", s, strerror(errno));
+        close(nfd);
+        return FALSE;
+    };
+    
+    // XX todo - we could do a IOSSDATALAT and set it at 500k x 100 bytes or
+    //    so; as we know that faster reading makes no sense (and we know that
+    //    writes currently give some 10-15 chars often).
+    //
+    
+    fd = nfd;    
+
+    NSLog(@"Listening to %s - speed %d", cpath, s);
+    
     [NSThread detachNewThreadSelector:@selector(readerHandler:) toTarget:self withObject:self]; 
+        
+    return self;
+    
+error:
+    fd = -1;
+    if (nfd >= 0)
+        close(nfd);
+    
+    [path release];
+    return nil;
 }
-
--(int)fd { 
-    return fd; 
-}
-
 
 -(void)debug:(char*)msg buff:(const char *)p len:(long)l {
     int i;
@@ -90,60 +134,6 @@
         };
     };
 }
-#pragma mark C-level serial port handling.
-
--(BOOL)reopen {
-	// struct termios termattr ;
-    int nfd;
-    fd = -1;
-    
-    if (path == nil) {
-        NSLog(@"%@ - reopen: No path specified.", self.name);
-        return FALSE;
-    };
-    
-    const char * cpath = [path cStringUsingEncoding:NSASCIIStringEncoding];
-	if ((nfd = open(cpath , O_RDWR | O_NOCTTY))<0) {
-        NSLog(@"Failed to open '%s': %s", cpath, strerror(errno));
-       return FALSE;
-    };
-    
-#if 0
-	if (tcgetattr( nfd, &termattr )<0) {
-        NSLog(@"Failed tcgetatttr() '%@': %s", path, strerror(errno));
-        close(nfd);
-        return FALSE;
-    };
-    
-	termattr.c_cflag &= ~( CSIZE | PARENB | PARODD | CSTOPB );
-	termattr.c_cflag |= CS8; // 8N1
-	cfsetispeed( &termattr, self.isSlow ? B2400 : B57600);
-	cfsetospeed( &termattr, self.isSlow ? B2400 : B57600);
-
-	if ((tcsetattr( nfd, TCSANOW, &termattr )) < 0) {
-        NSLog(@"Failed to set serial to 8N1: %s", strerror(errno));
-        close(nfd);
-        return FALSE;
-    }
-#endif    
-    int s = isSlow ? B2400 : (500 * 1000);
-    
-    if (ioctl(nfd, IOSSIOSPEED, &s) < 0) {
-        NSLog(@"Failed to set baudrate to %d: %s", s, strerror(errno));
-        close(nfd);
-        return FALSE;
-    };
-    
-    NSLog(@"Listening to %s - speed %d", cpath, s);
-    
-    if (fd >=0) 
-        close(fd);    
-    self.fd = nfd;
-    
-	return TRUE;
-}
-
-#pragma mark Command sending and commands
 
 -(BOOL)sendCmd:(NSString *)cmd {
     if (fd<0) 
@@ -187,6 +177,7 @@
 -(void)shutdown {
     [self sendCmd:@"CS"];
 }
+
 /* Current_Config	
  *
  * #<Size>C2-F:<Start_Freq (Khz)>, <Freq_Step (hz)>, <Amp_Top (dBm)>, <Amp_Bottom (dBm)>	 
@@ -211,20 +202,23 @@
 
 -(NSString *)numToBoard:(NSString *)board {
     switch ([board intValue]) {
-        case 0: 
+        case EXPANSION_433M: 
             return @"443M"; 
             break;
-        case 1: 
+        case EXPANSION_868M: 
             return @"868M"; 
             break;
-        case 2: 
+        case EXPANSION_915M: 
             return @"915M"; 
             break;
-        case 3: 
+        case EXPANSION_WSUB1G: 
             return @"WSUB1GM"; 
             break;
-        case 4: 
+        case EXPANSION_2G4: 
             return @"2.4GM"; 
+            break;
+        case EXPANSION_DEMO:
+            return @"Emulator";
             break;
         case 255: 
             return nil; 
@@ -235,7 +229,6 @@
 
 -(void)processReply:(NSData*)data {
     NSData * tmp = [NSData dataWithData:data];
-    [data release];
 
     const char * p = [tmp bytes];
     ssize_t l = [tmp length];
@@ -296,8 +289,14 @@
      *      modules and setups
      */
     if (!strncmp("$S",p,2)) {
-        int sampleSteps = p[2];
-        NSMutableArray * arr = [[NSMutableArray alloc] initWithCapacity:sampleSteps];
+        int sampleSteps = ((unsigned char*)p)[2];
+        ssize_t need = sampleSteps + 3;
+        if (l != need) {
+            NSLog(@"$S spectrum has the wrong length (expected %ld, got %ld). Ignoring", need, l);
+            return;
+        }
+
+        NSMutableArray * arr = [NSMutableArray arrayWithCapacity:sampleSteps];
         for (int i = 0; i < sampleSteps; i++) {
             float adBm = ((unsigned char *)p)[3+i] / -2.0f;
             [arr addObject:[NSNumber numberWithFloat:adBm]];
@@ -305,9 +304,6 @@
         
         [delegate newData:arr]; 
         
-        if (debugPR)
-            NSLog(@"Dataset of %d samples passed.", sampleSteps);
-            
         return;
     }
     /* $D<Byte><EOL>
@@ -320,13 +316,15 @@
     if (!strncmp("$D",p,2)) {
         // original code check if we expect this (D1 or D0 state).
         // 128 x 8 bytes == 128 x 64 bits
-        if (l >= 128 * 8 + 2) {
-            if (logPR)
-                NSLog(@"Screendump passed to %@", delegate);
-            NSImage * img = [LCDImage imageWithLCD:p+2];
-            [delegate newScreen:img]; 
-            [img release];
-        };
+        ssize_t need = 128 * 8 + 2;
+        if (l != need) {
+            NSLog(@"$D LCD has the wrong length (expected %ld, got %ld)). Ignoring",need,l);
+            return;
+        }
+        
+        NSImage * img = [LCDImage imageWithLCD:p+2];
+        [delegate newScreen:img]; 
+
         return;
     }
     /*
@@ -422,25 +420,39 @@
     NSData * data = [[NSData alloc] initWithBytes:buff length:len];
 
     [self performSelectorOnMainThread:@selector(processReply:)
-                           withObject:[data retain]
+                           withObject:data
                         waitUntilDone:NO];
+    
+    [data release];
 }
 
 #pragma mark Receive thread
 
 -(void)readerHandler:(id)sender {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
     char buff[32 * 1024];
     long l = 0;
     BOOL debugRH = FALSE;
     BOOL logRH = FALSE;
+    unsigned int errCnt = 0;
     
     NSLog(@"Listening on fd %d...",fd);
-    while(fd>=0 && ![self isCancelled])
-    {
+    while(1) {
+        
+        if (fd < 0)
+            return;
+
+        if (errCnt>5)
+            return;
+
         // Keep one byte at the end for termination.
         ssize_t s = read(fd,buff + l,sizeof(buff)-1-l);
         
         if (s <= 0) {
+            if (errno == EAGAIN || errno == EINTR)
+                continue;
+            
             NSLog(@"Read from serial failed: %s", strerror(errno));
             break;
         }
@@ -462,6 +474,7 @@
             
             NSLog(@"Blew a buffer, %@.",
                   (p ? @"scanning to next '#'" : @"resetting"));
+            errCnt++;
             
             if (p) {
                 l = p-buff;
@@ -479,26 +492,33 @@
                     // queue 0 .. i -1;
                     if (logRH) 
                         NSLog(@"Submit D (%ld bytes)", i);
-
-                    [self submit:buff withLength:i];
+                        
+                    [self submit:buff withLength:i -2 ];
                     
                     // continue straight after.
-                    memcpy(buff,buff+i,l-i);
+                    memcpy(buff,buff+i,l-i);  
                     l -= i;
-                    
+                    if (errCnt)
+                        errCnt--;
                     continue;
                 };
                 
                 if ((l > 2) && (buff[1] == 'S')) {
-                    long steps = buff[2];
-                    long i = 3 + steps + 2;
-                    // current device seems to be 112 only.
-                    if (l >= i && steps > 30 && steps < 140) {
+                    unsigned int  steps = buff[2];
+                    unsigned int i = 3 + steps + 2; 
+                    // current device seems to be 112 only; but
+                    // wifi analyser may go as low as 13 and future
+                    // devices may hit 255.
+                    //
+                    if (l >= i && steps > 10) {
                         // queue 0 .. i -1;
                         if (logRH) 
-                            NSLog(@"Submit Short S (%ld bytes)", i);
+                            NSLog(@"Submit Short S (%u bytes)", i);
                         
-                        [self submit:buff withLength:i];
+                        [self submit:buff withLength:i-2 ];
+
+                        if (errCnt)
+                            errCnt--;
                         
                         // continue straight after.
                         memcpy(buff,buff+i,l-i);
@@ -518,12 +538,13 @@
                 len = i - (p - buff);
                 
                 // Queue 0 .. i-1;
-                if (p && l) {
+                if (p && len > 0) {
                     if (logRH) 
                         NSLog(@"# .. \\r\\n segment (%ld bytes) submitting",len);
                     [self submit:p withLength:len];
                 } else {
                     NSLog(@"Skipping to next \\r\\n terminated as no initial '#'.");
+                    errCnt++;
                 };
                 
                 // Skip \r\n and continue just after.
@@ -540,6 +561,7 @@
             
             if (l >= sizeof(buff)-1) {
                 NSLog(@"Blowing complete buffer");
+                errCnt++;
                 l = 0;
             };
             
@@ -547,14 +569,36 @@
         }; // while we can extract stuff
     }; // while read() loop
     
-    NSLog(@"serial listener thread exited on fd %d",fd);
-    [NSThread exit];
+    NSLog(@"serial listener thread exited on fd %d (#%lu)",fd,[self retainCount]);
+    // [NSAlert alertWithError:@"Lost connection to RF Explorer"];
+    
+    [pool drain];
 };
 
 #pragma  mark Cleanups
 
--(void)dealloc {
-    // ensure our child exits too.
+-(void)halt {
+    int nfd = fd;
     fd = -1;
+    
+    if (nfd >=0 ) {
+        close(nfd);
+        NSLog(@"Normal close(%d) of %@ on serial con", nfd, self.className);
+    };    
+}
+
+-(void)dealloc {
+    NSLog(@"%@ -- dealloc at CMD level (%lu)", self.className,[self retainCount]);
+
+    if (fd >=0) 
+        [self halt];
+    
+    [path release];
+    
+    // XX fix-me -- this dealloc causes a crash - because we're prolly
+    // over releasing something - or have just done so. But cannot 
+    // quite find it yet..
+    //
+    [super dealloc];    
 }
 @end

@@ -26,6 +26,7 @@
 
 -(void)setDevices:(NSArray*)titles {
     [self removeAllItems];
+    // [self addItemWithTitle:@"none"];
     [self addItemsWithTitles:titles];
     [self synchronizeTitleAndSelectedItem];
 }
@@ -34,7 +35,7 @@
              withTitle:(NSString*)title 
               withPath:(NSString*)path 
 {
-    if (0) NSLog(@"Menu: %@ %@",
+    if (1) NSLog(@"Menu: %@ %@",
                  deviceAdded ? @"Adding" : @"Removing", title);
 
     if (deviceAdded) {
@@ -44,7 +45,6 @@
         [devices removeObject:(NSString *)title];
         [super removeItemWithTitle:(NSString *)title];
     };    
-    
-    [self synchronizeTitleAndSelectedItem];
+    // [self synchronizeTitleAndSelectedItem];
 }
 @end

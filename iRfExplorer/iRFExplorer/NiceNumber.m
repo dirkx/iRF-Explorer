@@ -22,4 +22,10 @@
 	
 	return self;
 }
+
+-(void)dealloc {
+    [niceNbr release];
+    
+    [super dealloc];
+}
 @end

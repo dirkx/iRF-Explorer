@@ -27,7 +27,7 @@
 #  if 0
 #    define SERIALTYPE kIOSerialBSDRS232Type /* Normal Serial ports */
 #  else
-#    define SERIALTYPE kIOSerialBSDAllTypes /* Antying serial - inc. things like modes */
+#    define SERIALTYPE kIOSerialBSDAllTypes /* Antying serial - inc. things like modems */
 #  endif
 #endif
 
@@ -43,11 +43,11 @@
     IONotificationPortRef notifyPort ;
 	io_iterator_t addDeviceIterator, removeDeviceIterator ;
     
-    NSDictionary * devices;
+    NSMutableDictionary * devices;
 }
 
-@property (retain) NSDictionary * devices;
-@property (retain) id <SerialDeviceTrackerDelegate> delegate;
+@property (retain) NSMutableDictionary * devices;
+@property (assign) id <SerialDeviceTrackerDelegate> delegate;
 
 // Rescan all serial ports.
 -(void)rescan;

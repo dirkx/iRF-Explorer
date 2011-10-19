@@ -39,5 +39,7 @@
     self.labelStr = nil;
     self.siUnit = nil;
     self.siPrefix = nil;
+    
+    [super dealloc];
 }
 @end

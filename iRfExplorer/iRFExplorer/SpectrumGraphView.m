@@ -24,24 +24,37 @@
 
 @implementation SpectrumGraphView
 
-@synthesize device, decayInSeconds;
+@synthesize device, decayInSeconds, averagingTimeWindowInSeconds;
 
 const float SOX = 12.0; // spacing left/right (total)
 const float SOY = 12.0; // spacing top/bottom (total)
 const int OS = 8;
-
 
 -(Spectrum *)spectrum { 
     return spectrum; 
 }
 
 -(void)setSpectrum:(Spectrum *)_spectrum {
-    [spectrum release];
-    spectrum = [_spectrum retain];
+    if (spectrum != _spectrum) {
+        [spectrum release];
+        spectrum = [_spectrum retain];
+    };
+    
+#ifndef UPDATE_TIMER_WINDOW
+#define UPDATE_TIMER_WINDOW (100)
+#endif
+    
+    if (lastUpdate) {
+        NSTimeInterval d = -[lastUpdate timeIntervalSinceNow];
 
-    if (lastUpdate) 
-        avgUpdateDelta = (avgUpdateDelta * 10 - [lastUpdate timeIntervalSinceNow])/11;
-
+        if (updateTimeInterval < 0.001)
+            updateTimeInterval = d;
+        
+        updateTimeInterval = (updateTimeInterval * (UPDATE_TIMER_WINDOW-1) + d)/UPDATE_TIMER_WINDOW;
+    } else {
+        updateTimeInterval = 0.0001;
+    };
+    
     [lastUpdate release];
     lastUpdate = [[NSDate date] retain];
     
@@ -54,7 +67,9 @@ const int OS = 8;
         float v = [[spectrum.dbValues objectAtIndex:i] floatValue];
         if (avgVals) {
             float a = [[avgVals objectAtIndex:i] floatValue];
-            a = (avglen * a + v)/(avglen+1);
+            float samples = averagingTimeWindowInSeconds / updateTimeInterval;
+            a = ((samples-1) * a + v)/samples;
+
             [avgVals replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:a]];                
         }
         if (maxVals) {
@@ -63,7 +78,7 @@ const int OS = 8;
             if (v > m)
                 m = v;
             if (decayInSeconds > 0.0)
-                m -= (m - v) / decayInSeconds * avgUpdateDelta;
+                m -= (m - v) / decayInSeconds * updateTimeInterval;
             if (mm != m)
                 [maxVals replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:m]];
         }
@@ -94,7 +109,7 @@ const int OS = 8;
     if (!newState)
         return;
     
-    avglen = 50;
+    averagingTimeWindowInSeconds = 50;
     avgVals = [[NSMutableArray arrayWithArray:spectrum.dbValues] retain];
 
     [self setNeedsDisplay:YES];
@@ -118,15 +133,29 @@ const int OS = 8;
                                [NSFont fontWithName:@"Helvetica" size:36], NSFontAttributeName,
                                [NSColor darkGrayColor], NSForegroundColorAttributeName, 
                                nil];
-
+        
         NSSize s = [msg sizeWithAttributes:attr];
         
         float x = self.bounds.origin.x + (self.bounds.size.width - s.width) * 0.50;
         float y = self.bounds.origin.y + (self.bounds.size.height - s.height) * 0.66;
-        [msg drawAtPoint:NSMakePoint(x,y) 
-          withAttributes:attr];
+        [msg drawAtPoint:NSMakePoint(x,y) withAttributes:attr];
+        
+        msg = @"(Hold down the ALT key during startup to activate a build in demo mode)";
+        attr = [NSDictionary dictionaryWithObjectsAndKeys:
+                [NSFont fontWithName:@"Helvetica Oblique" size:10], NSFontAttributeName,
+                [NSColor lightGrayColor], NSForegroundColorAttributeName, 
+                nil];
+        
+        s = [msg sizeWithAttributes:attr];
+        
+        x = self.bounds.origin.x + (self.bounds.size.width - s.width) * 0.50;
+        y -= s.height + 2;
+        
+        [msg drawAtPoint:NSMakePoint(x,y) withAttributes:attr];
         return;
-    };
+    }
+    
+    // Background
     
     if (TRUE) {
         CGContextSetRGBFillColor (cref, 1,1,1,1);
@@ -139,10 +168,12 @@ const int OS = 8;
     float ox = SOX/2 + rect.origin.x;
     float oy = 0.05*rect.size.height + rect.origin.y;
 
-    CGContextSetLineWidth(cref, 1.0);
-    CGContextSetRGBStrokeColor(cref, 0,0,0.4,1);
-
+    // Draw axises used - to verify alighment with scales.
+    //    
     if (FALSE) {
+        CGContextSetLineWidth(cref, 1.0);
+        CGContextSetRGBStrokeColor(cref, 0,0,0.4,1);
+        
         CGPoint hl[] = { 
             CGPointMake(ox-OS*10,oy), 
             CGPointMake(ox+sx*spectrum.count+OS*10, oy) 
@@ -166,6 +197,8 @@ const int OS = 8;
     float ha = 0;
     int src = 0;
     
+    // Drawing of the vertial spectrum lines.
+    //    
     for(NSUInteger i = 0; i < spectrum.count; i++) {
         float f = [[spectrum.frequenciesMhz objectAtIndex:i] floatValue];
         double x = ox + (f - device.fStartMhz) * sx;
@@ -198,14 +231,13 @@ const int OS = 8;
                 ha = v; hi = i; src = 1;
             }
             
-            y = oy + v * sy;
             if (i == 0)
                 CGContextMoveToPoint(cref,x,y);
             else
                 CGContextAddLineToPoint(cref,x,y);
         };
         
-        CGContextSetLineWidth(cref, 2.0);
+        CGContextSetLineWidth(cref, 2.0 * rect.size.width / 480.0);
         CGContextSetRGBStrokeColor(cref, 0,0,0.8,0.7);
         CGContextStrokePath(cref);
     };
@@ -222,18 +254,20 @@ const int OS = 8;
                 ha = v; hi = i; src = 2;
             }
             
-            y = oy + v * sy;
             if (i == 0)
                 CGContextMoveToPoint(cref,x,y);
             else
                 CGContextAddLineToPoint(cref,x,y);
         };
         
-        CGContextSetLineWidth(cref, 1.0);
+        CGContextSetLineWidth(cref, 1.0 * rect.size.width / 480.0);
         CGContextSetRGBStrokeColor(cref, 0.8,0,0,1);
         CGContextStrokePath(cref);
     };
     
+    // drawing of small arrow at the 'max' value; along with
+    // a transp. white rectangle with the value/frequency.
+    //
     if (TRUE) {
         float f = [[spectrum.frequenciesMhz objectAtIndex:hi] floatValue];
         double x = ox + (f - device.fStartMhz) * sx;
@@ -264,7 +298,7 @@ const int OS = 8;
                                    0,
                                    (src == 1) ? 0.8 : 0,
                                    1);
-        CGContextSetLineWidth(cref, 1.0);
+        CGContextSetLineWidth(cref, 1.0 * rect.size.width / 480.0);
 
         if (y + h > rect.origin.y + rect.size.height) {
             
@@ -313,6 +347,14 @@ const int OS = 8;
     }
     
 }
-
+-(void)dealloc {
+    self.spectrum = nil;
+    [avgVals release];
+    [maxVals release];
+    [device release];
+    [lastUpdate release];
+    
+    [super dealloc];
+}
 
 @end

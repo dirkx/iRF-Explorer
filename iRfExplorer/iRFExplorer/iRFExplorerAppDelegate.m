@@ -31,7 +31,7 @@
 // window and general backgroud threads.
 //
 @synthesize window, mainView, drawerView;
-@synthesize serialDeviceTracker;
+@synthesize serialDeviceTracker,spectrogramView;    
 
 // main view - bottom bar.
 //
@@ -91,12 +91,35 @@
  
     // the legends need to know about the graph - so they can make the same
     // scaling calculations.
+    //
     dbmLegendView.graphView = spectrumView;
     frequencyLegendView.graphView = spectrumView;
     
     // We always start with the drawer opened ? Or shall we keep state
     // in prefs ? Or nicer to open it when we have settings ?
-    // [drawerView open:(self)];
+#if 0
+    [drawerView open:(self)];
+#endif
+    
+#if 1
+    // Detect the ALT key pressed - and activate demo mode
+    // if so.
+    CGEventRef event = CGEventCreate(NULL);
+    CGEventFlags modifiers = CGEventGetFlags(event);
+    CFRelease(event);
+    
+    if ((modifiers & kCGEventFlagMaskAlternate) == kCGEventFlagMaskAlternate)
+    {
+        NSLog(@"Demo mode activated");
+        [serialDeviceTracker.devices setValue:@"demo1"
+                                       forKey:@"Demo generator"];
+        [serialDeviceTracker.devices setValue:@"demo2"
+                                       forKey:@"Crashy Demo generator"];
+        
+        self.settingDeviceTitle = @"Demo generator";
+        [self changedPreferences];
+    }
+#endif
 }
 
 -(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication*)sender
@@ -123,6 +146,10 @@
 
 -(void)setDecaySpeed:(float)decaySpeedInSeconds {
     spectrumView.decayInSeconds = decaySpeedInSeconds;
+}
+
+-(void)setAvgSpeed:(float)avgSpeedInSeconds {
+    spectrumView.averagingTimeWindowInSeconds = avgSpeedInSeconds;
 }
 
 -(void)setAllControls:(BOOL)onOff {
@@ -168,7 +195,7 @@
     infoDevMain.stringValue = @"";
     infoDevExpansion.stringValue = @"";
     infoDevBaudrate.stringValue = @"";
-    
+
     showAvgxButton.state = NSOffState;
     showMaxButton.state = NSOffState;
     decayButton.state = NSOffState;
@@ -178,25 +205,41 @@
 // or as the user changes things.
 //
 -(void)changedPreferences {
-    // close any old stuff
+    NSLog(@"Preference change");
+    
+    spectrumView.device = nil;
+    dbmLegendView.device = nil;
+    frequencyLegendView.device = nil;
+
     [rfExplorer release];
+    rfExplorer = nil;
     
     NSString * devPath = [serialDeviceTracker.devices objectForKey:settingDeviceTitle ];
-    rfExplorer = [[RFExplorer alloc] initWithPath:devPath
-                                  withSlowSetting:settingDeviceIsSlow];
-    rfExplorer.delegate = self;
-    spectrumView.device = rfExplorer;
-    dbmLegendView.device = rfExplorer;
-    frequencyLegendView.device = rfExplorer;
+    
+    if (devPath) {
+        rfExplorer = [[RFExplorer alloc] initWithPath:devPath
+                                      withSlowSetting:settingDeviceIsSlow];
+        
+        rfExplorer.delegate = self;
+        
+        spectrumView.device = rfExplorer;
+        dbmLegendView.device = rfExplorer;
+        frequencyLegendView.device = rfExplorer;        
+        spectrogramView.device = rfExplorer;
+    };    
     
     deviceLabel.stringValue = rfExplorer ? settingDeviceTitle : @"<unset>";
 
-    firmwareLabel.stringValue = rfExplorer ? @"Contacting..." : @"Comms failed";
+    firmwareLabel.stringValue = rfExplorer ? @"Contacting..." : 
+        (devPath ? @"Comms failed" : @"");
         
     [self setAllControls:FALSE];
     
+    [self showButtonChange:nil];
+    
     [dbmLegendView setNeedsDisplay:TRUE];
     [frequencyLegendView setNeedsDisplay:TRUE];
+    
     [self configScreenUpdating:self];
 }
 
@@ -204,14 +247,14 @@
 
 -(IBAction)showButtonChange:(NSButton *)sender  {
     
-    if (sender == showMaxButton) {
-        [spectrumView setAndResetShowMax:(sender.state == NSOnState)];
-    } else
-    if (sender == showAvgxButton) {
-        [spectrumView setAndResetShowAvg:(sender.state == NSOnState)];
-    } else
-    if (sender == decayButton) {
-        [spectrumView setAndResetDecay:(sender.state == NSOnState)];
+    if (sender == showMaxButton || sender == nil) {
+        [spectrumView setAndResetShowMax:(showMaxButton.state == NSOnState)];
+    };
+    if (sender == showAvgxButton || sender == nil) {
+        [spectrumView setAndResetShowAvg:(showAvgxButton.state == NSOnState)];
+    };
+    if (sender == decayButton || sender == nil) {
+        [spectrumView setAndResetDecay:(decayButton.state == NSOnState)];
     };
 }
 
@@ -358,6 +401,7 @@
 
 -(void)newData:(Spectrum *)_spectrum {
     spectrumView.spectrum = _spectrum;
+    [spectrogramView addSpectrum:_spectrum];
 }
 
 -(void)newBoard:(RFExplorer *)explorer {
@@ -418,6 +462,10 @@
 
 - (void)dealloc {
     [preferenceController release];
+    [serialDeviceTracker release];
+    [settingDeviceTitle release];
+    [rfExplorer release];
+    
     [super dealloc];
 }
 

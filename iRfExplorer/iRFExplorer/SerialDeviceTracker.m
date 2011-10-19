@@ -31,6 +31,7 @@
     if (!self) 
         return nil;
     
+    self.devices = [NSMutableDictionary dictionaryWithCapacity:5];
     return self;
 }
 
@@ -38,7 +39,6 @@
 	io_iterator_t serialDeviceIterator ;
 	io_object_t serial ;
     mach_port_t bus ;
-    BOOL debug = FALSE;
     
     CFMutableDictionaryRef matches ;
     
@@ -61,17 +61,18 @@
         CFStringRef pathName = IORegistryEntryCreateCFProperty( serial, CFSTR(kIOCalloutDeviceKey), kCFAllocatorDefault, 0 );
         if (streamName && pathName) {
             [devicesFound setValue:(NSString *)pathName forKey:(NSString *)streamName];            
-            // NSLog(@"Found: %@\t%@", streamName, pathName);
 		};
+        if (streamName) 
+            CFRelease(streamName);
+        if (pathName)
+            CFRelease(pathName);
+        
         IOObjectRelease( serial ) ;
     }
 	IOObjectRelease( serialDeviceIterator ) ;
 
     if ([self.devices isEqualToDictionary:devicesFound])
         return;
-    
-    if (debug) NSLog(@"Got old %@ <> new %@ and %@",
-          devices, devicesFound, delegate);
     
     for(NSString * title in self.devices) {
         if (![devicesFound objectForKey:title]) 
@@ -87,15 +88,17 @@
                              withPath:[devicesFound objectForKey:title]];
     }
     
-    self.devices = [NSDictionary dictionaryWithDictionary:devicesFound];
+    self.devices = devicesFound;
 }
 
 -(void)setDelegate:(id<SerialDeviceTrackerDelegate>)newDelegate {
     [self stopNotification];
-
-    [delegate release];
-    delegate = [newDelegate retain];
-
+    
+    if (delegate != newDelegate) {
+        [delegate release];
+        delegate = [newDelegate retain];
+    };
+    
     [self rescan];
     [self startNotification];
 }
@@ -113,14 +116,21 @@
     while ((serial = IOIteratorNext( iterator ))) {
         CFStringRef streamName = IORegistryEntryCreateCFProperty( serial, CFSTR(kIOTTYDeviceKey), kCFAllocatorDefault, 0 );
         CFStringRef pathName = IORegistryEntryCreateCFProperty( serial, CFSTR(kIOCalloutDeviceKey), kCFAllocatorDefault, 0 );
-        if (streamName && pathName) 
+        if (streamName && pathName) {
             [delegate changeInDevices:deviceAdded 
                             withTitle:(NSString*)streamName 
                              withPath:(NSString*)pathName];
-        IOObjectRelease( serial ) ;
+            if (deviceAdded)
+                [devices setValue:(NSString*)pathName forKey:(NSString*)streamName];
+            else
+                [devices removeObjectForKey:(NSString*)streamName];
+        };
+        if (streamName) 
+            CFRelease(streamName);
+        if (pathName)
+            CFRelease(pathName);
+       IOObjectRelease( serial ) ;
     };
-
-    [self rescan];
 }
 
 //  callback notification when device added
@@ -185,6 +195,8 @@ static void deviceRemoved(void *refcon, io_iterator_t iterator )
 }
 
 - (void)dealloc {
+    [self stopNotification];
+    self.devices = nil;
     [super dealloc];
 }
 @end

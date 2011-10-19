@@ -21,6 +21,8 @@
 //
 
 #import "RFExplorer.h"
+#import "DemoRFExplorerCmds.h"
+
 #import "Spectrum.h"
 
 @implementation RFExplorer
@@ -36,31 +38,35 @@
     mainBoard, expansionBoard, firmware, commsSpeed;
 
 -(id)init {
-    self = [super init];
-    if (!self)
-        return nil;
-
     NSLog(@"Should not be used.");
     assert(1 == 2);
     return self;
 }
 
 -(id)initWithPath:(NSString *)devPath  withSlowSetting:(BOOL)deviceIsSlow {
+
     self = [super init];
     if (!self)
         return nil;
 
-    parser = [[RFExporerCmds alloc] initWithPath:devPath 
-                                   withSlowSpeed:deviceIsSlow];
+    assert(parser == nil);
+    
+    if ([devPath  hasPrefix:@"demo"]) {
+        parser = [DemoRFExplorerCmds alloc];
+    } else {
+        parser = [RFExporerCmds alloc];
+    };
+
+    parser = [parser initWithPath:devPath withSlowSpeed:deviceIsSlow];
+    
+    if (parser == nil)
+        return nil;
+    
+    commsSpeed = deviceIsSlow ? SPEED_2k4 : SPEED_500k;
+    
     parser.delegate = self;
 
-    if ([parser reopen]) {
-        [parser release];
-        commsSpeed = deviceIsSlow ? SPEED_2k4 : SPEED_500k;
-        return self;        
-    }
-
-    return nil;
+    return self;
 }
 
 -(id)delegate { 
@@ -68,12 +74,15 @@
 }
 
 -(void)setDelegate:(id <RFGUICallbacks>) _delegate {
-    [_delegate release];
-    delegate = [_delegate retain];
-    
+    if (_delegate != delegate) {
+        [_delegate release];
+        delegate = [_delegate retain];
+    }    
     // fire off quite to fill out above if possible - but wait 300 mS.
     //
-    [parser performSelector:@selector(getConfigData) withObject:nil afterDelay:0.300];   
+    [parser performSelector:@selector(getConfigData) 
+                 withObject:nil 
+                 afterDelay:0.300];   
 }
 
 -(void)configWithBoard:(NSString *)_mainBoard
@@ -91,8 +100,9 @@
     Spectrum * s = [[Spectrum alloc] initWithStartFreqMhz:fStartMhz 
                                         withStepFreqMhz:fStepMhz 
                                                withData:arr];
-    
     [delegate newData:s];
+    
+    [s release];
 }
 
 -(void)newScreen:(NSImage *)img {
@@ -117,7 +127,7 @@
     fAmplitudeBottom = _fAmplitudeBottom;
     fAmplitudeSpan = _fAmplitudeTop - _fAmplitudeBottom;
     
-    fAmplitudeMin = -120;   // Based on a EXPANSION_WSUB1G.
+    fAmplitudeMin = -120;  
     fAmplitudeMax = -1;
     fAmplitudeMinSpan = 10;
     fAmplitudeFullRange = fAmplitudeMax - fAmplitudeMin;
@@ -127,7 +137,7 @@
     fMinFreqMhz = _fMinFreqMhz;
     fMaxFreqMhz = _fMaxFreqMhz;
     fMaxSpanMhz = _fSpanFreqMhz;
-    fMinSpanMhz = 0.112f; // Based on a EXPANSION_WSUB1G.
+    fMinSpanMhz = _bExpansionBoardActive == EXPANSION_2G4 ? 2000.0f : 0.112f;
     fFullRangeMhz = _fMaxFreqMhz - _fMinFreqMhz;
     
     fSpanMhz = fStepMhz * nFreqSpectrumSteps;
@@ -279,11 +289,21 @@
             return @"<unknown>";
     };    
 }
+
 -(void)dealloc {
-    self.parser = nil;
-    self.delegate = nil;
+    NSLog(@"%@ dealloc",self.className);
+
+    [parser halt];
+    
+    // Something over releases/has already released the parser. XXX Bug !
+    // see note in dealloc of RFExporerCmds. Not understanding this.
+    //
+    // [parser release];
+    
     [mainBoard release];
     [expansionBoard release];
     [firmware release];
+    
+    [super dealloc];
 }
 @end

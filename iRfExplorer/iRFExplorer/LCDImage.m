@@ -33,17 +33,16 @@
 {
     NSInteger w = 128, h = 64;
 
-    NSBitmapImageRep * imageRep = [NSBitmapImageRep alloc];
-    [imageRep initWithBitmapDataPlanes:NULL
-                            pixelsWide:w
-                            pixelsHigh:h 
-                         bitsPerSample:1 
-                       samplesPerPixel:1 
-                              hasAlpha:NO 
-                              isPlanar:YES
-                        colorSpaceName:NSCalibratedWhiteColorSpace 
-                           bytesPerRow:0
-                          bitsPerPixel:0];
+    NSBitmapImageRep * imageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+                                                                          pixelsWide:w
+                                                                          pixelsHigh:h 
+                                                                       bitsPerSample:1 
+                                                                     samplesPerPixel:1 
+                                                                            hasAlpha:NO 
+                                                                            isPlanar:YES
+                                                                      colorSpaceName:NSCalibratedWhiteColorSpace 
+                                                                         bytesPerRow:0
+                                                                        bitsPerPixel:0];
     
     unsigned char * bitmap = [imageRep bitmapData];
     NSInteger bytesPerRow = [imageRep bytesPerRow];
@@ -63,24 +62,22 @@
     [image addRepresentation:imageRep];    
     [imageRep release];
     
-    return image;
+    return [image autorelease];
 }
 
 +(id)imageWithReticule
 {   
     NSInteger w = 128, h = 64;
-    NSBitmapImageRep * imageRep = [NSBitmapImageRep alloc];
-
-    [imageRep initWithBitmapDataPlanes:NULL
-                            pixelsWide:w
-                            pixelsHigh:h 
-                         bitsPerSample:1 
-                       samplesPerPixel:1 
-                              hasAlpha:NO 
-                              isPlanar:NO
-                        colorSpaceName:NSCalibratedWhiteColorSpace
-                           bytesPerRow:0
-                          bitsPerPixel:0];
+    NSBitmapImageRep * imageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+                                                                          pixelsWide:w
+                                                                          pixelsHigh:h 
+                                                                       bitsPerSample:1 
+                                                                     samplesPerPixel:1 
+                                                                            hasAlpha:NO 
+                                                                            isPlanar:NO
+                                                                      colorSpaceName:NSCalibratedWhiteColorSpace
+                                                                         bytesPerRow:0
+                                                                        bitsPerPixel:0];
 
     unsigned char * bitmap = [imageRep bitmapData];
     NSInteger bytesPerRow = [imageRep bytesPerRow];
@@ -100,7 +97,8 @@
     
     [image addRepresentation:imageRep];   
     [imageRep release];
-    return image;
+    
+    return [image autorelease];
 }
 
 @end

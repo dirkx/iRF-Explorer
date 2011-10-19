@@ -34,8 +34,11 @@ extern float SOY;
 }
 
 -(void)setDevice:(RFExplorer *)_device {
-    [device release];
-    device = [_device retain];
+    if (device != _device) {
+        [device release];
+        device = [_device retain];
+    };
+    
     [self setNeedsLayout:TRUE];
 }
 
@@ -71,19 +74,6 @@ extern float SOY;
 
     NSGraphicsContext * nsGraphicsContext = [NSGraphicsContext currentContext];
     CGContextRef cref = (CGContextRef) [nsGraphicsContext graphicsPort];
-    
-    if (TRUE) {
-        NSString * l = @"frequency (Mhz)";
-        NSDictionary * attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                               // [NSFont fontWithName:@"Helvetica" size:36], NSFontAttributeName,
-                               [NSColor darkGrayColor], NSForegroundColorAttributeName, 
-                               nil];
-        
-        NSSize s = [l sizeWithAttributes:attr];
-        NSPoint center = NSMakePoint(self.bounds.origin.x + (self.bounds.size.width - s.width)/2, 
-                                     self.bounds.origin.y + OS);
-        [l drawAtPoint:center withAttributes:attr];
-    }    
     
     if (0) {
         CGContextSetRGBFillColor (cref, 1,1,.2,1);
@@ -128,6 +118,21 @@ extern float SOY;
     if (ticks == nil || ticks.count == 0)
         return;
 
+    // Labeling of the axis.
+    //
+    if (TRUE) {
+        NSString * l = @"frequency (Mhz)";
+        NSDictionary * attr = [NSDictionary dictionaryWithObjectsAndKeys:
+                               // [NSFont fontWithName:@"Helvetica" size:36], NSFontAttributeName,
+                               [NSColor darkGrayColor], NSForegroundColorAttributeName, 
+                               nil];
+        
+        NSSize s = [l sizeWithAttributes:attr];
+        NSPoint center = NSMakePoint(self.bounds.origin.x + (self.bounds.size.width - s.width)/2, 
+                                     self.bounds.origin.y + OS);
+        [l drawAtPoint:center withAttributes:attr];
+    }    
+    
     // Line first/last tick.
     //
     CGPoint hl2[] = { 
@@ -161,4 +166,11 @@ extern float SOY;
     }    
 }
 
+-(void)dealloc {
+    [device release];
+    [graphView release];
+    [ticks release];
+    
+    [super dealloc];
+}
 @end

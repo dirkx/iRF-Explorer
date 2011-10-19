@@ -51,4 +51,18 @@
     }    
     return [NSString stringWithFormat:fmt, f,unit];
 }
+
++(id)stringFromSeconds:(float)v {
+    NSString * fmt = @"%.1f second%s";
+    if (v > 400) {
+        v /= 60;
+        fmt = @"%.0f minute%s";
+    }
+    else if (v > 120) {
+        v /= 60;
+        fmt = @"%.1f minute%s";
+    };
+    return [NSString stringWithFormat:fmt, v, (v >= 2.0) ? "s" : ""];
+}
+
 @end

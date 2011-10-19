@@ -28,7 +28,8 @@ typedef enum {
     EXPANSION_868M,
     EXPANSION_915M,
     EXPANSION_WSUB1G,
-    EXPANSION_w4G,
+    EXPANSION_2G4,
+    EXPANSION_DEMO=254,
     EXPANSION_NONE=255  // only valid for the expansion card - always a main board.
 } RF_model_t;
 
@@ -73,22 +74,15 @@ typedef enum {
 @end
 
 @interface RFExporerCmds : NSThread {
-    NSThread * receiveWorker;
-    NSMutableArray * arrData;
     id <RFCallbacks> delegate;
     NSString * path;
     BOOL isSlow;
     int fd;
 }
 
-@property (retain) NSString * path;
-@property (assign) BOOL isSlow;
-@property (assign) int fd;
-
-@property (retain) id <RFCallbacks> delegate;
+@property (assign) id <RFCallbacks> delegate;
 
 - (id)initWithPath:(NSString *)path withSlowSpeed:(BOOL)isSlow;
--(BOOL)reopen;
 
 -(void) sendCurrentConfigWithStartFreq:(float)fStartMhz
                            withEndFreq:(float)fEndMhz
@@ -102,4 +96,9 @@ typedef enum {
 -(void)playSpectrum;
 -(void)shutdown;
 
+-(void)halt;
+
+// really private - but we expose it so that our Demo RF Explorer can use it.
+//
+-(void)submit:(const char *)buff withLength:(ssize_t)len;
 @end

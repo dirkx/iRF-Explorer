@@ -32,13 +32,15 @@
 }
 
  -(NSArray *)ticks {
-	NSMutableArray * result = [[NSMutableArray alloc] init];
-	double c = min;
-	for(int i = 0; i < nbrOfTicks; i++) {
-		[result addObject:[NSNumber numberWithDouble:c]];
-		c+=diff;
-	}
-	return result;
+     NSMutableArray * result = [NSMutableArray arrayWithCapacity:nbrOfTicks];
+     double c = min;
+
+     for(int i = 0; i < nbrOfTicks; i++) {
+         [result addObject:[NSNumber numberWithDouble:c]];
+         c+=diff;
+     }
+
+     return [NSArray arrayWithArray:result];
 }
 
 -(NSString*)description {

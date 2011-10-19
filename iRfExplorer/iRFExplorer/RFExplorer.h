@@ -56,7 +56,7 @@
     float fAmplitudeMin, fAmplitudeMax, fAmplitudeMinSpan, fAmplitudeFullRange;
 }
 
-@property (retain) id <RFGUICallbacks> delegate;
+@property (assign) id <RFGUICallbacks> delegate;
 @property (retain) RFExporerCmds * parser;
 
 @property (assign) float fCenterMhz, fSpanMhz;

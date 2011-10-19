@@ -92,6 +92,8 @@
 												   withValue:cc];
 
 		[tmpTicks addObject:tick];
+        [tick release];
+        
 		cc += _def.diff;
 	};
 
@@ -132,4 +134,11 @@
 	return (commonSIprefix != nil) ? YES: NO;
 }
 
+-(void)dealloc {
+    [def release];
+    [ticks release];
+    [commonSIprefix release];
+
+    [super dealloc];
+}
 @end

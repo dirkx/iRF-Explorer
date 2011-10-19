@@ -21,23 +21,29 @@
 //
 
 #import "PreferenceController.h"
+#import "NSStringExtensions.h"
 
 @implementation PreferenceController
 @synthesize slowSpeedButton, deviceSelectionButton;
 @synthesize decayLabel, decaySlider;
+@synthesize avgLabel, avgSlider;
 @synthesize delegate;
 
 -(void)readPreferences {
     NSString * deviceTitle = [[NSUserDefaults standardUserDefaults] valueForKey:@"selectedDevice"];
     BOOL isSlow = [[[NSUserDefaults standardUserDefaults] valueForKey:@"slowSpeed"] boolValue];
+    float decay = [[[NSUserDefaults standardUserDefaults] valueForKey:@"decayValue"] floatValue];
+    float avg = [[[NSUserDefaults standardUserDefaults] valueForKey:@"avgValue"] floatValue];
 
     [delegate setSettingDeviceTitle:deviceTitle];    
     [delegate setSettingDeviceIsSlow:isSlow];
+    [delegate setDecaySpeed:decay];
+    [delegate setAvgSpeed:avg];
     
     [delegate changedPreferences];
 }
 
-- (void)windowDidLoad
+- (void)awakeFromNib 
 {    
     NSDictionary * ud = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
     slowSpeedButton.state = [[ud valueForKey:@"slowSpeed"] boolValue] ? NSOnState : NSOffState;
@@ -59,9 +65,19 @@
         [deviceSelectionButton selectItemWithTitle:devStr];
 
     // bit of a lie - really the slider value.
-    decaySlider.floatValue = [[ud valueForKey:@"decayValue"] floatValue];
+    if ([ud valueForKey:@"decayValue"] == nil)
+        decaySlider.floatValue = 3;
+    else
+        decaySlider.floatValue = [[ud valueForKey:@"decayValue"] floatValue];
     
     [self decaySliderChange:decaySlider];
+
+    if ([ud valueForKey:@"avgValue"] == nil)
+        avgSlider.floatValue = 3;
+    else
+        avgSlider.floatValue = [[ud valueForKey:@"avgValue"] floatValue];
+    
+    [self avgSliderChange:avgSlider];
 
     [super windowDidLoad];
 }
@@ -70,7 +86,6 @@
     BOOL isSlow = ((NSButton *)sender).state == NSOnState;
     BOOL old = [[[NSUserDefaults standardUserDefaults] valueForKey:@"slowSpeed"] boolValue];
     if (old != isSlow) {
-
         [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:isSlow] forKey:@"slowSpeed"];
         [delegate setSettingDeviceIsSlow:isSlow];
         [delegate changedPreferences];
@@ -79,17 +94,19 @@
 
 -(IBAction)selectedDevice:(id)sender {
     NSString * deviceTitle = ((NSPopUpButton *)sender).titleOfSelectedItem;
-    NSString * old = [[NSUserDefaults standardUserDefaults] valueForKey:@"selectedDevice"];
-    if (![old isEqualToString:deviceTitle]) {
-
+//  may be better to always do this - as to make the behaviour on re-seating
+//  a bit more logical.
+//  NSString * old = [[NSUserDefaults standardUserDefaults] valueForKey:@"selectedDevice"];
+//  if (![old isEqualToString:deviceTitle]) {
         [[NSUserDefaults standardUserDefaults] setValue:deviceTitle forKey:@"selectedDevice"];
         [delegate setSettingDeviceTitle:deviceTitle];
         [delegate changedPreferences];
-    }
+//  }
 }
 
 -(IBAction)decaySliderChange:(NSSlider *)sender {
     float v = sender.floatValue;
+    
     // bit of a lie - really the slider value.
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:v] forKey:@"decayValue"];
 
@@ -99,12 +116,32 @@
     else if (v > 3)
          v = 2.0 * floorf(v/2.0);
     
+    [decayLabel setStringValue:[NSString stringFromSeconds:v]];
 
-    NSString * fmt = (v > 10) ? @"%.0f second%s" : @"%.1f second%s";
-    [decayLabel setStringValue:[NSString stringWithFormat:fmt, v, (v >= 2.0) ? "s" : ""]];
     [delegate setDecaySpeed:v];
 }
 
+-(IBAction)avgSliderChange:(NSSlider *)sender {
+    float v = sender.floatValue;
+    
+    // bit of a lie - really the slider value.
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:v] forKey:@"avgValue"];
+    
+    v = 0.2 + 0.2 * v * v * v;
+    if (v > 10) 
+        v = floorf(v);
+    else if (v > 3)
+        v = 2.0 * floorf(v/2.0);
+    
+    [avgLabel setStringValue:[NSString stringFromSeconds:v]];
+    
+    [delegate setAvgSpeed:v];
+}
+
 - (void) dealloc {
+    self.delegate = nil;
+    self.deviceSelectionButton = nil;
+    
+    [super dealloc];
 }
 @end

@@ -39,13 +39,13 @@ NSArray * baseNiceNumber, *niceNbrs;
 	 * <b>Important:</b> the order of these numbers is used for scoring! </br>
 	 * For instance the first number gets the maximum score, the last gets the minimum score.
 	 */
-	baseNiceNumber = [[NSArray alloc] initWithObjects:
+	baseNiceNumber = [[[NSArray alloc] initWithObjects:
 					  [NSNumber numberWithFloat:1.0],
 					  [NSNumber numberWithFloat:5.0],
 					  [NSNumber numberWithFloat:2.0],
 					  [NSNumber numberWithFloat:2.5],
 					  [NSNumber numberWithFloat:3.0],
-					  nil];
+					  nil] autorelease];
 	
 	niceNbrs = [self createBaseNiceNumbersWith:baseNiceNumber];
 	
@@ -72,11 +72,11 @@ NSArray * baseNiceNumber, *niceNbrs;
 												   includeZero:hasZero 
 										   withIdealNbrOfTicks:idealNbrOfTicks];				  
 
-	NSArray * scaleIntervals = [[self createRangeOfCandidateScaleIntervalsWithDataMin:min
+	NSArray * scaleIntervals = [self createRangeOfCandidateScaleIntervalsWithDataMin:min
 																		  withDataMax:max
 																		 withExponent:exp
 																		 withNiceNbrs:niceNbrs
-																		  includeZero:hasZero] autorelease];
+																		  includeZero:hasZero];
 	
 	return [self getBestScaleIntervalWithScaleIntervalArray:scaleIntervals];
 }
@@ -96,20 +96,26 @@ NSArray * baseNiceNumber, *niceNbrs;
  */
 +(NSArray *) createBaseNiceNumbersWith:(NSArray *)baseNiceNumbers
 {
-	NSMutableArray * toReturn = [[NSMutableArray alloc] init];
+    NSUInteger n = [baseNiceNumbers count];
+	NSMutableArray * toReturn = [NSMutableArray arrayWithCapacity:n];
 
-	for (int i = 0;i< [baseNiceNumbers count];i++)
+	for (int i = 0;i< n;i++)
 	{
 		BasicNiceNumber *t = [[BasicNiceNumber alloc] initWithBase:[[baseNiceNumbers objectAtIndex:i] doubleValue] 
 														  withScore:i+1];
 		[toReturn addObject:t];
+        [t release];
 	}
 	
 	NSSortDescriptor * baseDescriptor;
 	baseDescriptor = [[NSSortDescriptor alloc] initWithKey:@"base"
 												 ascending:YES];	
 
-	return [toReturn sortedArrayUsingDescriptors:[NSArray arrayWithObject:baseDescriptor]];
+	NSArray * out = [toReturn sortedArrayUsingDescriptors:[NSArray arrayWithObject:baseDescriptor]];
+
+    [baseDescriptor release];
+    
+    return out;
 }
 
 /**
@@ -162,8 +168,8 @@ NSArray * baseNiceNumber, *niceNbrs;
 												withNiceNbrs:(NSArray *)_niceNbrs
 												 includeZero:(BOOL)hasZero
 {
-	NSMutableArray * scaleIntervals = [[NSMutableArray alloc] init];
 	NSUInteger n = [_niceNbrs count];
+	NSMutableArray * scaleIntervals = [NSMutableArray arrayWithCapacity:3*n];
 
 	for(int i = 0; i < n;i++) {
 		NumericScaleDefinition * nsd = [self calculateScaleIntervalWithDataMin:dataMin
@@ -213,10 +219,6 @@ NSArray * baseNiceNumber, *niceNbrs;
 	double currentValue;
 	double min, max;
 	
-#ifdef TICK_DEBUG
-	printf("e=%f -- nicebase=%d -- tdiff=%f\n",exponent, niceNbr.base, niceNbr.base * pow(10, exponent));
-#endif
-	
 	tickDiff = niceNbr.base * pow(10.0, exponent);
 	
 	double dataRange = [self createDataRangeWithMin:dataMin
@@ -231,10 +233,6 @@ NSArray * baseNiceNumber, *niceNbrs;
 #endif
 		return nil;
 	}
-	
-#ifdef TICK_DEBUG
-	printf("%f -- %f -- %f\n",dataMin, tickDiff, dataMax);
-#endif
 	
 	if (dataMax > 0)
 	{
@@ -310,12 +308,7 @@ NSArray * baseNiceNumber, *niceNbrs;
 																  includesZero:hasZero
 															  withDataCoverage:dataCoverage];
 	
-#ifdef TICK_DEBUG
-	printf("==> dataC %f and ticks %d = score %f\n", 
-		   dataCoverage, nbrOfTicks, [self calculateScore:nsd]);
-#endif
-	
-	return nsd;
+	return [nsd autorelease];
 }
 
 /**

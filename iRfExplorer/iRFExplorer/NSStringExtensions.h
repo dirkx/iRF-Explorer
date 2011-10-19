@@ -26,5 +26,6 @@
 
 +(id)stringWithCString:(const char*)buff withLength:(int)len encoding:(NSStringEncoding)enc;
 +(id)stringFromMhz:(float)f;
++(id)stringFromSeconds:(float)seconds;
 
 @end
