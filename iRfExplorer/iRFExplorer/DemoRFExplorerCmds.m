@@ -89,9 +89,9 @@
             { 
                 spectrumRun = TRUE;
                 [self submitStr:"#C2-M:254,255,00.01\r\n"];
-                [self submitStr:"#C2-F:0000000,1000000,-000,-100,0100,0,000,0000000,1000000,0000000\r\n"];
+                [self submitStr:"#C2-F:0000000,1000000,-000,-100,0100,0,000,0000000,0100000,0100000\r\n"];
             } else if ([cmd hasPrefix:@"C2-F"]) { 
-                [self submitStr:"#C2-F:0000000,1000000,-000,-100,0100,0,000,0000000,1000000,0000000\r\n"];
+                [self submitStr:"#C2-F:0000000,1000000,-000,-100,0100,0,000,0000000,0100000,0100000\r\n"];
             } else if ([cmd isEqualToString:@"CH"]) 
             {
                 spectrumRun = FALSE;
@@ -108,9 +108,11 @@
             buff[2]=N;
             
             // we obviously ought to read this off the microphone and FFT it :)
-            for(int i = 0; i < N; i++)
-                buff[i+3] = -i/3-45-(rand()&0xF);
-
+            double z = [NSDate timeIntervalSinceReferenceDate]/3.0;
+            for(int i = 0; i < N; i++) {
+                float v = -70 + 20*sin(i/30.0 + z) + (rand() &0xF);
+                buff[i+3] = -v * 2;
+            };
             len = 3+N;
             [self submit:buff withLength:len];
             
@@ -135,7 +137,6 @@
         // observe in practice for any type of turn around.
         //
         NSTimeInterval interval = bytesRW * 8.f / (isSlow ? 2400.f : 500000.f) + 0.092f;
-        NSLog(@"Interval %f fo %d bytes", interval, bytesRW);
         
         [NSThread sleepForTimeInterval:interval];    
         

@@ -2,7 +2,6 @@
 //  RFConfiguration.m
 //  iRFExplorer
 //
-//  Created by Dirk-Willem van Gulik on 12/10/2011.
 //  Copyright 2011 WebWeaving. All rights reserved.
 //                 Dirk-Willem van Gulik <dirkx(at)webweaving(dot)org>
 // 
@@ -153,14 +152,14 @@
     float fDesiredEnd =  _fCenterMhz + fSpanMhz / 2;
     
     if (fDesiredEnd > fMaxFreqMhz - fSpanMhz / 2) {
-        fDesiredEnd = fMaxFreqMhz - fSpanMhz / 2;
+        fDesiredEnd = fMaxFreqMhz;
         fDesiredStart = fDesiredEnd - fSpanMhz;
     };
     if (fDesiredStart < fMinFreqMhz + fSpanMhz / 2) {
-        fDesiredStart = fMinFreqMhz + fSpanMhz / 2;
+        fDesiredStart = fMinFreqMhz;
         fDesiredEnd = fDesiredStart + fSpanMhz;
     };
-    
+
     [parser sendCurrentConfigWithStartFreq:fDesiredStart
                                withEndFreq:fDesiredEnd
                                 withAmpTop:fAmplitudeTop

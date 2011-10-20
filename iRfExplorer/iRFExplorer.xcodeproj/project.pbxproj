@@ -83,7 +83,6 @@
 		32591B2214488CCA0093DDC9 /* Spectrum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spectrum.m; sourceTree = "<group>"; };
 		3294AD6F144B352200CC8859 /* SpectrumBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumBackgroundView.h; sourceTree = "<group>"; };
 		3294AD70144B352200CC8859 /* SpectrumBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpectrumBackgroundView.m; sourceTree = "<group>"; };
-		32982BAD144F911100616958 /* iRFExplorer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = iRFExplorer.entitlements; sourceTree = "<group>"; };
 		32A0D5A6143CEBDC00464DCD /* iRFExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iRFExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32A0D5AA143CEBDC00464DCD /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		32A0D5AD143CEBDC00464DCD /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -248,7 +247,6 @@
 		32A0D5B0143CEBDC00464DCD /* iRFExplorer */ = {
 			isa = PBXGroup;
 			children = (
-				32982BAD144F911100616958 /* iRFExplorer.entitlements */,
 				32A0D5BC143CEBDD00464DCD /* iRFExplorerAppDelegate.h */,
 				32A0D5BD143CEBDE00464DCD /* iRFExplorerAppDelegate.m */,
 				32A0D5C7143CEEE000464DCD /* PreferenceController.h */,
@@ -521,6 +519,7 @@
 		32A0D5C5143CEBDF00464DCD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iRFExplorer/iRFExplorer-Prefix.pch";
 				INFOPLIST_FILE = "iRFExplorer/iRFExplorer-Info.plist";
@@ -532,6 +531,7 @@
 		32A0D5C6143CEBDF00464DCD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iRFExplorer/iRFExplorer-Prefix.pch";
 				INFOPLIST_FILE = "iRFExplorer/iRFExplorer-Info.plist";

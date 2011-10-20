@@ -2,7 +2,6 @@
 //  FrequencyLegendView.h
 //  iRFExplorer
 //
-//  Created by Dirk-Willem van Gulik on 12/10/2011.
 //  Copyright 2011 WebWeaving. All rights reserved.
 //                 Dirk-Willem van Gulik <dirkx(at)webweaving(dot)org>
 // 

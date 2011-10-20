@@ -58,10 +58,12 @@
         goto error;
     };
     
+#if 0
     if (ioctl(fd, TIOCEXCL) == -1) {
         NSLog(@"Error - failed to get a lock on '%s': %s (if you get this in the profiler - then change device-perms)",  cpath, strerror(errno));
         goto error;
     }
+#endif
     
     int flag = 0;
     if (fcntl(fd, F_SETFL, &flag) == -1)
@@ -97,9 +99,9 @@
     
     // XX todo - we could do a IOSSDATALAT and set it at 500k x 100 bytes or
     //    so; as we know that faster reading makes no sense (and we know that
-    //    writes currently give some 10-15 chars often).
+    //    writes currently give some 10-15 chars often). This would let us
+    //    quell this thread a bit.
     //
-    
     fd = nfd;    
 
     NSLog(@"Listening to %s - speed %d", cpath, s);
@@ -117,22 +119,30 @@ error:
     return nil;
 }
 
--(void)debug:(char*)msg buff:(const char *)p len:(long)l {
-    int i;
+-(void)debug:(char*)msg buff:(const char *)p len:(long)l mod:(long)N {
+    assert(N < 200);
     char line[1024];
-    for(i=0; i < l; i++) {
+    char strg[1024];
+    for(int i=0; i < l; i++) {
         unsigned int c = p[i];
-        if (i % 32 == 0) {
+        if (i % N == 0) {
             line[0]='\0';
+            strg[0]='\0';
             sprintf(line,"%04x %s ", i, msg);
         };
-        //        sprintf(line+strlen(line),"%c/%02x ", (c>31 && c < 128) ? c : '.',c);
-        sprintf(line+strlen(line),"%c", (c>31 && c < 128) ? c : '.');
+        // sprintf(line+strlen(line),"%c/%02x ", (c>31 && c < 128) ? c : '.',c);
+	//
+        sprintf(line+strlen(line)," %02x", c);
+        sprintf(strg+strlen(strg),"%c", (c>31 && c < 128) ? c : '.');
         
-        if (((i) && ((i % 32)==31)) || (i == l-1)) {
-            NSLog(@"%s",line);
+        if (((i) && ((i % N)==N-1)) || (i == l-1)) {
+            NSLog(@"%s :%s",line,strg);
         };
     };
+}
+
+-(void)debug:(char*)msg buff:(const char *)p len:(long)l {
+    [self debug:msg buff:p len:l mod:32];
 }
 
 -(BOOL)sendCmd:(NSString *)cmd {
@@ -392,7 +402,7 @@ error:
                          withMaxFreq:fMaxFreqMhz / 1000.0f
                         withSpanFreq:fMaxSpanMhz / 1000.0f ];
         
-        if (logPR)
+        if (logPR || TRUE)
             NSLog(@"config details passed:\n"
                   "\tStart:\t%ld KHz\n"
                   "\tStep:\t%ld Hz\n"
@@ -412,7 +422,14 @@ error:
         return;
     }
 
-    NSLog(@"No idea what to do -- discarding.");
+    if (unkPktTypeCount++ < 5) {
+        char ign[8];
+        for(int i = 0; i < sizeof(ign)-1 && i < l; i++) 
+            ign[i] = (p[i]<32||p[i]>128) ? '.' : p[i];
+        ign[sizeof(ign)-1] = '\0';
+	    NSLog(@"No idea what to do with <%s..> - ignoring.%@",p,
+              ((unkPktTypeCount==5) ? @" And won't tell you about it any more" : @""));
+    }
 }
 
 -(void)submit:(const char *)buff withLength:(ssize_t)len 
@@ -436,9 +453,12 @@ error:
     BOOL debugRH = FALSE;
     BOOL logRH = FALSE;
     unsigned int errCnt = 0;
-    
+    unsigned int okCnt = 0;
+ 
     NSLog(@"Listening on fd %d...",fd);
     while(1) {
+        if (okCnt > 30) 
+		errCnt = 0;
         
         if (fd < 0)
             return;
@@ -474,7 +494,7 @@ error:
             
             NSLog(@"Blew a buffer, %@.",
                   (p ? @"scanning to next '#'" : @"resetting"));
-            errCnt++;
+            errCnt++; okCnt = 0;
             
             if (p) {
                 l = p-buff;
@@ -494,12 +514,11 @@ error:
                         NSLog(@"Submit D (%ld bytes)", i);
                         
                     [self submit:buff withLength:i -2 ];
+		    okCnt++;
                     
                     // continue straight after.
                     memcpy(buff,buff+i,l-i);  
                     l -= i;
-                    if (errCnt)
-                        errCnt--;
                     continue;
                 };
                 
@@ -516,9 +535,7 @@ error:
                             NSLog(@"Submit Short S (%u bytes)", i);
                         
                         [self submit:buff withLength:i-2 ];
-
-                        if (errCnt)
-                            errCnt--;
+		    	okCnt++;
                         
                         // continue straight after.
                         memcpy(buff,buff+i,l-i);
@@ -542,9 +559,10 @@ error:
                     if (logRH) 
                         NSLog(@"# .. \\r\\n segment (%ld bytes) submitting",len);
                     [self submit:p withLength:len];
+		    okCnt++;
                 } else {
                     NSLog(@"Skipping to next \\r\\n terminated as no initial '#'.");
-                    errCnt++;
+                    errCnt++; okCnt = 0;
                 };
                 
                 // Skip \r\n and continue just after.
@@ -561,7 +579,7 @@ error:
             
             if (l >= sizeof(buff)-1) {
                 NSLog(@"Blowing complete buffer");
-                errCnt++;
+                errCnt++; okCnt = 0;
                 l = 0;
             };
             

@@ -6,7 +6,6 @@
 // based on the flash/flex code example in BirdEye.org; which is/was
 // under http://www.opensource.org/licenses/mit-license.php.
 //
-//  Created by Dirk-Willem van Gulik on 02/11/2010.
 //  Copyright 2010 webweaving.org. All rights reserved.
 //  License: http://www.opensource.org/licenses/mit-license.php
 

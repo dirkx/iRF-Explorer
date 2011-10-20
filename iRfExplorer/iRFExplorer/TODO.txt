@@ -3,12 +3,15 @@ TODO:
     Check resizing updates
     Legends can go funny on resizes
     Cut & Paste of values / images to documents/excel/LaTeX
+    There is a crash when you switch to a demo device when the pulldown menu updates
 
 PROTOCOL WISHES
 -   Learn min dBm step and freq. span's ranges on the
     wire rather than hardcode. Extra #C reply perhaps.
--   Send a command to the device to 'force' it into scan/measure more.
+    (Verions 1.02 will ignore unkn #..\r\n cleanly.)
+-   Send a command to the device to 'force' it into scan/measure more
+    when it is in a config menu.
 -   Special commend to set the device in remote measure mode
     during which the screen goes blank/unlit and/or keys get blocked.
-
+-   discover RBW from a C#
 
