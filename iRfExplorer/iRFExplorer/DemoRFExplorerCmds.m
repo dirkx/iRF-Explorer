@@ -47,7 +47,7 @@
 -(BOOL)sendCmd:(NSString *)cmd {
     if (fd<0) 
         return FALSE;
-    
+        
     [cmdQue addObject:cmd];
     return true;
 }
@@ -57,6 +57,11 @@
 }
 
 #pragma mark Receive thread - where we fake up our stuff.
+
+-(NSString *)c2String {
+    return [NSString stringWithFormat:@"#C2-F:%07ld,0500000,-000,-100,0100,0,000,0000000,0100000,0100000\r\n",
+            startFreq];
+}
 
 -(void)readerHandler:(id)sender {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -75,9 +80,9 @@
         
         if ([cmdQue count] > 0) 
         {
-            NSString * cmd = [cmdQue objectAtIndex:0];
+            NSString * cmd = [NSString stringWithFormat:[cmdQue objectAtIndex:0]];
             [cmdQue removeObjectAtIndex:0];
-            
+
             bytesRW += [cmd length];
             
             if ([cmd isEqualToString:@"D1"]) {
@@ -89,9 +94,23 @@
             { 
                 spectrumRun = TRUE;
                 [self submitStr:"#C2-M:254,255,00.01\r\n"];
-                [self submitStr:"#C2-F:0000000,1000000,-000,-100,0100,0,000,0000000,0100000,0100000\r\n"];
+                [self submitStr:[[self c2String] UTF8String]];
             } else if ([cmd hasPrefix:@"C2-F"]) { 
-                [self submitStr:"#C2-F:0000000,1000000,-000,-100,0100,0,000,0000000,0100000,0100000\r\n"];
+                const char * p = [cmd UTF8String];
+                long fStartMhz,fStepMhz;
+                long fAmplitudeTop, fAmplitudeBottom, nFreqSpectrumSteps;
+                long fMinFreqMhz, fMaxFreqMhz, fMaxSpanMhz;
+                RF_mode_t eMode;
+                int flag;                
+                sscanf(p+6,"%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld",
+                       &fStartMhz, &fStepMhz, 
+                       &fAmplitudeTop, &fAmplitudeBottom, &nFreqSpectrumSteps,
+                       &flag,
+                       &eMode, &fMinFreqMhz, &fMaxFreqMhz, &fMaxSpanMhz);
+                
+                startFreq = fStartMhz;
+                
+                [self submitStr:[[self c2String] UTF8String]];
             } else if ([cmd isEqualToString:@"CH"]) 
             {
                 spectrumRun = FALSE;
@@ -138,8 +157,7 @@
         //
         NSTimeInterval interval = bytesRW * 8.f / (isSlow ? 2400.f : 500000.f) + 0.092f;
         
-        [NSThread sleepForTimeInterval:interval];    
-        
+        [NSThread sleepForTimeInterval:interval];            
     }; // while read() loop
     
     NSLog(@"serial listener thread exited on fd %d (#%lu)",fd,[self retainCount]);

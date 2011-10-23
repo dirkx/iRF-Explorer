@@ -20,12 +20,14 @@
 //
 
 #import "PreferenceController.h"
+#import "iRFExplorerAppDelegate.h"
 #import "NSStringExtensions.h"
 
 @implementation PreferenceController
 @synthesize slowSpeedButton, deviceSelectionButton;
 @synthesize decayLabel, decaySlider;
 @synthesize avgLabel, avgSlider;
+@synthesize scanStrategyRadioButtons, lingerTimeTextField;
 @synthesize delegate;
 
 -(void)readPreferences {
@@ -33,11 +35,14 @@
     BOOL isSlow = [[[NSUserDefaults standardUserDefaults] valueForKey:@"slowSpeed"] boolValue];
     float decay = [[[NSUserDefaults standardUserDefaults] valueForKey:@"decayValue"] floatValue];
     float avg = [[[NSUserDefaults standardUserDefaults] valueForKey:@"avgValue"] floatValue];
-
+    scan_strategy_t e = [[[NSUserDefaults standardUserDefaults] valueForKey:@"scanStrategy"] intValue];
+    double lingerTime = [[[NSUserDefaults standardUserDefaults] valueForKey:@"lingerTime"] doubleValue];
+                         ;
     [delegate setSettingDeviceTitle:deviceTitle];    
     [delegate setSettingDeviceIsSlow:isSlow];
     [delegate setDecaySpeed:decay];
     [delegate setAvgSpeed:avg];
+    [delegate setScanStrategy:e withLinger:lingerTime];
     
     [delegate changedPreferences];
 }
@@ -77,6 +82,20 @@
         avgSlider.floatValue = [[ud valueForKey:@"avgValue"] floatValue];
     
     [self avgSliderChange:avgSlider];
+
+    scan_strategy_t e = [[[NSUserDefaults standardUserDefaults] valueForKey:@"scanStrategy"] intValue];
+    switch(e) {
+        case SCAN_SLOW: [scanStrategyRadioButtons selectCellAtRow:0 column:0];
+            break;
+        case SCAN_FAST: [scanStrategyRadioButtons selectCellAtRow:1 column:0];
+            break;
+        case SCAN_LINGER: [scanStrategyRadioButtons selectCellAtRow:2 column:0];
+            break;
+    }
+    
+    double lingerTime = [[[NSUserDefaults standardUserDefaults] valueForKey:@"lingerTime"] doubleValue];
+    [lingerTimeTextField setStringValue:[NSString stringFromSeconds:lingerTime 
+                                                          keepShort:YES]];
 
     [super windowDidLoad];
 }
@@ -135,6 +154,39 @@
     [avgLabel setStringValue:[NSString stringFromSeconds:v]];
     
     [delegate setAvgSpeed:v];
+}
+
+-(IBAction)scanStrategyChange:(id)sender {
+    [self lingerTimeChange:self];
+}
+
+-(IBAction)lingerTimeChange:(id)sender {
+    double v = lingerTimeTextField.doubleValue;
+    
+    if ([lingerTimeTextField.stringValue hasSuffix:@"m"])
+        v *= 60.0;
+
+    if ([lingerTimeTextField.stringValue hasSuffix:@"h"])
+        v *= 60 * 60.0;
+
+    // shorten to mins or seconds as needed.
+    //
+    [lingerTimeTextField setStringValue:[NSString stringFromSeconds:v keepShort:YES]];
+
+    scan_strategy_t s;
+    switch (scanStrategyRadioButtons.selectedRow) {
+        case 0: s = SCAN_FAST;
+            break;
+        case 1: s = SCAN_SLOW;
+            break;
+        case 2: s = SCAN_LINGER;
+            break;
+        default:
+            assert(1 == 2);
+            break;
+    }
+
+    [delegate setScanStrategy:s withLinger:v];
 }
 
 - (void) dealloc {

@@ -200,7 +200,7 @@ error:
                             withAmpTop:(float)_fAmplitudeTop
                          withAmpBottom:(float)_fAmplitudeBottom {
     
-    [self sendCmd:[NSString stringWithFormat:@"C2-F:%07d,%007d,%04d,%04d",
+    [self sendCmd:[NSString stringWithFormat:@"C2-F:%07d,%07d,%04d,%04d",
                    (int)(_fStartMhz * 1000.0f),
                    (int)(_fEndMhz   * 1000.0f),
                    (int)_fAmplitudeTop,
@@ -402,7 +402,7 @@ error:
                          withMaxFreq:fMaxFreqMhz / 1000.0f
                         withSpanFreq:fMaxSpanMhz / 1000.0f ];
         
-        if (logPR || TRUE)
+        if (logPR)
             NSLog(@"config details passed:\n"
                   "\tStart:\t%ld KHz\n"
                   "\tStep:\t%ld Hz\n"

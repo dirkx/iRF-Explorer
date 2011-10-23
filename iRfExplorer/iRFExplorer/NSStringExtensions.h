@@ -24,7 +24,13 @@
 @interface NSString (MyExtensions);
 
 +(id)stringWithCString:(const char*)buff withLength:(int)len encoding:(NSStringEncoding)enc;
+
++(id)stringFromAge:(double)seconds keepShort:(BOOL)keepShort;
++(id)stringFromDate:(NSDate *)age keepShort:(BOOL)keepShort;
+
 +(id)stringFromMhz:(float)f;
+
 +(id)stringFromSeconds:(float)seconds;
++(id)stringFromSeconds:(double)f keepShort:(BOOL)keepShort;
 
 @end

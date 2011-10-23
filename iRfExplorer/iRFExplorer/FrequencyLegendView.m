@@ -120,17 +120,7 @@ extern float SOY;
     // Labeling of the axis.
     //
     if (TRUE) {
-        NSString * l = @"frequency (Mhz)";
-        NSDictionary * attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                               // [NSFont fontWithName:@"Helvetica" size:36], NSFontAttributeName,
-                               [NSColor darkGrayColor], NSForegroundColorAttributeName, 
-                               nil];
-        
-        NSSize s = [l sizeWithAttributes:attr];
-        NSPoint center = NSMakePoint(self.bounds.origin.x + (self.bounds.size.width - s.width)/2, 
-                                     self.bounds.origin.y + OS);
-        [l drawAtPoint:center withAttributes:attr];
-    }    
+        }    
     
     // Line first/last tick.
     //

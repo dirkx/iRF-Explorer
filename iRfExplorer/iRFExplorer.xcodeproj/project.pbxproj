@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		32312E7214441E6600488611 /* LCDImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 32312E7114441E6600488611 /* LCDImage.m */; };
 		32312E761444561000488611 /* SpectrumGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32312E751444561000488611 /* SpectrumGraphView.m */; };
+		3236D03B1452CAE700017FD7 /* AveragingNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 3236D03A1452CAE700017FD7 /* AveragingNumber.m */; };
 		32378F7C144F59F80059EAC8 /* ColourMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 32378F7B144F59F80059EAC8 /* ColourMap.m */; };
 		323F4E8F1440293E00FF7998 /* RFExporerCmds.m in Sources */ = {isa = PBXBuildFile; fileRef = 323F4E8E1440293E00FF7998 /* RFExporerCmds.m */; };
 		323F4E9214402B5A00FF7998 /* SerialDevicesPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 323F4E9114402B5A00FF7998 /* SerialDevicesPopUpButton.m */; };
@@ -71,6 +72,8 @@
 		32312E7114441E6600488611 /* LCDImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCDImage.m; sourceTree = "<group>"; };
 		32312E741444561000488611 /* SpectrumGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumGraphView.h; sourceTree = "<group>"; };
 		32312E751444561000488611 /* SpectrumGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpectrumGraphView.m; sourceTree = "<group>"; };
+		3236D0391452CAE700017FD7 /* AveragingNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AveragingNumber.h; sourceTree = "<group>"; };
+		3236D03A1452CAE700017FD7 /* AveragingNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AveragingNumber.m; sourceTree = "<group>"; };
 		32378F7A144F59F80059EAC8 /* ColourMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColourMap.h; sourceTree = "<group>"; };
 		32378F7B144F59F80059EAC8 /* ColourMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColourMap.m; sourceTree = "<group>"; };
 		323F4E8D1440293E00FF7998 /* RFExporerCmds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFExporerCmds.h; sourceTree = "<group>"; };
@@ -173,6 +176,8 @@
 		32591B25144893E10093DDC9 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				3236D0391452CAE700017FD7 /* AveragingNumber.h */,
+				3236D03A1452CAE700017FD7 /* AveragingNumber.m */,
 				323F4E9014402B5A00FF7998 /* SerialDevicesPopUpButton.h */,
 				323F4E9114402B5A00FF7998 /* SerialDevicesPopUpButton.m */,
 				3251BC7614406EC300196405 /* NSStringExtensions.h */,
@@ -415,6 +420,7 @@
 				32FF0C57144C3DE70048FB0F /* DemoRFExplorerCmds.m in Sources */,
 				32ECAC64144E08860055FA06 /* SpectrogramView.m in Sources */,
 				32378F7C144F59F80059EAC8 /* ColourMap.m in Sources */,
+				3236D03B1452CAE700017FD7 /* AveragingNumber.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,7 +525,7 @@
 		32A0D5C5143CEBDF00464DCD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				CODE_SIGN_IDENTITY = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iRFExplorer/iRFExplorer-Prefix.pch";
 				INFOPLIST_FILE = "iRFExplorer/iRFExplorer-Info.plist";

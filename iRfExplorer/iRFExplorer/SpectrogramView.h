@@ -22,6 +22,7 @@
 #import <Cocoa/Cocoa.h>
 #import "Spectrum.h"
 #import "RFExplorer.h"
+#import "AveragingNumber.h"
 
 @interface SpectrogramView : NSView {
     RFExplorer *device;
@@ -32,11 +33,22 @@
     NSDate * floatAge;
     NSUInteger floatHeight;
     NSBitmapImageRep * imageRep;
+    NSMutableArray * values;
+    BOOL showTimeStamp;
+    NSDateFormatter * ndf;
+    double secondsPerLine;
+    NSDate *lastLineScrollDate;
 }
+
 @property (retain) RFExplorer *device;
 @property (retain) NSDate * floatAge;
 @property (retain) NSMutableArray * ages;
 @property (retain) NSMutableArray * agesInSeconds;
+@property (retain) NSMutableArray * values;
+@property (retain) NSDate *lastLineScrollDate;
+
+@property (assign) BOOL showTimeStamp;
+@property (assign) double secondsPerLine;
 
 -(void)addSpectrum:(Spectrum *)newSpectrum;
 

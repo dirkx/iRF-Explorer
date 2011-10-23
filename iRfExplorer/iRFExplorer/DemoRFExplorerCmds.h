@@ -24,7 +24,9 @@
     NSMutableArray * cmdQue;
     BOOL spectrumRun, lcdRun;
     int crashMode;
+    long startFreq;
 }
+
 // rely on default to be atomic.
 @property (retain) NSMutableArray * cmdQue;
 

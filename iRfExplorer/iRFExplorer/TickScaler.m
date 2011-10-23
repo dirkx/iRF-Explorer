@@ -382,9 +382,9 @@ NSArray * baseNiceNumber, *niceNbrs;
 	
 	double dcScore = 0;
     
-	if (scaleInt.dataCoverage > 0.85) // normally lower!
+	if (scaleInt.dataCoverage > 0.90) // normally lower!
 	{
-		dcScore = scaleInt.dataCoverage;	
+		dcScore = scaleInt.dataCoverage * 2;	
 	}
 	else if (scaleInt.dataCoverage > 0.80) // normally lower!
 	{
@@ -392,7 +392,7 @@ NSArray * baseNiceNumber, *niceNbrs;
 	} 
     else 
     {
-        dcScore = -2;
+        dcScore = -1;
     }
 	
 	if (scaleInt.nbrOfTicks > 3*maxNbrOfTicks)

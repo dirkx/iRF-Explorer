@@ -29,6 +29,42 @@
     return [NSString stringWithCString:str encoding:enc];
 }
 
++(id)stringFromAge:(double)seconds keepShort:(BOOL)keepShort {
+    NSDate * d = [NSDate dateWithTimeIntervalSinceNow:-seconds];
+    return [NSString stringFromDate:d keepShort:keepShort];
+}
+
++(id)stringFromSeconds:(double)f keepShort:(BOOL)keepShort {
+    if (f > 1000) {
+        return [NSString stringWithFormat:@"%.0f%@",
+                f / 60, keepShort ? @"m" : @" min"];
+    }
+    if (f > 100) {
+        return [NSString stringWithFormat:@"%.1f%@",
+                f / 60, keepShort ? @"m" : @" min"];
+    }
+    return [NSString stringWithFormat:@"%.1f%@",
+            f, keepShort ? @"s" : @" sec"];
+}
+
++(id)stringFromDate:(NSDate *)age keepShort:(BOOL)keepShort {
+    double f = -[age timeIntervalSinceNow];
+
+    if (f > 3600 * 24 * 4) {
+        NSDateFormatter * ndf = [[NSDateFormatter alloc] init];
+        [ndf setDateStyle:NSDateFormatterShortStyle];
+        [ndf setTimeStyle:NSDateFormatterNoStyle];
+        return [ndf stringFromDate:age];
+    }
+    if (f > 3600 * 4) {
+        NSDateFormatter * ndf = [[NSDateFormatter alloc] init];
+        [ndf setDateStyle:NSDateFormatterNoStyle];
+        [ndf setTimeStyle:NSDateFormatterShortStyle];
+        return [ndf stringFromDate:age];
+    }
+    return [NSString stringFromSeconds:f keepShort:YES];
+}
+
 +(id)stringFromMhz:(float)f {
     NSString * unit = @"Mhz";
     NSString * fmt = @"%.2f %@";

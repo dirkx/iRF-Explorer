@@ -53,13 +53,19 @@
 //
 @synthesize infoBandCenterFreq, infoBandMinFreq, infoBandMaxFreq, infoBandSpanFreq, infoBoardTitle, infoBoardMinFreq, infoBoardMaxFreq, infoAttenTop, infoAttenBott, infoDevFirmware, infoDevMain, infoDevExpansion, infoDevBaudrate;
 @synthesize showMaxButton, showAvgxButton, decayButton;
+@synthesize scanTimer;
 
-// Drawer
-//
+// Drawers
+@synthesize spectogramDrawerView,spectrumDrawerView;
+
+// Drawer Spectrum
 @synthesize centerFreqSlider, centerFreqTextField;
 @synthesize freqSpanSlider, freqSpanTextField;
 @synthesize dbmTopTextField, dbmTopSlider;
 @synthesize dbmBotTextField, dbmBotSlider;
+
+// Drawer Spectrogram
+@synthesize scanSpeedTextField, scanSpeedSlider, showTimestampButton, scanRangeButton;
 
 #pragma mark Startup and application level sundry.
 
@@ -100,6 +106,16 @@
     [drawerView open:(self)];
 #endif
     
+    // ensure drawer has the right content on startup - from hereon it is maintained
+    // (even if closed) by the tab change callback. We need the sensible default
+    // as the callback minimizes the changes for non drawer applicable tabs.
+    self.drawerView.contentView = spectrumDrawerView;
+    [self tabView:mainView didSelectTabViewItem:mainView.selectedTabViewItem];
+
+    [self lineSpeedChanged:nil];
+    [self timeStampOnOff:nil];
+    [self scanRangeOnOff:nil];
+    
 #if 1
     // Detect the ALT key pressed - and activate demo mode
     // if so.
@@ -126,6 +142,75 @@
 	return NSTerminateNow ;
 }
 
+-(void)updateTimers {
+
+    if (scanTimer) {
+        [scanTimer invalidate];
+        self.scanTimer = nil;
+    };
+
+    if (scanRangeButton.state != NSOnState) { 
+        return;
+    }
+
+    double dt;
+    switch(scanStrategy) {
+        case SCAN_SLOW:
+            // Assuming a 1/2 step size in this mode.
+            //
+            dt = linesPerSecond / 2 / (rfExplorer.fMaxSpanMhz / rfExplorer.fSpanMhz);
+            break;
+
+        case SCAN_LINGER:
+            dt = lingerTimeInSeconds;
+            break;
+            
+        case SCAN_FAST:
+            dt = 0.1;   // need to check datasheet - or is this really 3-4 values (or 
+            // just timerless - when one comes in). When we get called we
+            // already have the unit reporting back the new value. So we
+            // can prolly be quite agressive.
+            break;
+    };
+    
+    self.scanTimer = [NSTimer timerWithTimeInterval:dt
+                                             target:self 
+                                           selector:@selector(scan:)
+                                           userInfo:nil 
+                                            repeats:NO ];
+    
+    [[NSRunLoop currentRunLoop] addTimer:scanTimer
+                                 forMode:NSDefaultRunLoopMode];
+}
+
+-(void)scan:(NSTimer *)timer {
+    self.scanTimer = nil;
+    
+    if (scanRangeButton.state == NSOffState)
+        return;
+
+    double c, step = 1.0;
+    if (scanStrategy == SCAN_SLOW) 
+        step = 2.0;
+
+    if (scanDir) 
+        c = rfExplorer.fCenterMhz + rfExplorer.fSpanMhz / step;
+    else
+        c = rfExplorer.fCenterMhz - rfExplorer.fSpanMhz / step;
+    
+    if (c + rfExplorer.fSpanMhz/2 >= rfExplorer.fMaxFreqMhz) {
+        scanDir = FALSE;
+    };
+    
+    if (c - rfExplorer.fSpanMhz/2 <= rfExplorer.fMinFreqMhz) {
+        scanDir = TRUE;
+    };
+    
+    [centerFreqTextField setDoubleValue:c];
+
+    [self setCenterFreqValue:centerFreqTextField];
+}
+
 #pragma mark Prefernces and serial port loss/changes.
 
 -(IBAction)showPreferences:(id)sender{    
@@ -149,6 +234,13 @@
 
 -(void)setAvgSpeed:(float)avgSpeedInSeconds {
     spectrumView.averagingTimeWindowInSeconds = avgSpeedInSeconds;
+}
+
+-(void)setScanStrategy:(NSUInteger)_strategy withLinger:(double)_lingerTimeinSeconds {
+    scanStrategy = (scan_strategy_t) _strategy;
+    lingerTimeInSeconds = _lingerTimeinSeconds;
+    
+    [self updateTimers];
 }
 
 -(void)setAllControls:(BOOL)onOff {
@@ -270,12 +362,13 @@
     
     float min = rfExplorer.fMinFreqMhz + rfExplorer.fSpanMhz/2;
     float max = rfExplorer.fMaxFreqMhz - rfExplorer.fSpanMhz/2;
-    
+
     if (v < min)
             v = min;
+    
     if (v > max)
             v = max;
-
+          
     centerFreqTextField.stringValue = [NSString stringWithFormat:@"%.2f", v];
     
     centerFreqSlider.floatValue = (v - rfExplorer.fMinFreqMhz - rfExplorer.fSpanMhz/2) / r;
@@ -346,6 +439,65 @@
         rfExplorer.fAmplitudeTop = v;
 }
 
+-(IBAction)lineSpeedChanged:(id)sender {
+    double v;
+    if (sender == nil) {
+        v = [(NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"lineSpeed"] doubleValue];
+    }
+    else if (sender == scanSpeedSlider) {
+        v = scanSpeedSlider.doubleValue;
+        v = v*v*v / 1000;
+    } else {
+        v = scanSpeedTextField.doubleValue;
+        if ([scanSpeedTextField.stringValue hasSuffix:@"m"])
+            v *= 60;
+        if ([scanSpeedTextField.stringValue hasSuffix:@"h"])
+            v *= 60*60;
+    }
+    double minSpeed = settingDeviceIsSlow ? 1.0 : 0.1;
+
+    // We cannot go any faster - and prolly should move this into
+    // RFExplorer device and ask it what it can handle.
+    //
+    if (v < minSpeed) 
+        v = minSpeed;
+
+    [scanSpeedSlider setDoubleValue:pow(v * 1000, 1/3.0)];
+    [scanSpeedTextField setStringValue:[NSString stringFromSeconds:v keepShort:YES]];
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithDouble:v] 
+                                             forKey:@"lineSpeed"];
+    
+    linesPerSecond = v;
+    [spectrogramView setSecondsPerLine:v];
+}
+
+-(IBAction)timeStampOnOff:(id)sender {
+    BOOL v = (showTimestampButton.state == NSOnState);
+    
+    if (sender == nil) {
+        v = [(NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"timeStamp"] boolValue];
+        [showTimestampButton setState:(v ? NSOnState : NSOffState)]; 
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:v] 
+                                             forKey:@"timeStamp"];
+       
+    [spectrogramView setShowTimeStamp:v];
+}
+
+-(IBAction)scanRangeOnOff:(id)sender {
+    BOOL v = (scanRangeButton.state == NSOnState);
+    if (sender == nil) {
+        v = [(NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"scanRange"] boolValue];
+        [scanRangeButton setState:(v ? NSOnState : NSOffState)]; 
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:v] 
+                                             forKey:@"scanRange"];
+
+    [self scan:nil];
+}
+
 #pragma mark Live image tab - updating of screen captures.
 
 // Callback from the tab - we are switching between them tabs - and
@@ -354,12 +506,23 @@
 //
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
-    if ([tabView indexOfTabViewItem:tabViewItem] == 0) {
-        [rfExplorer pauseScreen];
-    } else {
+    // Pause/restart live display following.
+    //
+    if ([tabView indexOfTabViewItem:tabViewItem] == 2) {
         if (playing)
             [rfExplorer playScreen];
+    } else {
+        [rfExplorer pauseScreen];
     };
+    
+    // Ensure drawer shows the right thing - acknowledging that
+    // not all Tabs have their own drawer; so in those cases we
+    // leave whatever was there.
+    //    
+    if ([tabView indexOfTabViewItem:tabViewItem] == 0) 
+        self.drawerView.contentView = spectrumDrawerView;
+    if ([tabView indexOfTabViewItem:tabViewItem] == 2) 
+        self.drawerView.contentView = spectogramDrawerView;
 }
 
 -(IBAction)configScreenUpdating:(id)sender {
@@ -443,6 +606,8 @@
     [dbmLegendView setNeedsDisplay:TRUE];
     [spectrumView setNeedsDisplay:TRUE];
     [frequencyLegendView setNeedsDisplay:TRUE];
+    
+    [self updateTimers];
 }
 
 -(void)alertUser:(NSString *)userMsg {
@@ -464,6 +629,7 @@
     [serialDeviceTracker release];
     [settingDeviceTitle release];
     [rfExplorer release];
+    [scanTimer release];
     
     [super dealloc];
 }

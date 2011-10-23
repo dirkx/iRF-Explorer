@@ -4,6 +4,9 @@ TODO:
     Legends can go funny on resizes
     Cut & Paste of values / images to documents/excel/LaTeX
     There is a crash when you switch to a demo device when the pulldown menu updates
+    Mhz labels etc are wrong for kHz kit
+    Weird redraw issue in SpectrogramView (marked XX)
+    specs/datasheet in credits
 
 PROTOCOL WISHES
 -   Learn min dBm step and freq. span's ranges on the

@@ -151,15 +151,16 @@
     float fDesiredStart = _fCenterMhz - fSpanMhz / 2;
     float fDesiredEnd =  _fCenterMhz + fSpanMhz / 2;
     
-    if (fDesiredEnd > fMaxFreqMhz - fSpanMhz / 2) {
+    if (fDesiredEnd > fMaxFreqMhz) {
         fDesiredEnd = fMaxFreqMhz;
         fDesiredStart = fDesiredEnd - fSpanMhz;
     };
-    if (fDesiredStart < fMinFreqMhz + fSpanMhz / 2) {
+    
+    if (fDesiredStart < fMinFreqMhz) {
         fDesiredStart = fMinFreqMhz;
         fDesiredEnd = fDesiredStart + fSpanMhz;
     };
-
+    
     [parser sendCurrentConfigWithStartFreq:fDesiredStart
                                withEndFreq:fDesiredEnd
                                 withAmpTop:fAmplitudeTop

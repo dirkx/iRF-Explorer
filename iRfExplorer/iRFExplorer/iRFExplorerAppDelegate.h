@@ -31,6 +31,10 @@
 #import "SpectrumBackgroundView.h"
 #import "SpectrogramView.h"
 
+typedef enum {
+    SCAN_SLOW, SCAN_FAST, SCAN_LINGER
+} scan_strategy_t;
+
 @interface iRFExplorerAppDelegate : NSObject <NSApplicationDelegate, 
                                        NSTabViewDelegate,
                                        SerialSettingsDelegate, 
@@ -39,7 +43,7 @@
 {
     PreferenceController *preferenceController;
     RFExplorer * rfExplorer;
-    
+
     SerialDeviceTracker *serialDeviceTracker;
 
     NSString *settingDeviceTitle;
@@ -47,7 +51,8 @@
     
     IBOutlet NSTabView *mainView;
     IBOutlet NSDrawer *drawerView;
-    
+    IBOutlet NSWindow *window;
+
     // tab 1 -- main graph display
     IBOutlet NSScrollView *spectrumScollView;
     IBOutlet SpectrumGraphView *spectrumView;
@@ -63,6 +68,10 @@
     
     // Just the spectrogram
     IBOutlet SpectrogramView * spectrogramView;
+    BOOL scanDir;
+    NSTimer * scanTimer;
+    scan_strategy_t scanStrategy;
+    double lingerTimeInSeconds, linesPerSecond;
     
     // tab 4 -- lots of info
     IBOutlet NSTextField *infoBandCenterFreq;
@@ -85,7 +94,11 @@
     IBOutlet NSTextField *expansionLabel;
     IBOutlet NSTextField *deviceLabel;
 
-    // Drawer
+    // Possible content for the drawer
+    IBOutlet NSView * spectogramDrawerView;    
+    IBOutlet NSView * spectrumDrawerView;
+
+    // Drawer for the Spectrum
     IBOutlet NSTextField * centerFreqTextField;
     IBOutlet NSSlider * centerFreqSlider;
     IBOutlet NSTextField * freqSpanTextField;
@@ -97,7 +110,14 @@
     IBOutlet NSButton * showMaxButton;
     IBOutlet NSButton * showAvgxButton;
     IBOutlet NSButton * decayButton;
-    IBOutlet NSWindow *window;
+    
+
+    // Drawer spectogram
+    IBOutlet NSTextField * scanSpeedTextField;
+    IBOutlet NSSlider * scanSpeedSlider;
+    IBOutlet NSButton * showTimestampButton;
+    IBOutlet NSButton * scanRangeButton;
+
 }
 
 @property (retain) IBOutlet NSImageView *liveImageCell;
@@ -127,11 +147,15 @@
 
 // tab 3 - spectrogram
 @property (retain) IBOutlet SpectrogramView * spectrogramView;
+@property (retain) NSTimer * scanTimer;
 
 // tab 4 -- info stuff
 @property (retain) IBOutlet NSTextField *infoBandCenterFreq, *infoBandMinFreq, *infoBandMaxFreq, *infoBandSpanFreq, *infoBoardTitle, *infoBoardMinFreq, *infoBoardMaxFreq, *infoAttenTop,*infoAttenBott,*infoDevFirmware, *infoDevMain, *infoDevExpansion, *infoDevBaudrate;
 
-// Drawer
+@property (retain) IBOutlet NSView * spectogramDrawerView;    
+@property (retain) IBOutlet NSView * spectrumDrawerView;
+
+// Drawer for spectrum
 @property (retain) IBOutlet NSTextField * centerFreqTextField;
 @property (retain) IBOutlet NSSlider * centerFreqSlider;    
 @property (retain) IBOutlet NSTextField * freqSpanTextField;
@@ -144,18 +168,28 @@
 @property (retain) IBOutlet NSButton * showAvgxButton;
 @property (retain) IBOutlet NSButton * decayButton;
 
+// Drawer for spectogram
+@property (retain) IBOutlet NSTextField * scanSpeedTextField;
+@property (retain) IBOutlet NSSlider * scanSpeedSlider;
+@property (retain) IBOutlet NSButton * showTimestampButton;
+@property (retain) IBOutlet NSButton * scanRangeButton;
+
 // Info Tab
 
 -(IBAction)showPreferences:(id)sender; 
 -(IBAction)toggleLiveScreenUpdate:(id)sender;
 -(IBAction)configScreenUpdating:(id)sender;
 
-// Callbacks -- Drawer
+// Callbacks -- Drawer spectrum
 -(IBAction)setCenterFreqValue:(id)sender;
 -(IBAction)setFreqSpanValue:(id)sender;
 -(IBAction)setDbmBotValue:(id)sender;
 -(IBAction)setDbmTopValue:(id)sender;
 -(IBAction)showButtonChange:(id)sender;
+// Callbacks -- Drawer spectogram
+-(IBAction)lineSpeedChanged:(id)sender;
+-(IBAction)timeStampOnOff:(id)sender;
+-(IBAction)scanRangeOnOff:(id)sender;
 
 // Callbacks -- SerialDeviceTracker
 -(void)changeInDevices:(BOOL)deviceAdded 
@@ -164,4 +198,6 @@
 
 // Callback -- Preference Panel
 -(void) changedPreferences;
+-(void)updateTimers;
+-(void)scan:(NSTimer *)timer;
 @end

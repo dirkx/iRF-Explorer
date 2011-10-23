@@ -26,12 +26,13 @@
 
 @protocol SerialSettingsDelegate <NSObject>
 @optional
+-(SerialDeviceTracker*)serialDeviceTracker;
+-(void)changedPreferences;
 -(void)setSettingDeviceTitle:(NSString*)title;
 -(void)setSettingDeviceIsSlow:(BOOL)isSlow;
 -(void)setDecaySpeed:(float)decaySpeedInSeconds;
 -(void)setAvgSpeed:(float)avgSpeedInSeconds;
--(void)changedPreferences;
--(SerialDeviceTracker*)serialDeviceTracker;
+-(void)setScanStrategy:(NSUInteger)e withLinger:(double)lingerTimeinSeconds;
 @end
 
 @interface PreferenceController : NSWindowController {
@@ -42,6 +43,8 @@
     IBOutlet NSSlider *decaySlider;
     IBOutlet NSTextField *avgLabel;
     IBOutlet NSSlider *avgSlider;
+    IBOutlet NSMatrix *scanStrategyRadioButtons;
+    IBOutlet NSTextField *lingerTimeTextField;
 }
 
 @property (assign) id <SerialSettingsDelegate> delegate;
@@ -52,9 +55,13 @@
 @property (retain) IBOutlet NSSlider *decaySlider;
 @property (retain) IBOutlet NSTextField *avgLabel;
 @property (retain) IBOutlet NSSlider *avgSlider;
+@property (retain) IBOutlet NSMatrix *scanStrategyRadioButtons;
+@property (retain) IBOutlet NSTextField *lingerTimeTextField;
 
 // -(void)updateDeviceList:(NSDictionary *)devices;
 -(void)readPreferences;
 -(IBAction)decaySliderChange:(id)sender;
 -(IBAction)avgSliderChange:(id)sender;
+-(IBAction)scanStrategyChange:(id)sender;
+-(IBAction)lingerTimeChange:(id)sender;
 @end
