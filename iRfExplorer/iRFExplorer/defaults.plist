@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>lineSpeed</key>
+	<real>0.1</real>
+	<key>lingerTime</key>
+	<string>25</string>
+	<key>noImages</key>
+	<false/>
+	<key>scanFullRange</key>
+	<false/>
+	<key>scanRange</key>
+	<false/>
+	<key>scanStrategy</key>
+	<true/>
+	<key>showAverage</key>
+	<false/>
+	<key>showDecay</key>
+	<false/>
+	<key>showMax</key>
+	<false/>
+	<key>showTimestamps</key>
+	<false/>
+	<key>slowSpeed</key>
+	<false/>
+	<key>timeStamp</key>
+	<true/>
+	<key>avgValue</key>
+	<integer>5</integer>
+	<key>decayValue</key>
+	<string>3</string>
+</dict>
+</plist>

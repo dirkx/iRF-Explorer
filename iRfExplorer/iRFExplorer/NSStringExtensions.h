@@ -28,9 +28,10 @@
 +(id)stringFromAge:(double)seconds keepShort:(BOOL)keepShort;
 +(id)stringFromDate:(NSDate *)age keepShort:(BOOL)keepShort;
 
-+(id)stringFromMhz:(float)f;
++(id)stringFromHz:(double)f;
 
-+(id)stringFromSeconds:(float)seconds;
++(id)stringFromSeconds:(double)seconds;
 +(id)stringFromSeconds:(double)f keepShort:(BOOL)keepShort;
-
++(double)secondsFromString:(NSString *)s;
+-(NSString*)asLatex;
 @end

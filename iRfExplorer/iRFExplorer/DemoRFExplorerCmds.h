@@ -19,12 +19,17 @@
 // 
 //
 #include "RFExporerCmds.h"
+#import "SCListener.h"
+
 
 @interface DemoRFExplorerCmds : RFExporerCmds {
+    SCListener *scl;
     NSMutableArray * cmdQue;
     BOOL spectrumRun, lcdRun;
     int crashMode;
-    long startFreq;
+    double startFreq, endFreq, botAmp, topAmp;
+    int steps;
+    NSTimer * timer;
 }
 
 // rely on default to be atomic.

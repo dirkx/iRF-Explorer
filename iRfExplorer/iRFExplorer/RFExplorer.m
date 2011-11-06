@@ -23,18 +23,21 @@
 #import "DemoRFExplorerCmds.h"
 
 #import "Spectrum.h"
+NSString const *kDemoPrefix = @"demo";
+NSString const *kDemoAudio = @"demo1";
 
 @implementation RFExplorer
 @synthesize parser;
 
-@synthesize fStartMhz, fStepMhz,
+@synthesize path,
+    fStartHz, fStepHz,
     fAmplitudeSpan, 
     fAmplitudeMin, fAmplitudeMax, fAmplitudeMinSpan, fAmplitudeFullRange,
     nFreqSpectrumSteps, 
-    fEndMhz, fMinSpanMhz,
-    expansionBoardActive,
-    fMinFreqMhz, fMaxFreqMhz, fMaxSpanMhz, fFullRangeMhz,
-    mainBoard, expansionBoard, firmware, commsSpeed;
+    fEndHz, fMinSpanHz,
+    fMinFreqHz, fMaxFreqHz, fMaxSpanHz, fFullRangeHz,
+    mainBoard, expansionBoard, firmware, commsSpeed,
+    connectedTime, configTime, spectrumTime;
 
 -(id)init {
     NSLog(@"Should not be used.");
@@ -42,34 +45,57 @@
     return self;
 }
 
--(id)initWithPath:(NSString *)devPath  withSlowSetting:(BOOL)deviceIsSlow {
+-(id)initWithPath:(NSString *)devPath withSlowSetting:(BOOL)deviceIsSlow withDelegate:(id <RFGUICallbacks>)myDelegate {
 
     self = [super init];
     if (!self)
         return nil;
 
-    assert(parser == nil);
+    path = [devPath retain];
     
-    if ([devPath  hasPrefix:@"demo"]) {
-        parser = [DemoRFExplorerCmds alloc];
+    if ([devPath  hasPrefix:(NSString *)kDemoPrefix]) {
+        parser = [[DemoRFExplorerCmds alloc] initWithPath:devPath withSlowSpeed:deviceIsSlow];
     } else {
-        parser = [RFExporerCmds alloc];
+        parser = [[RFExporerCmds alloc] initWithPath:devPath withSlowSpeed:deviceIsSlow];
     };
 
-    parser = [parser initWithPath:devPath withSlowSpeed:deviceIsSlow];
+    self.delegate = myDelegate;    
     
-    if (parser == nil)
+    if (parser == nil) {
+        self.delegate = nil;
         return nil;
+    };
     
     commsSpeed = deviceIsSlow ? SPEED_2k4 : SPEED_500k;
     
     parser.delegate = self;
 
+    self.connectedTime = [NSDate date];
     return self;
+}
+
+-(void)shutdown {
+    [parser shutdown];
+}
+
+-(void)close {
+    [parser close];
 }
 
 -(id)delegate { 
     return delegate;
+}
+
+-(void)getConfigData {
+    [parser getConfigData];
+}
+
+-(BOOL) hasC2M {
+    return mainBoard != nil;
+}
+
+-(BOOL) hasC2F {
+    return nFreqSpectrumSteps > 0;
 }
 
 -(void)setDelegate:(id <RFGUICallbacks>) _delegate {
@@ -79,27 +105,60 @@
     }    
     // fire off quite to fill out above if possible - but wait 300 mS.
     //
-    [parser performSelector:@selector(getConfigData) 
+    [self performSelector:@selector(getConfigData) 
                  withObject:nil 
                  afterDelay:0.300];   
 }
 
--(void)configWithBoard:(NSString *)_mainBoard
-         withExpansion:(NSString *)_expansionBoard
+
+-(NSString *)numToBoard:(RF_model_t)board {
+    switch (board) {
+        case EXPANSION_433M: 
+            return @"443M"; 
+            break;
+        case EXPANSION_868M: 
+            return @"868M"; 
+            break;
+        case EXPANSION_915M: 
+            return @"915M"; 
+            break;
+        case EXPANSION_WSUB1G: 
+            return @"WSUB1GM"; 
+            break;
+        case EXPANSION_2G4: 
+            return @"2.4GM"; 
+            break;
+        case EXPANSION_DEMO:
+            return @"Emulator";
+            break;
+        case 255: 
+            return nil; 
+            break;
+    }
+    return @"Unkown";
+}
+
+-(void)configWithBoard:(RF_model_t)_mainBoard
+         withExpansion:(RF_model_t)_expansionBoard
           withFirmware:(NSString *)_firmware 
 {
-    mainBoard = [_mainBoard retain];
-    expansionBoard = [_expansionBoard retain];
-    firmware = [_firmware retain];
+    mainBoardModel = _mainBoard;
+    expansionModel = _expansionBoard;
     
+    mainBoard = [[self numToBoard:mainBoardModel] retain];
+    expansionBoard =[[self numToBoard:expansionModel] retain];
+                     
+    firmware = [_firmware retain];
+
     [delegate newBoard:self];
 }
 
 -(void)newData:(NSArray *)arr {
-    Spectrum * s = [[Spectrum alloc] initWithStartFreqMhz:fStartMhz 
-                                        withStepFreqMhz:fStepMhz 
+    Spectrum * s = [[Spectrum alloc] initWithStartFreqHz:fStartHz 
+                                        withStepFreqHz:fStepHz 
                                                withData:arr];
     [delegate newData:s];
+    self.spectrumTime = [NSDate date];
     
     [s release];
 }
@@ -108,19 +167,19 @@
     [delegate newScreen:img];
 }
 
--(void)configWithStartMhz:(float)_fStartMhz
-              withStepMhz:(float)_fStepMhz
+-(void)configWithStartHz:(double)_fStartHz
+              withStepHz:(double)_fStepHz
          withAmplitudeTop:(NSInteger)_fAmplitudeTop
       withAmplitudeBottom:(NSInteger)_fAmplitudeBottom
                 withSteps:(NSUInteger)_nFreqSpectrumSteps
  withExpansionBoardActive:(BOOL)_bExpansionBoardActive
                   witMode:(RF_mode_t)_eMode
-              withMinFreq:(float)_fMinFreqMhz
-              withMaxFreq:(float)_fMaxFreqMhz
-             withSpanFreq:(float)_fSpanFreqMhz
+              withMinFreq:(double)_fMinFreqHz
+              withMaxFreq:(double)_fMaxFreqHz
+             withSpanFreq:(double)_fSpanFreqHz
 {
-    fStartMhz = _fStartMhz;
-    fStepMhz = _fStepMhz;
+    fStartHz = _fStartHz;
+    fStepHz = _fStepHz;
     
     fAmplitudeTop = _fAmplitudeTop ;
     fAmplitudeBottom = _fAmplitudeBottom;
@@ -133,32 +192,103 @@
     
     nFreqSpectrumSteps = _nFreqSpectrumSteps;
     
-    fMinFreqMhz = _fMinFreqMhz;
-    fMaxFreqMhz = _fMaxFreqMhz;
-    fMaxSpanMhz = _fSpanFreqMhz;
-    fMinSpanMhz = _bExpansionBoardActive == EXPANSION_2G4 ? 2000.0f : 0.112f;
-    fFullRangeMhz = _fMaxFreqMhz - _fMinFreqMhz;
+    fMinFreqHz = _fMinFreqHz;
+    fMaxFreqHz = _fMaxFreqHz;
+    fMaxSpanHz = _fSpanFreqHz;
+    switch ([self activeModel]) {
+        case EXPANSION_2G4:    
+            fMinSpanHz = 2e6f;
+            break;
+        case EXPANSION_DEMO:
+            fMinSpanHz = 250.0;
+            break;
+        default:
+           fMinSpanHz = 1.12e5f; // 2MHz, 112kHz - see spec link above.
+            break;
+    }
+    fFullRangeHz = _fMaxFreqHz - _fMinFreqHz;
     
-    fSpanMhz = fStepMhz * nFreqSpectrumSteps;
-    fEndMhz = fStartMhz + fSpanMhz;
-    fCenterMhz = fStartMhz + fSpanMhz / 2;
+    fSpanHz = fStepHz * nFreqSpectrumSteps;
+    fEndHz = fStartHz + fSpanHz;
+    fCenterHz = fStartHz + fSpanHz / 2;
     
     expansionBoardActive = _bExpansionBoardActive;
+
+    self.configTime = [NSDate date];
+
     [delegate newConfig:self];
 }
 
--(void)setFCenterMhz:(float)_fCenterMhz {
-    float fDesiredStart = _fCenterMhz - fSpanMhz / 2;
-    float fDesiredEnd =  _fCenterMhz + fSpanMhz / 2;
+-(void)setExpansionBoardActive:(BOOL)newState {
+//    [parser sendBoardConfig:newState];
+}
+
+-(BOOL)expansionBoardActive {
+    return expansionBoardActive;
+}
+
+-(RF_model_t) activeModel {
+    if (!self.hasC2M || !self.hasC2F)
+        return 255;
     
-    if (fDesiredEnd > fMaxFreqMhz) {
-        fDesiredEnd = fMaxFreqMhz;
-        fDesiredStart = fDesiredEnd - fSpanMhz;
+    return expansionBoardActive ? expansionModel : mainBoardModel;
+}
+
+-(NSString *) activeBoard {
+    if (!self.hasC2M || !self.hasC2F)
+        return @"unknown";
+    
+    return expansionBoardActive ? expansionBoard : mainBoard;
+}
+
+-(BOOL) hasExpansionBoard {
+    return expansionBoard != nil;
+}
+
+#pragma mark Control functions
+
+// we do not update CenterHz et.al. right away - but wait for
+// above command to take hold and sent us back the actual
+// settings the device has taken - and use those. In fact
+// none of those updates anything. So we always return the
+// actual config.
+
+-(void)setAmpRangeFrom:(double)bottom to:(double)top {
+    if (top > fAmplitudeMax)
+        top = fAmplitudeMax;
+    if (bottom < fAmplitudeMin)
+        bottom = fAmplitudeMin;
+    
+    [parser sendCurrentConfigWithStartFreq:fStartHz
+                               withEndFreq:fEndHz
+                                withAmpTop:top
+                             withAmpBottom:bottom];    
+}
+
+-(void)setFreqRangeFrom:(double)bottom to:(double)top {
+    if (bottom < fMinFreqHz)
+        bottom = fMinFreqHz;
+    if (top > fMaxFreqHz)
+        top = fMaxFreqHz;
+    [parser sendCurrentConfigWithStartFreq:bottom
+                               withEndFreq:top
+                                withAmpTop:fAmplitudeTop
+                             withAmpBottom:fAmplitudeBottom];
+
+}
+
+-(void)setFCenterHz:(double)_fCenterHz {
+    double fDesiredStart = _fCenterHz - fSpanHz / 2;
+    double fDesiredEnd =  _fCenterHz + fSpanHz / 2;
+    
+    if (fDesiredEnd > fMaxFreqHz) {
+        fDesiredEnd = fMaxFreqHz;
+        fDesiredStart = fDesiredEnd - fSpanHz;
     };
     
-    if (fDesiredStart < fMinFreqMhz) {
-        fDesiredStart = fMinFreqMhz;
-        fDesiredEnd = fDesiredStart + fSpanMhz;
+    if (fDesiredStart < fMinFreqHz) {
+        fDesiredStart = fMinFreqHz;
+        fDesiredEnd = fDesiredStart + fSpanHz;
     };
     
     [parser sendCurrentConfigWithStartFreq:fDesiredStart
@@ -166,35 +296,32 @@
                                 withAmpTop:fAmplitudeTop
                              withAmpBottom:fAmplitudeBottom];
     
-    // we do not update CenterMhz right away - but wait for
-    // above command to take hold and sent us back the actual
-    // settings the device has taken - and use those.
 }
 
--(float)fCenterMhz { 
-    return fCenterMhz; 
+-(double)fCenterHz { 
+    return fCenterHz; 
 }
 
--(void)setFSpanMhz:(float)_fDesiredSpanMhz {
+-(void)setFSpanHz:(double)_fDesiredSpanHz {
     
-    if (fStartMhz + _fDesiredSpanMhz > fMaxFreqMhz) {
-        fStartMhz = fMaxFreqMhz - _fDesiredSpanMhz;
+    if (fStartHz + _fDesiredSpanHz > fMaxFreqHz) {
+        fStartHz = fMaxFreqHz - _fDesiredSpanHz;
     }
-    if (fStartMhz < fMinFreqMhz) {
-        fStartMhz = fMinFreqMhz;
+    if (fStartHz < fMinFreqHz) {
+        fStartHz = fMinFreqHz;
     }
-    [parser sendCurrentConfigWithStartFreq:fStartMhz
-                               withEndFreq:fStartMhz + _fDesiredSpanMhz
+    [parser sendCurrentConfigWithStartFreq:fStartHz
+                               withEndFreq:fStartHz + _fDesiredSpanHz
                                 withAmpTop:fAmplitudeTop
                              withAmpBottom:fAmplitudeBottom];    
 }
 
--(float)fSpanMhz {
-    return fSpanMhz;
+-(double)fSpanHz {
+    return fSpanHz;
 }
 
--(void)setFAmplitudeBottom:(float)bot {
-    float top = fAmplitudeMax;
+-(void)setFAmplitudeBottom:(double)bot {
+    double top = fAmplitudeMax;
     
     if (bot > top)
         top = bot + fAmplitudeSpan;
@@ -205,18 +332,18 @@
     if (bot + fAmplitudeMinSpan > top)
         bot = top -fAmplitudeMinSpan;
     
-    [parser sendCurrentConfigWithStartFreq:fStartMhz
-                               withEndFreq:fStartMhz + fSpanMhz 
+    [parser sendCurrentConfigWithStartFreq:fStartHz
+                               withEndFreq:fStartHz + fSpanHz 
                                 withAmpTop:top
                              withAmpBottom:bot];       
 }
 
--(float)fAmplitudeBottom {
+-(double)fAmplitudeBottom {
     return fAmplitudeBottom;
 }
 
--(void)setFAmplitudeTop:(float)top {
-    float bot = fAmplitudeBottom;
+-(void)setFAmplitudeTop:(double)top {
+    double bot = fAmplitudeBottom;
     
     if (top < bot) 
         bot = top - fAmplitudeSpan;
@@ -227,13 +354,13 @@
     if (top < bot + fAmplitudeMinSpan)
         top = bot + fAmplitudeMinSpan;
     
-    [parser sendCurrentConfigWithStartFreq:fStartMhz
-                               withEndFreq:fStartMhz + fSpanMhz 
+    [parser sendCurrentConfigWithStartFreq:fStartHz
+                               withEndFreq:fStartHz + fSpanHz 
                                 withAmpTop:top
                              withAmpBottom:bot];       
 }
 
--(float)fAmplitudeTop {
+-(double)fAmplitudeTop {
     return fAmplitudeTop;
 }
 
@@ -291,19 +418,20 @@
 }
 
 -(void)dealloc {
-    NSLog(@"%@ dealloc",self.className);
-
-    [parser halt];
+    [parser close];
     
-    // Something over releases/has already released the parser. XXX Bug !
-    // see note in dealloc of RFExporerCmds. Not understanding this.
-    //
-    // [parser release];
+    // Leak - but if we fix it - we crash...
+    [parser release];
     
     [mainBoard release];
     [expansionBoard release];
     [firmware release];
-    
+    [path release];
+
+    self.connectedTime = nil;
+    self.configTime = nil;
+    self.spectrumTime = nil;
+
     [super dealloc];
 }
 @end

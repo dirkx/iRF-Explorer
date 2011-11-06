@@ -23,6 +23,8 @@
 #import <Cocoa/Cocoa.h>
 
 #import "SerialDevicesPopUpButton.h"
+#import "PreferenceConstants.h"
+
 
 @protocol SerialSettingsDelegate <NSObject>
 @optional

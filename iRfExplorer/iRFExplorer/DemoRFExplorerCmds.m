@@ -22,9 +22,15 @@
 
 #import "NSStringExtensions.h"
 #import "LCDImage.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @implementation DemoRFExplorerCmds
 @synthesize cmdQue;
+
+// experimentally found value - makes standard mic on an
+// MBA sorta look Ok when talking at normal volume.
+//
+double const kGAIN = 0.31;
 
 #pragma mark init and related sundry such as thread kickoff.
 
@@ -36,10 +42,19 @@
     fd = 1;
     crashMode = [[_path substringWithRange:NSMakeRange(4, 1)] intValue];
     
-    [NSThread detachNewThreadSelector:@selector(readerHandler:) toTarget:self withObject:self]; 
+    startFreq = 200;
+    endFreq =   kSAMPLERATE / 4;
+    steps = 100;
     
-    NSLog(@"Started %@ in %@ mode and %d bps", 
-          self.className, crashMode ? @"crashy" : @"normal", isSlow ? 2400 : 500000);
+    // complete lie - we just picked something which sora looked OK.
+    botAmp = -120;
+    topAmp = -1;
+    
+    scl = [SCListener sharedListener];
+    
+    [NSThread detachNewThreadSelector:@selector(readerHandler:) 
+                             toTarget:self 
+                           withObject:nil]; 
     
     return self;
 }
@@ -57,10 +72,14 @@
 }
 
 #pragma mark Receive thread - where we fake up our stuff.
-
 -(NSString *)c2String {
-    return [NSString stringWithFormat:@"#C2-F:%07ld,0500000,-000,-100,0100,0,000,0000000,0100000,0100000\r\n",
-            startFreq];
+    return [NSString stringWithFormat:@"#C2-F:%07ld,%07d,-%03.0f,-%03.0f,%04d,0,000,0000000,0000012,00000012\r\n",
+            (long)floor(startFreq/1000.f),
+            (long)floor((endFreq-startFreq)/steps), 
+            -topAmp,
+            -botAmp,
+            steps
+            ];
 }
 
 -(void)readerHandler:(id)sender {
@@ -68,7 +87,7 @@
     
     lcdRun = spectrumRun = FALSE;
     
-    NSLog(@"%@: Listening on fd %d...",self.className, fd);
+    // NSLog(@"%@: Listening on fd %d...",self.className, fd);
     while(1)
     {
         char buff[1024];
@@ -93,27 +112,29 @@
             } else if ([cmd isEqualToString:@"C0"]) 
             { 
                 spectrumRun = TRUE;
+                [scl listen];
                 [self submitStr:"#C2-M:254,255,00.01\r\n"];
                 [self submitStr:[[self c2String] UTF8String]];
+                
             } else if ([cmd hasPrefix:@"C2-F"]) { 
                 const char * p = [cmd UTF8String];
-                long fStartMhz,fStepMhz;
-                long fAmplitudeTop, fAmplitudeBottom, nFreqSpectrumSteps;
-                long fMinFreqMhz, fMaxFreqMhz, fMaxSpanMhz;
-                RF_mode_t eMode;
-                int flag;                
-                sscanf(p+6,"%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld",
-                       &fStartMhz, &fStepMhz, 
-                       &fAmplitudeTop, &fAmplitudeBottom, &nFreqSpectrumSteps,
-                       &flag,
-                       &eMode, &fMinFreqMhz, &fMaxFreqMhz, &fMaxSpanMhz);
-                
-                startFreq = fStartMhz;
+                long fAmplitudeTop, fAmplitudeBottom;
+                long startFreqKhz, endFreqKhz;
+
+                sscanf(p+6,"%ld,%ld,%ld,%ld",
+                       &startFreqKhz, &endFreqKhz, 
+                       &fAmplitudeTop, &fAmplitudeBottom);
+                                
+                startFreq = 1000.f * startFreqKhz;
+                endFreq =  1000.f * endFreqKhz;
+                topAmp = (int)fAmplitudeTop;
+                botAmp = (int)fAmplitudeBottom;
                 
                 [self submitStr:[[self c2String] UTF8String]];
             } else if ([cmd isEqualToString:@"CH"]) 
             {
                 spectrumRun = FALSE;
+                [scl pause];
             } else 
             {
                 NSLog(@"Ignoring command '%@'", cmd);
@@ -121,20 +142,56 @@
         };
         
         if (spectrumRun) {
-            const int N = 100;
+            memset(buff,255,steps+3);
             buff[0]='$';
             buff[1]='S';
-            buff[2]=N;
-            
+            buff[2]=steps;
             // we obviously ought to read this off the microphone and FFT it :)
-            double z = [NSDate timeIntervalSinceReferenceDate]/3.0;
-            for(int i = 0; i < N; i++) {
-                float v = -70 + 20*sin(i/30.0 + z) + (rand() &0xF);
-                buff[i+3] = -v * 2;
-            };
-            len = 3+N;
-            [self submit:buff withLength:len];
+            //
+            [scl frequency]; // Have to all this -- as otherwise we get no FFT done.
+            [[SCListener sharedListener] frequency];
+
+            int fftN = kFFTSIZE / 2;
+            double fftMin = 0;
+            double fftRange = kSAMPLERATE / 2;
+            double fftSpan = fftRange / fftN;
+            double spanRage = endFreq - startFreq;
+            double bwidth = spanRage / steps;
             
+            for(int i = 0; i < steps; i++) {
+                double f = startFreq + i * bwidth;
+                
+                int j = (f - fftMin) / fftSpan;
+                double v = 0; int n = 0;
+                
+                while(j < fftN) {
+                    v += [scl freq_db][j];
+                    j++; n++;
+                    
+                    double ff = fftMin + j * fftSpan;
+                    if (ff >= f + bwidth)
+                        break;
+                }
+
+                if (n == 0)
+                    continue;
+                v /= n;
+                
+                // Calculate to device space. We do a bit
+                // of divide to get into a somewhat sensible
+                // range;
+                v = -120 + v*kGAIN;
+
+                if (v <= botAmp)
+                    continue;
+                if (v >= topAmp)
+                    v = topAmp;
+                
+                buff[i+3] = (unsigned char)((127 - v) * 2);
+            }                
+            
+            len = 3+steps;
+            [self submit:buff withLength:len];
             bytesRW += len;
         }
         
@@ -155,21 +212,22 @@
         // sleep to mimic 500k/2400 baud speeds and the 0.03-6 delay we seem to
         // observe in practice for any type of turn around.
         //
-        NSTimeInterval interval = bytesRW * 8.f / (isSlow ? 2400.f : 500000.f) + 0.092f;
+        NSTimeInterval interval = bytesRW * 8.f / (isSlow ? 2400.f : 500000.f) + 0.2f;
         
         [NSThread sleepForTimeInterval:interval];            
     }; // while read() loop
     
-    NSLog(@"serial listener thread exited on fd %d (#%lu)",fd,[self retainCount]);
+    // NSLog(@"serial listener thread exited on fd %d (#%lu)",fd,[self retainCount]);
 
     [pool release];
+    [NSThread exit];
 };
 
 -(void)dealloc {
-    NSLog(@"%@ -- dealloc at demo level", self.className);
-
-    self.cmdQue = nil;
+    if (spectrumRun)
+        [scl stop];
     
+    self.cmdQue = nil;
     [super dealloc];
 }
 

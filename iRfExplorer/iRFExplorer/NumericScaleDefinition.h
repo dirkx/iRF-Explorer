@@ -24,7 +24,7 @@
 
 @interface NumericScaleDefinition : NSObject {
 	double min, max, diff, niceNbrScore;
-	int nbrOfTicks;
+	int nbrOfTicks, subTickCount;
 	BOOL includesZero;
 	double dataCoverage;
 }
@@ -33,7 +33,7 @@
 @property (assign) double max;
 @property (assign) double diff;
 @property (assign) double niceNbrScore;
-@property (assign) int nbrOfTicks;
+@property (assign) int nbrOfTicks, subTickCount;
 @property (assign) BOOL includesZero;
 @property (assign) double dataCoverage;
 
@@ -42,9 +42,11 @@
 	     withDiff:(double)_diff
  withNiceNbrScore:(double)_niceNbrScore
    withNbrOfTicks:(int)_nbrOfTicks
+ withSubTickCount:(double)_subCount
 	 includesZero:(BOOL)_includesZero
  withDataCoverage:(double)_dataCoverage;
 
 -(NSArray *)ticks;
+-(NSArray *)subTicks;
 
 @end

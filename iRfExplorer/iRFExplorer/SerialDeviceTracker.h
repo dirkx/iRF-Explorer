@@ -23,7 +23,7 @@
 #include <IOKit/serial/IOSerialKeys.h>
 
 #ifndef SERIALTYPE
-#  if 0
+#  if 1
 #    define SERIALTYPE kIOSerialBSDRS232Type /* Normal Serial ports */
 #  else
 #    define SERIALTYPE kIOSerialBSDAllTypes /* Antying serial - inc. things like modems */
@@ -45,7 +45,7 @@
     NSMutableDictionary * devices;
 }
 
-@property (retain) NSMutableDictionary * devices;
+@property (retain) NSDictionary * devices;
 @property (assign) id <SerialDeviceTrackerDelegate> delegate;
 
 // Rescan all serial ports.

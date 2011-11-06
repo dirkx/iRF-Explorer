@@ -20,7 +20,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "svnrevision.h"
 #import "PreferenceController.h"
 #import "SerialDeviceTracker.h"
 #import "RFExporerCmds.h"
@@ -28,23 +28,28 @@
 #import "FrequencyLegendView.h"
 #import "dBmLegendView.h"
 #import "RFExplorer.h"
-#import "SpectrumBackgroundView.h"
+#import "SpectrumView.h"
 #import "SpectrogramView.h"
+#import "ConfigView.h"
+#import "FrequencyTextFieldSliderView.h"
+#import "TimePeriodTextFieldSliderView.h"
+#import "SignalTextFieldSliderView.h"
+#import "SpectrumDrawerView.h"
+#import "SpectrogramDrawerView.h"
+#import "SpectrogramGraphView.h"
+#import "StopPauseView.h"
 
-typedef enum {
-    SCAN_SLOW, SCAN_FAST, SCAN_LINGER
-} scan_strategy_t;
 
 @interface iRFExplorerAppDelegate : NSObject <NSApplicationDelegate, 
+                                       // NSWindowDelegate,
                                        NSTabViewDelegate,
                                        SerialSettingsDelegate, 
                                        SerialDeviceTrackerDelegate,
                                        RFGUICallbacks> 
 {
     PreferenceController *preferenceController;
-    RFExplorer * rfExplorer;
-
     SerialDeviceTracker *serialDeviceTracker;
+    RFExplorer * rfExplorer;
 
     NSString *settingDeviceTitle;
     BOOL settingDeviceIsSlow;
@@ -52,15 +57,16 @@ typedef enum {
     IBOutlet NSTabView *mainView;
     IBOutlet NSDrawer *drawerView;
     IBOutlet NSWindow *window;
+    
 
     // tab 1 -- main graph display
+    IBOutlet SpectrumView * spectrumView;
     IBOutlet NSScrollView *spectrumScollView;
-    IBOutlet SpectrumGraphView *spectrumView;
-    IBOutlet FrequencyLegendView *frequencyLegendView;
-    IBOutlet dBmLegendView * dbmLegendView;
-    IBOutlet SpectrumBackgroundView * spectrumBackgroundView;
+    IBOutlet SpectrumGraphView *spectrumGraphView;
+    IBOutlet StopPauseView *spectrumStopPauseView;
     
     // tab 2 -- plays live screen captures
+    IBOutlet SomeTabView *screenTabView;
     IBOutlet NSImageView *liveImageCell;
     IBOutlet NSButton *liveButton;
     IBOutlet NSTextField *pausedLabel;
@@ -68,136 +74,82 @@ typedef enum {
     
     // Just the spectrogram
     IBOutlet SpectrogramView * spectrogramView;
-    BOOL scanDir;
-    NSTimer * scanTimer;
-    scan_strategy_t scanStrategy;
-    double lingerTimeInSeconds, linesPerSecond;
+    IBOutlet SpectrogramGraphView * spectrogramGraphView;
+    IBOutlet StopPauseView *spectrogramStopPauseView;
     
     // tab 4 -- lots of info
-    IBOutlet NSTextField *infoBandCenterFreq;
-    IBOutlet NSTextField *infoBandMinFreq;
-    IBOutlet NSTextField *infoBandMaxFreq;
-    IBOutlet NSTextField *infoBandSpanFreq;
-    IBOutlet NSTextField *infoBoardTitle;
-    IBOutlet NSTextField *infoBoardMinFreq;
-    IBOutlet NSTextField *infoBoardMaxFreq;
-    IBOutlet NSTextField *infoAttenTop;
-    IBOutlet NSTextField *infoAttenBott;
-    IBOutlet NSTextField *infoDevFirmware;
-    IBOutlet NSTextField *infoDevMain;
-    IBOutlet NSTextField *infoDevExpansion;
-    IBOutlet NSTextField *infoDevBaudrate;
+    IBOutlet ConfigView *configTabView;
     
     // bottom bar - just some status info
     IBOutlet NSTextField *firmwareLabel;
     IBOutlet NSTextField *boardLabel;
     IBOutlet NSTextField *expansionLabel;
-    IBOutlet NSTextField *deviceLabel;
-
-    // Possible content for the drawer
-    IBOutlet NSView * spectogramDrawerView;    
-    IBOutlet NSView * spectrumDrawerView;
-
-    // Drawer for the Spectrum
-    IBOutlet NSTextField * centerFreqTextField;
-    IBOutlet NSSlider * centerFreqSlider;
-    IBOutlet NSTextField * freqSpanTextField;
-    IBOutlet NSSlider * freqSpanSlider;
-    IBOutlet NSTextField * dbmTopTextField;
-    IBOutlet NSSlider * dbmTopSlider;
-    IBOutlet NSTextField * dbmBotTextField;
-    IBOutlet NSSlider * dbmBotSlider;
-    IBOutlet NSButton * showMaxButton;
-    IBOutlet NSButton * showAvgxButton;
-    IBOutlet NSButton * decayButton;
+    // IBOutlet NSTextField *deviceLabel;
+    // IBOutlet NSMatrix *boardSwitch;
     
-
-    // Drawer spectogram
-    IBOutlet NSTextField * scanSpeedTextField;
-    IBOutlet NSSlider * scanSpeedSlider;
-    IBOutlet NSButton * showTimestampButton;
-    IBOutlet NSButton * scanRangeButton;
-
+    // Possible content for the drawer
+    IBOutlet SpectrogramDrawerView * spectogramDrawerView;    
+    IBOutlet SpectrumDrawerView * spectrumDrawerView;
 }
 
-@property (retain) IBOutlet NSImageView *liveImageCell;
-@property (retain) IBOutlet NSButton *liveButton;
-@property (retain) IBOutlet NSTextField *pausedLabel;
-
-@property (retain) IBOutlet NSScrollView *spectrumScollView;
-@property (retain) IBOutlet NSView *spectrumView;
-@property (retain) IBOutlet FrequencyLegendView * frequencyLegendView;
-@property (retain) IBOutlet dBmLegendView * dbmLegendView;
-@property (retain) IBOutlet SpectrumBackgroundView * spectrumBackgroundView;
-
-@property (assign) IBOutlet NSWindow *window;
-@property (assign) IBOutlet NSDrawer *drawerView;
-
 @property (assign) IBOutlet NSTabView *mainView;
+@property (assign) IBOutlet NSWindow *window;
 
-@property (retain) IBOutlet NSTextField *firmwareLabel;
-@property (retain) IBOutlet NSTextField *boardLabel;
-@property (retain) IBOutlet NSTextField *expansionLabel;
-@property (retain) IBOutlet NSTextField *deviceLabel;
+// Drawers
+@property (assign) IBOutlet NSDrawer *drawerView;
+@property (assign) IBOutlet SpectrogramDrawerView * spectogramDrawerView;    
+@property (assign) IBOutlet SpectrumDrawerView * spectrumDrawerView;
 
-@property (retain) NSString *settingDeviceTitle;
-@property (assign) BOOL settingDeviceIsSlow;
+// Bottom bar
+@property (assign) IBOutlet NSTextField *firmwareLabel;
+@property (assign) IBOutlet NSTextField *boardLabel;
+@property (assign) IBOutlet NSTextField *expansionLabel;
 
-@property (retain) SerialDeviceTracker *serialDeviceTracker;
+// Tab 1
+@property (assign) IBOutlet SpectrumView * spectrumView;
+@property (assign) IBOutlet NSView *spectrumGraphView;
+@property (assign) IBOutlet StopPauseView *spectrumStopPauseView;
+
+// Tab 2
+@property (assign) IBOutlet SomeTabView *screenTabView;
+@property (assign) IBOutlet NSImageView *liveImageCell;
+@property (assign) IBOutlet NSButton *liveButton;
+@property (assign) IBOutlet NSTextField *pausedLabel;
+
 
 // tab 3 - spectrogram
-@property (retain) IBOutlet SpectrogramView * spectrogramView;
-@property (retain) NSTimer * scanTimer;
+@property (assign) IBOutlet SpectrogramView * spectrogramView;
+@property (assign) IBOutlet SpectrogramGraphView * spectrogramGraphView;
+@property (assign) IBOutlet StopPauseView *spectrogramStopPauseView;
 
-// tab 4 -- info stuff
-@property (retain) IBOutlet NSTextField *infoBandCenterFreq, *infoBandMinFreq, *infoBandMaxFreq, *infoBandSpanFreq, *infoBoardTitle, *infoBoardMinFreq, *infoBoardMaxFreq, *infoAttenTop,*infoAttenBott,*infoDevFirmware, *infoDevMain, *infoDevExpansion, *infoDevBaudrate;
+// tab 4 - info
+@property (assign) IBOutlet ConfigView *configTabView;
 
-@property (retain) IBOutlet NSView * spectogramDrawerView;    
-@property (retain) IBOutlet NSView * spectrumDrawerView;
+// Other sundry.
+@property (retain) NSString *settingDeviceTitle;
+@property (assign) BOOL settingDeviceIsSlow;
+@property (retain) SerialDeviceTracker *serialDeviceTracker;
 
-// Drawer for spectrum
-@property (retain) IBOutlet NSTextField * centerFreqTextField;
-@property (retain) IBOutlet NSSlider * centerFreqSlider;    
-@property (retain) IBOutlet NSTextField * freqSpanTextField;
-@property (retain) IBOutlet NSSlider * freqSpanSlider;
-@property (retain) IBOutlet NSTextField * dbmTopTextField;
-@property (retain) IBOutlet NSSlider * dbmTopSlider;
-@property (retain) IBOutlet NSTextField * dbmBotTextField;
-@property (retain) IBOutlet NSSlider * dbmBotSlider;
-@property (retain) IBOutlet NSButton * showMaxButton;
-@property (retain) IBOutlet NSButton * showAvgxButton;
-@property (retain) IBOutlet NSButton * decayButton;
-
-// Drawer for spectogram
-@property (retain) IBOutlet NSTextField * scanSpeedTextField;
-@property (retain) IBOutlet NSSlider * scanSpeedSlider;
-@property (retain) IBOutlet NSButton * showTimestampButton;
-@property (retain) IBOutlet NSButton * scanRangeButton;
+// About window - as we show our SVN revision string
+-(IBAction)showCustomAboutPanel:(id)sender;
 
 // Info Tab
-
 -(IBAction)showPreferences:(id)sender; 
 -(IBAction)toggleLiveScreenUpdate:(id)sender;
 -(IBAction)configScreenUpdating:(id)sender;
 
-// Callbacks -- Drawer spectrum
--(IBAction)setCenterFreqValue:(id)sender;
--(IBAction)setFreqSpanValue:(id)sender;
--(IBAction)setDbmBotValue:(id)sender;
--(IBAction)setDbmTopValue:(id)sender;
--(IBAction)showButtonChange:(id)sender;
-// Callbacks -- Drawer spectogram
--(IBAction)lineSpeedChanged:(id)sender;
--(IBAction)timeStampOnOff:(id)sender;
--(IBAction)scanRangeOnOff:(id)sender;
+// Callbacks - switch bottom main window
+-(IBAction)changeBoard:(id)sender;
 
 // Callbacks -- SerialDeviceTracker
 -(void)changeInDevices:(BOOL)deviceAdded 
              withTitle:(NSString*)title 
               withPath:(NSString*)path;
 
+-(IBAction)togglePausePlay:(id)sender;
+
+-(IBAction)newDocument:(id)sender;
+
 // Callback -- Preference Panel
 -(void) changedPreferences;
--(void)updateTimers;
--(void)scan:(NSTimer *)timer;
 @end

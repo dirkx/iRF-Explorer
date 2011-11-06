@@ -21,10 +21,11 @@
 
 #import "dBmLegendView.h"
 #import "StringScaleDefinition.h"
+#import "SpectrumGraphView.h"
 #import "TickScaler.h"
 
 @implementation dBmLegendView
-@synthesize ticks, graphView;
+@synthesize ticks;
 
 -(RFExplorer *)device { 
     return device; 
@@ -65,16 +66,18 @@
     NSRect rect = self.bounds;
     NSRect graphRect = graphView.bounds;
     
+    if (device == nil || [self.ticks count] == 0)
+        return;
+
     // NSLog(@"drawRect of %@", self.className);
     
-    const float kMargin = 4;
- 
+    const float kMargin = 4; 
     
     NSGraphicsContext * nsGraphicsContext = [NSGraphicsContext currentContext];
     CGContextRef cref = (CGContextRef) [nsGraphicsContext graphicsPort];
     
     if (FALSE) {
-        CGContextSetRGBFillColor (cref, 1,1,1,1);
+        CGContextSetRGBFillColor (cref, 1,0,1,1);
         CGContextFillRect (cref, rect);
     };
     
@@ -85,12 +88,13 @@
         
     float height = graphRect.size.height;
     
-    float sy = 0.90 * height;
+    float sy = height - SOY;
     float Sy = sy / device.fAmplitudeSpan;
 
-    float oy = rect.origin.y + rect.size.height - 0.95 * height + dy;
+    float oy = rect.origin.y + rect.size.height - height + dy + SOY/2;
     float ox = rect.size.width + rect.origin.x - 2*kMargin;
     
+    // Main vertical line.
     CGContextSetLineWidth(cref, 1.0);
     CGContextSetRGBStrokeColor(cref, 0.4,0,0,1);
 
@@ -119,7 +123,7 @@
     CGContextStrokeLineSegments(cref, l1, 2 );
     
 
-    CGContextSetRGBStrokeColor(cref, 0,0,0.4,1);
+    CGContextSetRGBStrokeColor(cref, 0,0,0,1);
 
     // Vertical line may be longer if the tick range is rounded
     // to a value just outside the actual data range. But we do

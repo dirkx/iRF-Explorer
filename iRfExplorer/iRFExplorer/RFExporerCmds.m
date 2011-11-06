@@ -41,6 +41,10 @@
 }
 
 - (id)initWithPath:(NSString *)_path withSlowSpeed:(BOOL)_isSlow {
+    self = [super init];
+    if (self == nil)
+        return nil;
+    
     path = [_path retain];
     isSlow = _isSlow;
     
@@ -53,18 +57,27 @@
     };
     
     const char * cpath = [path cStringUsingEncoding:NSASCIIStringEncoding];
-    if ((nfd = open(cpath , O_RDWR | O_NOCTTY | O_NONBLOCK))<0) {
+
+#define ME_UNDERSTAND_PROFILER_OBJECTION_TO_THIS 1
+    
+#if ME_UNDERSTAND_PROFILER_OBJECTION_TO_THIS
+    if ((nfd = open(cpath , O_RDWR | O_NOCTTY | O_NONBLOCK ))<0)
+#else
+    if ((nfd = open(cpath , O_RDWR | O_NOCTTY))<0)
+#endif
+    {
         NSLog(@"Failed to open '%s': %s", cpath, strerror(errno));
         goto error;
     };
     
-#if 0
+#if ME_UNDERSTAND_PROFILER_OBJECTION_TO_THIS
     if (ioctl(fd, TIOCEXCL) == -1) {
-        NSLog(@"Error - failed to get a lock on '%s': %s (if you get this in the profiler - then change device-perms)",  cpath, strerror(errno));
+        NSLog(@"Error - failed to get a lock on '%s': %s",  cpath, strerror(errno));
         goto error;
     }
 #endif
     
+#if ME_UNDERSTAND_PROFILER_OBJECTION_TO_THIS
     int flag = 0;
     if (fcntl(fd, F_SETFL, &flag) == -1)
     {
@@ -72,6 +85,7 @@
               cpath, strerror(errno), errno);
         goto error;
     }
+#endif
     
     if (tcgetattr( nfd, &termattr )<0) {
         NSLog(@"Failed tcgetatttr() '%@': %s", path, strerror(errno));
@@ -104,9 +118,11 @@
     //
     fd = nfd;    
 
-    NSLog(@"Listening to %s - speed %d", cpath, s);
-    
-    [NSThread detachNewThreadSelector:@selector(readerHandler:) toTarget:self withObject:self]; 
+    // NSLog(@"Listening to %s - speed %d", cpath, s);
+
+    [NSThread detachNewThreadSelector:@selector(readerHandler:) 
+                             toTarget:self 
+                           withObject:nil]; 
         
     return self;
     
@@ -124,7 +140,7 @@ error:
     char line[1024];
     char strg[1024];
     for(int i=0; i < l; i++) {
-        unsigned int c = p[i];
+        unsigned char c = ((unsigned char *)p)[i];
         if (i % N == 0) {
             line[0]='\0';
             strg[0]='\0';
@@ -142,7 +158,7 @@ error:
 }
 
 -(void)debug:(char*)msg buff:(const char *)p len:(long)l {
-    [self debug:msg buff:p len:l mod:32];
+    [self debug:msg buff:p len:l mod:16];
 }
 
 -(BOOL)sendCmd:(NSString *)cmd {
@@ -160,7 +176,7 @@ error:
         NSLog(@"Failed to sendCmd: %s", strerror(errno));
     };
     
-    NSLog(@"Send '#<%02d>%s'", len, cmdStr);
+    // NSLog(@"Send '#<%02d>%s'", len, cmdStr);
     return (e == s);
 }
 
@@ -190,52 +206,25 @@ error:
 
 /* Current_Config	
  *
- * #<Size>C2-F:<Start_Freq (Khz)>, <Freq_Step (hz)>, <Amp_Top (dBm)>, <Amp_Bottom (dBm)>	 
- * 
+ * #<Size>C2-F:<Start_Freq Khz>, <End_Freq kHz>, <Amp_Top dBm>, <Amp_Bottom dBm>
+ *
  * Send current Spectrum Analyzer configuration data. From PC to RFE, will change 
  * current configuration for RFE where <Size>=30 bytes.
  */
--(void) sendCurrentConfigWithStartFreq:(float)_fStartMhz
-                          withEndFreq:(float)_fEndMhz
-                            withAmpTop:(float)_fAmplitudeTop
-                         withAmpBottom:(float)_fAmplitudeBottom {
+-(void) sendCurrentConfigWithStartFreq:(double)_fStartHz
+                          withEndFreq:(double)_fEndHz
+                            withAmpTop:(double)_fAmplitudeTop
+                         withAmpBottom:(double)_fAmplitudeBottom {
     
     [self sendCmd:[NSString stringWithFormat:@"C2-F:%07d,%07d,%04d,%04d",
-                   (int)(_fStartMhz * 1000.0f),
-                   (int)(_fEndMhz   * 1000.0f),
+                   (int)floor(_fStartHz / 1000.0f),
+                   (int)floor(_fEndHz   / 1000.0f),
                    (int)_fAmplitudeTop,
                    (int)_fAmplitudeBottom
                    ]];                   
 }
 
 #pragma mark Data receiving and decoding.
-
--(NSString *)numToBoard:(NSString *)board {
-    switch ([board intValue]) {
-        case EXPANSION_433M: 
-            return @"443M"; 
-            break;
-        case EXPANSION_868M: 
-            return @"868M"; 
-            break;
-        case EXPANSION_915M: 
-            return @"915M"; 
-            break;
-        case EXPANSION_WSUB1G: 
-            return @"WSUB1GM"; 
-            break;
-        case EXPANSION_2G4: 
-            return @"2.4GM"; 
-            break;
-        case EXPANSION_DEMO:
-            return @"Emulator";
-            break;
-        case 255: 
-            return nil; 
-            break;
-    }
-    return board;
-}
 
 -(void)processReply:(NSData*)data {
     NSData * tmp = [NSData dataWithData:data];
@@ -245,6 +234,7 @@ error:
 
     BOOL debugPR = FALSE;
     BOOL logPR = FALSE;
+    
     if (!l)
         return;
     
@@ -269,19 +259,20 @@ error:
      */
     if (!strncmp("#C2-M:",p,6) && l < 22) {
         if (logPR) NSLog(@"C2-M '%s'", p);
+        
         NSString *main = [NSString stringWithCString:p+6 withLength:3 encoding:NSASCIIStringEncoding];
         NSString *expansion = [NSString stringWithCString:p+10 withLength:3 encoding:NSASCIIStringEncoding];
-        NSString *firmware = [NSString stringWithCString:p+14 withLength:5 encoding:NSASCIIStringEncoding];
-        
-        main = [self numToBoard:main];
-        expansion = [self numToBoard:expansion];
-        
-        if (logPR)
-            NSLog(@"Mainboard %@, expansion card: %@, firmware: %@",
-              main,expansion,firmware);
-    
-        [delegate configWithBoard:main 
-                    withExpansion:expansion 
+
+#if 1
+        int end = 4;
+        while (isspace(p[14+end]) && end > 0)
+               end--;
+        if (end != 4) NSLog(@"Stripped firmware string");
+#endif
+        NSString *firmware = [NSString stringWithCString:p+14 withLength:end+1 encoding:NSASCIIStringEncoding];
+            
+        [delegate configWithBoard:[main intValue]
+                    withExpansion:[expansion intValue]
                      withFirmware:firmware];
         return;
     }
@@ -308,8 +299,8 @@ error:
 
         NSMutableArray * arr = [NSMutableArray arrayWithCapacity:sampleSteps];
         for (int i = 0; i < sampleSteps; i++) {
-            float adBm = ((unsigned char *)p)[3+i] / -2.0f;
-            [arr addObject:[NSNumber numberWithFloat:adBm]];
+            double adBm = ((unsigned char *)p)[3+i] / -2.0f;
+            [arr addObject:[NSNumber numberWithDouble:adBm]];
         };
         
         [delegate newData:arr]; 
@@ -375,34 +366,37 @@ error:
      *
      */
     if (((!strncmp("#C2-F:",p,6)) || (!strncmp("#C2-M:",p,6))) && (l >= 50)) {
-        if (logPR) NSLog(@"C2-F '%s'", p);
-        long fStartMhz,fStepMhz;
+        if (logPR) 
+            NSLog(@"C2-F '%s'", p);
+        if (debugPR) 
+            [self debug:"rw2" buff:p len:l];
+        long fStartKHz,fStepHz;
         long fAmplitudeTop, fAmplitudeBottom, nFreqSpectrumSteps;
-        long fMinFreqMhz, fMaxFreqMhz, fMaxSpanMhz;
+        long fMinFreqKHz, fMaxFreqKHz, fMaxSpanKHz;
         RF_mode_t eMode;
         int flag;
         
         // #C2-M:0022500,0892857,-050,-120,0112,0,000,0240000,0960000,0100000\r\n'
         sscanf(p+6,"%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld",
-               &fStartMhz, &fStepMhz, 
+               &fStartKHz, &fStepHz, 
                &fAmplitudeTop, &fAmplitudeBottom, &nFreqSpectrumSteps,
                &flag,
-               &eMode, &fMinFreqMhz, &fMaxFreqMhz, &fMaxSpanMhz);
+               &eMode, &fMinFreqKHz, &fMaxFreqKHz, &fMaxSpanKHz);
         
         BOOL bExpansionBoardActive = (flag == 1);
                 
-        [delegate configWithStartMhz:fStartMhz / 1000.0f
-                         withStepMhz:fStepMhz / 1000000.0f
+        [delegate configWithStartHz:fStartKHz * 1000.0f
+                         withStepHz:fStepHz
                     withAmplitudeTop:fAmplitudeTop
                  withAmplitudeBottom:fAmplitudeBottom
                            withSteps:nFreqSpectrumSteps
             withExpansionBoardActive:bExpansionBoardActive
                              witMode:eMode
-                         withMinFreq:fMinFreqMhz / 1000.0f
-                         withMaxFreq:fMaxFreqMhz / 1000.0f
-                        withSpanFreq:fMaxSpanMhz / 1000.0f ];
+                         withMinFreq:fMinFreqKHz * 1000.0f
+                         withMaxFreq:fMaxFreqKHz * 1000.0f
+                        withSpanFreq:fMaxSpanKHz * 1000.0f ];
         
-        if (logPR)
+        if (debugPR)
             NSLog(@"config details passed:\n"
                   "\tStart:\t%ld KHz\n"
                   "\tStep:\t%ld Hz\n"
@@ -410,9 +404,9 @@ error:
                   "\tSteps:\t%ld #\n"
                   "\tRange:\t%ld .. %ld KHz\n"
                   "\tBand:\t%ld KHz",
-                  fStartMhz, fStepMhz, 
+                  fStartKHz, fStepHz, 
                   fAmplitudeTop, fAmplitudeBottom, nFreqSpectrumSteps,
-                  fMinFreqMhz, fMaxFreqMhz, fMaxSpanMhz);
+                  fMinFreqKHz, fMaxFreqKHz, fMaxSpanKHz);
         return;
     };
 
@@ -447,33 +441,45 @@ error:
 
 -(void)readerHandler:(id)sender {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
     char buff[32 * 1024];
     long l = 0;
     BOOL debugRH = FALSE;
     BOOL logRH = FALSE;
     unsigned int errCnt = 0;
     unsigned int okCnt = 0;
+    int ofd = fd;
  
-    NSLog(@"Listening on fd %d...",fd);
+    NSLog(@"%@ - Listening on fd %d...",self, fd);
     while(1) {
         if (okCnt > 30) 
-		errCnt = 0;
+            errCnt = 0;
         
-        if (fd < 0)
-            return;
-
+        if (fd < 0) {
+            break;
+        };
+        
         if (errCnt>5)
-            return;
-
+            break;
+        
         // Keep one byte at the end for termination.
         ssize_t s = read(fd,buff + l,sizeof(buff)-1-l);
+
+        if (fd < 0) {
+            break;
+        };
         
         if (s <= 0) {
-            if (errno == EAGAIN || errno == EINTR)
+            if ((s < 0) && (errno == EAGAIN || errno == EINTR)) {
+                //                NSLog(@"EAGAIN/EINTR");
                 continue;
-            
-            NSLog(@"Read from serial failed: %s", strerror(errno));
+            };
+            if (s == 0) {
+                NSLog(@"Lost serial connection to device.");
+            } else {
+                NSLog(@"Read from serial failed: %s", strerror(errno));
+            }
+            close(fd);
+            fd = -1;
             break;
         }
 
@@ -546,11 +552,31 @@ error:
             } // if $
             
             char *e = strnstr(buff,"\r\n",l);
+            char *f = strnstr(buff,"$S",l);
+            char *g = strnstr(buff,"$D",l);
+
+            if (f && f < e)
+                e = f;
+            if (g && g < e)
+                e = g;
+
             if (e) {
                 long i = e - buff + 2;
                 char * p;
                 long len;
+
+                // We're guessing an unterminated $D/$S
+                //
+                if (e[0] == '$') {
+                    i+=2;
+                    memcpy(buff, e, l - i);
+                    l -= 1;
+                    NSLog(@"Skipping %ld bytes to what seems to be a '$%c...'", l, buff[1]);
+                    continue;
+                };
                 
+                // were hoping for some normal command with a #..\r\n
+                //
                 p = index(buff,'#');
                 len = i - (p - buff);
                 
@@ -558,10 +584,11 @@ error:
                 if (p && len > 0) {
                     if (logRH) 
                         NSLog(@"# .. \\r\\n segment (%ld bytes) submitting",len);
-                    [self submit:p withLength:len];
-		    okCnt++;
+                    [self submit:p withLength:len-2];
+                    okCnt++;
                 } else {
                     NSLog(@"Skipping to next \\r\\n terminated as no initial '#'.");
+                    [self debug:"raw" buff:buff  len:l];
                     errCnt++; okCnt = 0;
                 };
                 
@@ -587,29 +614,26 @@ error:
         }; // while we can extract stuff
     }; // while read() loop
     
-    NSLog(@"serial listener thread exited on fd %d (#%lu)",fd,[self retainCount]);
+    DebugNSLog(@"%@ Serial listener thread exited on fd %d",self, ofd);
     // [NSAlert alertWithError:@"Lost connection to RF Explorer"];
-    
-    [pool drain];
+    [pool release];
 };
 
 #pragma  mark Cleanups
 
--(void)halt {
+-(void)close {
     int nfd = fd;
     fd = -1;
     
     if (nfd >=0 ) {
         close(nfd);
-        NSLog(@"Normal close(%d) of %@ on serial con", nfd, self.className);
-    };    
+        DebugNSLog(@"Normal close(%d) of %@ on its serial connection.", nfd, self.className);
+    };
 }
 
 -(void)dealloc {
-    NSLog(@"%@ -- dealloc at CMD level (%lu)", self.className,[self retainCount]);
-
     if (fd >=0) 
-        [self halt];
+        [self close];
     
     [path release];
     

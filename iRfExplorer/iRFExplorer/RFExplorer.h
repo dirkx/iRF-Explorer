@@ -23,6 +23,9 @@
 #import "RFExporerCmds.h"
 #import "Spectrum.h"
 
+NSString const *kDemoPrefix;
+NSString const *kDemoAudio;
+
 @protocol RFGUICallbacks <NSObject>;
 -(void)newData:(Spectrum *)spectrum;     
 -(void)newScreen:(NSImage *)img;
@@ -34,48 +37,69 @@
 @interface RFExplorer: NSObject <RFCallbacks> {
     RFExporerCmds * parser;
     id <RFGUICallbacks> delegate;
-
+    NSString *path;
+    
     // General data and state
     NSString * mainBoard, *expansionBoard, *firmware;
 
-    // viewport range
-    float fStartMhz, fStepMhz;
+    // viewport ranges - Horizontal and vertial
+    double fStartHz, fStepHz;
+    double fAmplitudeTop, fAmplitudeBottom, fAmplitudeSpan;
 
-    float fAmplitudeTop, fAmplitudeBottom, fAmplitudeSpan;
-    
+    // Number of bands
     unsigned long nFreqSpectrumSteps;
+    
     // derived viewport info
-    float fSpanMhz, fEndMhz, fCenterMhz;
+    double fSpanHz, fEndHz, fCenterHz;
     
     BOOL expansionBoardActive;
+    RF_model_t mainBoardModel;
+    RF_model_t expansionModel;
+    RF_model_t activeBoardModel;
+
     RF_speed_t commsSpeed;
     
+    NSDate* connectedTime, *configTime, *spectrumTime;
+    
     // hardware range
-    float fMinFreqMhz, fMaxFreqMhz, fMaxSpanMhz, fMinSpanMhz, fFullRangeMhz;
-    float fAmplitudeMin, fAmplitudeMax, fAmplitudeMinSpan, fAmplitudeFullRange;
+    double fMinFreqHz, fMaxFreqHz, fMaxSpanHz, fMinSpanHz, fFullRangeHz;
+    double fAmplitudeMin, fAmplitudeMax, fAmplitudeMinSpan, fAmplitudeFullRange;
 }
 
 @property (assign) id <RFGUICallbacks> delegate;
 @property (retain) RFExporerCmds * parser;
 
-@property (assign) float fCenterMhz, fSpanMhz;
-@property (assign) float fAmplitudeTop, fAmplitudeBottom;
+@property (assign) double fCenterHz, fSpanHz;
+@property (assign) double fAmplitudeTop, fAmplitudeBottom;
 
-@property (assign, readonly) float fAmplitudeSpan;
-@property (assign, readonly) float fStartMhz, fStepMhz;
+@property (assign, readonly) double fAmplitudeSpan;
+@property (assign, readonly) double fStartHz, fStepHz;
 @property (assign, readonly) unsigned long nFreqSpectrumSteps;
-@property (assign, readonly) float fMinFreqMhz, fMaxFreqMhz, fMaxSpanMhz, fFullRangeMhz;
-@property (assign, readonly) float fEndMhz, fMinSpanMhz;
-@property (assign, readonly) NSString * mainBoard, *expansionBoard, *firmware;
-@property (assign, readonly) float fAmplitudeMin, fAmplitudeMax, fAmplitudeMinSpan, fAmplitudeFullRange;
-@property (assign, readonly) BOOL expansionBoardActive;
+@property (assign, readonly) double fMinFreqHz, fMaxFreqHz, fMaxSpanHz, fFullRangeHz;
+@property (assign, readonly) double fEndHz, fMinSpanHz;
+@property (assign, readonly) NSString * mainBoard, *expansionBoard, *firmware, *path;
+@property (assign, readonly) double fAmplitudeMin, fAmplitudeMax, fAmplitudeMinSpan, fAmplitudeFullRange;
+@property (assign) BOOL expansionBoardActive;
 @property (assign, readonly) RF_speed_t commsSpeed;
-@property (assign, readonly) NSString * commsSpeedAsString;
+@property (retain, readonly) NSString * commsSpeedAsString;
+@property (retain, readonly) NSString * activeBoard;
+@property (assign, readonly) RF_model_t activeModel;
+@property (assign, readonly) BOOL hasExpansionBoard;
+@property (assign, readonly) BOOL hasC2M;
+@property (assign, readonly) BOOL hasC2F;
 
--(id)initWithPath:(NSString *)devPath  withSlowSetting:(BOOL)deviceIsSlow;
+@property (retain) NSDate * connectedTime, *configTime, *spectrumTime;
 
+-(id)initWithPath:(NSString *)devPath withSlowSetting:(BOOL)deviceIsSlow withDelegate:(id <RFGUICallbacks>)aDelegate;
+-(void)close;
+
+-(void)setAmpRangeFrom:(double)bottom to:(double)top;
+-(void)setFreqRangeFrom:(double)lowest to:(double)highest;
+
+-(void)getConfigData;
 -(void)pauseScreen;
 -(void)playScreen;
 -(void)pauseSpectrum;
 -(void)playSpectrum;
+-(void)shutdown;
 @end

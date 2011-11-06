@@ -22,21 +22,21 @@
 #import "Spectrum.h"
 
 @implementation Spectrum
-@synthesize startFreqMhz, endFreqMhz, stepFreqMhz;
-@synthesize dbValues, frequenciesMhz;
+@synthesize startFreqHz, endFreqHz, stepFreqHz;
+@synthesize dbValues, frequenciesHz;
 @synthesize minDbm,maxDbm;
 
-- (id)initWithStartFreqMhz:(float)_startFreqMhz
-         withStepFreqMhz:(float)_stepFreqMhz
+- (id)initWithStartFreqHz:(float)_startFreqHz
+         withStepFreqHz:(float)_stepFreqHz
                 withData:(NSArray *)vals
 {
     self = [super init];
     if (!self) 
         return nil;
 
-    startFreqMhz = _startFreqMhz;
-    stepFreqMhz = _stepFreqMhz;
-    endFreqMhz = startFreqMhz + stepFreqMhz * [vals count];
+    startFreqHz = _startFreqHz;
+    stepFreqHz = _stepFreqHz;
+    endFreqHz = startFreqHz + stepFreqHz * [vals count];
     
     dbValues = [[NSArray arrayWithArray:vals] retain];
     
@@ -50,10 +50,10 @@
         if (v > maxDbm)
             maxDbm = v;        
 
-        [f addObject:[NSNumber numberWithFloat:startFreqMhz + i * stepFreqMhz]];
+        [f addObject:[NSNumber numberWithFloat:startFreqHz + i * stepFreqHz]];
     };
     
-    frequenciesMhz = [[NSArray arrayWithArray:f] retain];
+    frequenciesHz = [[NSArray arrayWithArray:f] retain];
     
     return self;
 }
@@ -62,8 +62,30 @@
     return [dbValues count];
 }
 
+-(void)addToPasteboard:(NSPasteboard *)pasteBoard {
+    [pasteBoard addTypes:[NSArray arrayWithObjects:NSPasteboardTypeTabularText,nil] 
+                   owner:self];
+    
+    [pasteBoard writeObjects:[NSArray arrayWithObjects:[self tsvDescription], nil]];   
+}
+
+-(NSString *)tsvDescription {
+    NSMutableString * tsv = [NSMutableString string];
+    [tsv appendFormat:@"Frequency(mHZ)\tSignal (dBm)\n"];
+    
+    for(NSUInteger i = 0; i < [self count]; i++) {
+        [tsv appendFormat:@"%f\t%f\n", 
+         [((NSNumber *)[frequenciesHz objectAtIndex:i]) doubleValue],
+         [((NSNumber *)[dbValues objectAtIndex:i]) doubleValue]];
+    }
+
+    // Should we include a footer or header with some of the
+    // most salient details (date of capture, device, main settings ?) 
+    return tsv;
+}
+
 -(void)dealloc {
-    [frequenciesMhz release];
+    [frequenciesHz release];
     [dbValues release];
     [super dealloc];
 }

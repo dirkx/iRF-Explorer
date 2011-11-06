@@ -22,6 +22,33 @@
 #import "PreferenceController.h"
 #import "iRFExplorerAppDelegate.h"
 #import "NSStringExtensions.h"
+#import <SystemConfiguration/SystemConfiguration.h>
+
+// Note that some of those are tied to mappings in the NIB.
+//
+NSString * const kPreferencePngOverPdf = @"pngOverPdf";
+NSString * const kPreferenceLatexOverTsv = @"latexOverTsv";
+NSString * const kPreferenceNoImages = @"noImages";
+NSString * const kPreferenceLimsIncludeSettings = @"limsIncludeSettings";
+NSString * const kPreferenceLimsIncludeHostInfo = @"limsIncludeHostInfo";
+NSString * const kPreferenceLimsIncludeTimeStamps = @"limsIncludeTimeStamps";
+NSString * const kPreferenceLimsIncludeDeviceInfo = @"limsIncludeDeviceInfo";
+NSString * const kPreferenceLimsIncludeComment = @"limsIncludeComment";
+NSString * const kPreferenceLimsCommentString = @"limsCommentString";
+NSString * const kPreferenceLineSpeed = @"lineSpeed";
+NSString * const kPreferenceScanRange = @"scanRange";
+NSString * const kPreferenceSlowSpeed = @"slowSpeed";
+NSString * const kPreferenceDecayValue = @"decayValue";
+NSString * const kPreferenceAvgValue = @"avgValue";
+NSString * const kPreferenceScanStrategy = @"scanStrategy";
+NSString * const kPreferenceLingerTime = @"lingerTime";
+NSString * const kPreferenceSelectedDevice = @"selectedDevice";
+NSString * const kPreferenceShowAverage = @"showAverage";
+NSString * const kPreferenceShowMax = @"showMax";
+NSString * const kPreferenceShowTimestamps = @"showTimestamps";
+NSString * const kPreferenceTimeStamp = @"timeStamp";
+NSString * const kPreferenceShowDecay = @"showDecay";
+NSString * const kPreferenceScanFullrange = @"scanFullrange";
 
 @implementation PreferenceController
 @synthesize slowSpeedButton, deviceSelectionButton;
@@ -30,29 +57,55 @@
 @synthesize scanStrategyRadioButtons, lingerTimeTextField;
 @synthesize delegate;
 
+-(double)sliderToValue:(double) v {
+    v = 0.2 + 0.2 * v * v * v;
+    if (v > 10) 
+        v = floorf(v);
+    else if (v > 3)
+        v = 2.0 * floorf(v/2.0);
+    return v;
+}
+
 -(void)readPreferences {
-    NSString * deviceTitle = [[NSUserDefaults standardUserDefaults] valueForKey:@"selectedDevice"];
-    BOOL isSlow = [[[NSUserDefaults standardUserDefaults] valueForKey:@"slowSpeed"] boolValue];
-    float decay = [[[NSUserDefaults standardUserDefaults] valueForKey:@"decayValue"] floatValue];
-    float avg = [[[NSUserDefaults standardUserDefaults] valueForKey:@"avgValue"] floatValue];
-    scan_strategy_t e = [[[NSUserDefaults standardUserDefaults] valueForKey:@"scanStrategy"] intValue];
-    double lingerTime = [[[NSUserDefaults standardUserDefaults] valueForKey:@"lingerTime"] doubleValue];
-                         ;
-    [delegate setSettingDeviceTitle:deviceTitle];    
+    // NSString * deviceTitle = [[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceSelectedDevice];
+    BOOL isSlow = [[[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceSlowSpeed] boolValue];
+    float decay = [[[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceDecayValue] floatValue];
+    float avg = [[[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceAvgValue] floatValue]; 
+    scan_strategy_t e = [[[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceScanStrategy] intValue];
+    double lingerTime = [[[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceLingerTime] doubleValue];
+    
+    decay = [self sliderToValue:decay];
+    avg = [self sliderToValue:avg];
+
+    // [delegate setSettingDeviceTitle:deviceTitle];    
     [delegate setSettingDeviceIsSlow:isSlow];
     [delegate setDecaySpeed:decay];
     [delegate setAvgSpeed:avg];
     [delegate setScanStrategy:e withLinger:lingerTime];
-    
+
     [delegate changedPreferences];
 }
 
 - (void)awakeFromNib 
 {    
+    [super awakeFromNib];
     NSDictionary * ud = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
-    slowSpeedButton.state = [[ud valueForKey:@"slowSpeed"] boolValue] ? NSOnState : NSOffState;
-    NSString * devStr = [ud valueForKey:@"selectedDevice"];
+    NSString * devStr = [ud valueForKey:kPreferenceSelectedDevice];
 
+    if (![ud valueForKey:kPreferenceLimsCommentString]) {
+        CFStringRef name;
+        NSString *computerName;
+        name=SCDynamicStoreCopyComputerName(NULL,NULL);
+        computerName=[NSString stringWithString:(NSString *)name];
+        
+        NSUserDefaultsController * udc = [NSUserDefaultsController sharedUserDefaultsController];
+        [udc.values setValue:[NSString stringWithFormat:@"Measured by %@ on %@", NSFullUserName(), computerName] 
+               forKey:kPreferenceLimsCommentString];
+        
+        CFRelease(name);
+        // all other defaults are off/none.
+    }
+    
     // Swap placeholder by the actual pulldown.
     NSRect f = deviceSelectionButton.frame;
     [deviceSelectionButton removeFromSuperview];
@@ -64,69 +117,32 @@
     
     NSArray * titles = [delegate.serialDeviceTracker.devices allKeys];
     [deviceSelectionButton setDevices:titles];
-
+    
     if (devStr)
         [deviceSelectionButton selectItemWithTitle:devStr];
 
-    // bit of a lie - really the slider value.
-    if ([ud valueForKey:@"decayValue"] == nil)
-        decaySlider.floatValue = 3;
-    else
-        decaySlider.floatValue = [[ud valueForKey:@"decayValue"] floatValue];
+    // Ensure textual representaion is in sync too.
     
     [self decaySliderChange:decaySlider];
-
-    if ([ud valueForKey:@"avgValue"] == nil)
-        avgSlider.floatValue = 3;
-    else
-        avgSlider.floatValue = [[ud valueForKey:@"avgValue"] floatValue];
-    
     [self avgSliderChange:avgSlider];
-
-    scan_strategy_t e = [[[NSUserDefaults standardUserDefaults] valueForKey:@"scanStrategy"] intValue];
-    switch(e) {
-        case SCAN_SLOW: [scanStrategyRadioButtons selectCellAtRow:0 column:0];
-            break;
-        case SCAN_FAST: [scanStrategyRadioButtons selectCellAtRow:1 column:0];
-            break;
-        case SCAN_LINGER: [scanStrategyRadioButtons selectCellAtRow:2 column:0];
-            break;
-    }
-    
-    double lingerTime = [[[NSUserDefaults standardUserDefaults] valueForKey:@"lingerTime"] doubleValue];
-    [lingerTimeTextField setStringValue:[NSString stringFromSeconds:lingerTime 
-                                                          keepShort:YES]];
-
-    [super windowDidLoad];
 }
 
 - (IBAction)toggleSpeed:(id)sender {
-    BOOL isSlow = ((NSButton *)sender).state == NSOnState;
-    BOOL old = [[[NSUserDefaults standardUserDefaults] valueForKey:@"slowSpeed"] boolValue];
-    if (old != isSlow) {
-        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:isSlow] forKey:@"slowSpeed"];
-        [delegate setSettingDeviceIsSlow:isSlow];
-        [delegate changedPreferences];
-    };
+    [delegate setSettingDeviceIsSlow:slowSpeedButton.state == NSOnState];
+    [delegate changedPreferences];
 }
 
 -(IBAction)selectedDevice:(id)sender {
     NSString * deviceTitle = ((NSPopUpButton *)sender).titleOfSelectedItem;
-//  may be better to always do this - as to make the behaviour on re-seating
-//  a bit more logical.
-//  NSString * old = [[NSUserDefaults standardUserDefaults] valueForKey:@"selectedDevice"];
-//  if (![old isEqualToString:deviceTitle]) {
-        [[NSUserDefaults standardUserDefaults] setValue:deviceTitle forKey:@"selectedDevice"];
-        [delegate setSettingDeviceTitle:deviceTitle];
-        [delegate changedPreferences];
-//  }
+    [delegate setSettingDeviceTitle:deviceTitle];
+    [delegate changedPreferences];
 }
 
 -(IBAction)decaySliderChange:(NSSlider *)sender {
     float v = sender.floatValue;
     
     // bit of a lie - really the slider value.
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:v] forKey:@"decayValue"];
+    // [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:v] forKey:@"decayValue"];
 
     v = 0.2 + 0.2 * v * v * v;
     if (v > 10) 
@@ -143,7 +159,7 @@
     float v = sender.floatValue;
     
     // bit of a lie - really the slider value.
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:v] forKey:@"avgValue"];
+    // [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:v] forKey:@"avgValue"];
     
     v = 0.2 + 0.2 * v * v * v;
     if (v > 10) 

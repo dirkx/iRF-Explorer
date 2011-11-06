@@ -25,13 +25,14 @@
 
 @implementation NumericScaleDefinition
 
-@synthesize min, max, diff, niceNbrScore, nbrOfTicks, includesZero, dataCoverage;
+@synthesize min, max, diff, niceNbrScore, nbrOfTicks, includesZero, dataCoverage, subTickCount;
 
 -(id) initWithMin:(double)_min
           withMax:(double)_max
 	     withDiff:(double)_diff
  withNiceNbrScore:(double)_niceNbrScore
    withNbrOfTicks:(int)_nbrOfTicks
+    withSubTickCount:(double)_subCount
 	 includesZero:(BOOL)_includesZero
  withDataCoverage:(double)_dataCoverage
 {
@@ -42,6 +43,7 @@
 	nbrOfTicks = _nbrOfTicks;
 	includesZero = _includesZero;
 	dataCoverage = _dataCoverage;
+    subTickCount = _subCount;
 	return self;
 }
 
@@ -57,11 +59,25 @@
      return [NSArray arrayWithArray:result];
 }
 
+-(NSArray *)subTicks {
+    NSMutableArray * result = [NSMutableArray arrayWithCapacity:nbrOfTicks];
+    double c = min;
+    
+    for(int i = 0; c < max; i++, c += diff/subTickCount) {
+        if (i % subTickCount == 0)
+            continue;
+        
+        [result addObject:[NSNumber numberWithDouble:c]];
+    }
+    
+    return [NSArray arrayWithArray:result];
+}
+
 -(NSString*)description {
     if (min == max)
         return [NSString stringWithFormat:@"empty %@, %d#.", self.className, nbrOfTicks];
     
-    return [NSString stringWithFormat:@"%@: <%f..%f> %d# - %@", 
-            self.className, min, max, nbrOfTicks, self.ticks];
+    return [NSString stringWithFormat:@"%@: <%f..%f> %d, cover %.1f", 
+            self.className, min, max, nbrOfTicks, dataCoverage*100 ]; //], self.ticks];
 }
 @end

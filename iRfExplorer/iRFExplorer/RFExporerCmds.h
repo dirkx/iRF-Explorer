@@ -54,25 +54,26 @@ typedef enum {
 @protocol RFCallbacks <NSObject>;
 
 @optional
--(void)configWithBoard:(NSString *)mainBoard
-         withExpansion:(NSString *)expansionBoard
+-(void)configWithBoard:(RF_model_t)mainBoard
+         withExpansion:(RF_model_t)expansionBoard
           withFirmware:(NSString *)firmware;
 -(void)newData:(NSArray *)arr;     
 -(void)newScreen:(NSImage *)img;
--(void)configWithStartMhz:(float)fStartMhz
-              withStepMhz:(float)fStepMhz
+-(void)configWithStartHz:(double)fStartHz
+              withStepHz:(double)fStepHz
          withAmplitudeTop:(NSInteger)fAmplitudeTop
       withAmplitudeBottom:(NSInteger)fAmplitudeBottom
                 withSteps:(NSUInteger)nFreqSpectrumSteps
  withExpansionBoardActive:(BOOL)bExpansionBoardActive
                   witMode:(RF_mode_t)eMode
-              withMinFreq:(float)fMinFreqMhz
-              withMaxFreq:(float)fMaxFreqMhz
-             withSpanFreq:(float)fSpanFreqMhz;
+              withMinFreq:(double)fMinFreqHz
+              withMaxFreq:(double)fMaxFreqHz
+             withSpanFreq:(double)fSpanFreqHz;
 -(void)alertUser:(NSString *)userMsg;
 @end
 
-@interface RFExporerCmds : NSThread {
+@interface RFExporerCmds : NSObject // NSThtread 
+{
     id <RFCallbacks> delegate;
     NSString * path;
     BOOL isSlow;
@@ -84,10 +85,10 @@ typedef enum {
 
 - (id)initWithPath:(NSString *)path withSlowSpeed:(BOOL)isSlow;
 
--(void) sendCurrentConfigWithStartFreq:(float)fStartMhz
-                           withEndFreq:(float)fEndMhz
-                            withAmpTop:(float)fAmplitudeTop
-                         withAmpBottom:(float)fAmplitudeBottom;
+-(void) sendCurrentConfigWithStartFreq:(double)fStartHz
+                           withEndFreq:(double)fEndHz
+                            withAmpTop:(double)fAmplitudeTop
+                         withAmpBottom:(double)fAmplitudeBottom;
 -(BOOL)sendCmd:(NSString *)cmd;
 -(void)getConfigData;
 -(void)pauseScreen;
@@ -96,7 +97,7 @@ typedef enum {
 -(void)playSpectrum;
 -(void)shutdown;
 
--(void)halt;
+-(void)close;
 
 // really private - but we expose it so that our Demo RF Explorer can use it.
 //

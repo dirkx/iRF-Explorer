@@ -2,55 +2,30 @@
 //  SpectrogramView.h
 //  iRFExplorer
 //
-//  Copyright 2011 WebWeaving. All rights reserved.
-//                 Dirk-Willem van Gulik <dirkx(at)webweaving(dot)org>
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 
-// http://www.apache.org/licenses/LICENSE-2.0
-// 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// 
+//  Created by Dirk-Willem van Gulik on 05/11/2011.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import "Spectrum.h"
+#import "SomeTabView.h"
+#import "SpectrogramGraphView.h"
+#import "FrequencyLegendView.h"
+#import "TimeLegendView.h"
+#import "TimeStampLegendView.h"
 #import "RFExplorer.h"
-#import "AveragingNumber.h"
 
-@interface SpectrogramView : NSView {
-    RFExplorer *device;
-@private
-    NSInteger nAges;
-    NSMutableArray * ages;
-    NSMutableArray * agesInSeconds;
-    NSDate * floatAge;
-    NSUInteger floatHeight;
-    NSBitmapImageRep * imageRep;
-    NSMutableArray * values;
-    BOOL showTimeStamp;
-    NSDateFormatter * ndf;
-    double secondsPerLine;
-    NSDate *lastLineScrollDate;
+@interface SpectrogramView : SomeTabView {
+    IBOutlet SpectrogramGraphView * spectrogramGraphView;
+    IBOutlet FrequencyLegendView * frequencyLegendView;
+    IBOutlet TimeStampLegendView * timeStampLegendView;
+    IBOutlet TimeLegendView * timeLegendView;
+    IBOutlet NSView *graphView;
 }
 
-@property (retain) RFExplorer *device;
-@property (retain) NSDate * floatAge;
-@property (retain) NSMutableArray * ages;
-@property (retain) NSMutableArray * agesInSeconds;
-@property (retain) NSMutableArray * values;
-@property (retain) NSDate *lastLineScrollDate;
+@property (retain) IBOutlet NSView *graphView;
 
-@property (assign) BOOL showTimeStamp;
-@property (assign) double secondsPerLine;
-
--(void)addSpectrum:(Spectrum *)newSpectrum;
+@property (assign) IBOutlet SpectrogramGraphView * spectrogramGraphView;
+@property (assign) IBOutlet FrequencyLegendView * frequencyLegendView;
+@property (assign) IBOutlet TimeStampLegendView * timeStampLegendView;
+@property (assign) IBOutlet TimeLegendView * timeLegendView;
 
 @end
-

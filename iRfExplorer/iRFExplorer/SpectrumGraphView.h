@@ -22,12 +22,16 @@
 #import <Foundation/Foundation.h>
 #import "Spectrum.h"
 #import "RFExplorer.h"   
+#import "SomeTabView.h"
 
-@interface SpectrumGraphView : NSView {
+extern const float SOX;
+extern const float SOY;
+
+@interface SpectrumGraphView : SomeTabView {
     Spectrum *spectrum;
     NSMutableArray *avgVals, *maxVals;
-    RFExplorer *device;
     float averagingTimeWindowInSeconds;
+    BOOL decay;
     
     NSDate *lastUpdate;
     
@@ -36,7 +40,7 @@
 }
 
 @property (retain) Spectrum *spectrum;
-@property (retain) RFExplorer *device;
+
 @property (assign) float decayInSeconds;
 @property (assign) float averagingTimeWindowInSeconds;
 

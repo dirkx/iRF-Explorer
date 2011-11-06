@@ -77,7 +77,6 @@
                                                                       colorSpaceName:NSCalibratedWhiteColorSpace
                                                                          bytesPerRow:0
                                                                         bitsPerPixel:0];
-
     unsigned char * bitmap = [imageRep bitmapData];
     NSInteger bytesPerRow = [imageRep bytesPerRow];
     

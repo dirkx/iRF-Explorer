@@ -34,7 +34,7 @@
              withTitle:(NSString*)title 
               withPath:(NSString*)path 
 {
-    if (1) NSLog(@"Menu: %@ %@",
+    NSLog(@"Menu: %@ %@",
                  deviceAdded ? @"Adding" : @"Removing", title);
 
     if (deviceAdded) {

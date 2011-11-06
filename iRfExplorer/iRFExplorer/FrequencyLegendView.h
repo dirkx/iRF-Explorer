@@ -22,17 +22,18 @@
 #import <AppKit/AppKit.h>
 #import "NumericScaleDefinition.h"
 #import "StringScaleDefinition.h"
+#import "LegendView.h"
 
 #import "RFExplorer.h"
 
-@interface FrequencyLegendView : NSView {
-    RFExplorer * device;
-    NSView *graphView;
-    NSArray * ticks;
+@interface FrequencyLegendView : LegendView {
+    NSArray * ticks, * subTicks;
+    double min, max, span;
+    BOOL fullRange;
+    NSString * graphLabel;
 }
 
-@property (retain) NSView *graphView;
-@property (retain) RFExplorer * device;
-@property (retain) NSArray * ticks;
-
+@property (retain) NSArray * ticks, * subTicks;
+@property (retain) NSString * graphLabel;
+@property (assign) BOOL fullRange;
 @end

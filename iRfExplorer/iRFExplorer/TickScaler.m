@@ -31,7 +31,7 @@ NSArray * baseNiceNumber, *niceNbrs;
 	 * The number of ticks on scale that is ideal.</br>
 	 * This is used in the scoring algorithm. </br>
 	 */
-	idealNbrOfTicks = 5;
+	idealNbrOfTicks = 4;
 	
 	/**
 	 * The set of nice number that is used for dividing scales.</br>
@@ -64,7 +64,7 @@ NSArray * baseNiceNumber, *niceNbrs;
 	 * it is entirely possible that they still get selected.</br>
 	 * For instance if the data coverage is superb.</br>
 	 */
-	maxNbrOfTicks = 8;
+	maxNbrOfTicks = 6;
 
 	double exp = [self calculateClosestMatchingExponentWithMin:min
 													   withMax:max 
@@ -298,12 +298,36 @@ NSArray * baseNiceNumber, *niceNbrs;
 	}
 	
 	double dataCoverage = fabs(dataRange / (min - max));
-	
+
+	int ticks;
+    BOOL shrt = nbrOfTicks < 6 ? YES : NO;
+    switch ((int)(10*niceNbr.base)) {
+        case 10:
+        case 50:
+            ticks = shrt ? 10 : 5;
+            break;
+        case 20:
+            ticks = shrt ? 10 :4;
+            break;
+        case 25:
+            ticks = shrt ? 5 : 3;
+            break;
+        case 30:
+            ticks = shrt ? 10 :3;
+            break;
+        default:
+            ticks = shrt ? 5 : 2;
+            break;
+    };
+    if (nbrOfTicks < 4)
+        ticks *= 10;
+    
 	NumericScaleDefinition * nsd = [[NumericScaleDefinition alloc] initWithMin:min 
 																	   withMax:max 
 																	  withDiff:tickDiff 
 															  withNiceNbrScore:niceNbr.score 
 																withNbrOfTicks:nbrOfTicks 
+                                                              withSubTickCount:ticks
 																  includesZero:hasZero
 															  withDataCoverage:dataCoverage];
 	
@@ -328,7 +352,8 @@ NSArray * baseNiceNumber, *niceNbrs;
 		if (scaleDef)
 		{
 			double score = [self calculateScore:scaleDef];
-						
+			
+			// NSLog(@"Scale: %@, score %f", scaleDef, score);
 			if (score > highestScore)
 			{
 				highestScore = score;
@@ -382,26 +407,25 @@ NSArray * baseNiceNumber, *niceNbrs;
 	
 	double dcScore = 0;
     
-	if (scaleInt.dataCoverage > 0.90) // normally lower!
+	if (scaleInt.dataCoverage > 0.90 && scaleInt.dataCoverage  < 1.10) // normally lower!
 	{
-		dcScore = scaleInt.dataCoverage * 2;	
+		dcScore = scaleInt.dataCoverage * 4;	
 	}
-	else if (scaleInt.dataCoverage > 0.80) // normally lower!
+	else if (scaleInt.dataCoverage > 0.80  && scaleInt.dataCoverage  < 1.20) // normally lower!
 	{
-		dcScore = scaleInt.dataCoverage / 2;
+		dcScore = scaleInt.dataCoverage;
 	} 
     else 
     {
         dcScore = -1;
     }
 	
-	if (scaleInt.nbrOfTicks > 3*maxNbrOfTicks)
-		granularity = -2;
+	if (scaleInt.nbrOfTicks > 1.5*maxNbrOfTicks)
+		granularity = -5;
 
-	if (scaleInt.nbrOfTicks > 4*maxNbrOfTicks)
-		granularity = -4;
-	
-	
+	if (scaleInt.nbrOfTicks > 2*maxNbrOfTicks)
+		granularity = -20;
+		
 	return (simplicity + granularity + dcScore) / 3;
 }
 

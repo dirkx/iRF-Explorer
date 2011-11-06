@@ -25,12 +25,10 @@
 
 int main (int argc, const char * argv[])
 {
-    float max =   -8;
-    float min = -18;
+    float max =  633.09 ;
+    float min = 553.89 ;
 
-    // CFRelease(nil);
-    // CFRelease(NULL);
-
+    
     if (argc != 1 && argc != 3) {
         fprintf(stderr,"Syntax: %s [min max]\n", argv[0]);
         return -1;

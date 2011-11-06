@@ -37,7 +37,9 @@
 
 	dataMin = aDataMin;
 	dataMax = aDataMax;
-	
+    int minDigits = (int)(0.5 + log10(dataMax/_def.diff));
+	NSString *fmt = [NSString stringWithFormat:@"%%.0%df",minDigits];
+    
 	NSMutableArray * tmpTicks = [NSMutableArray arrayWithCapacity:_def.nbrOfTicks];
 	double cc = _def.min;
 	
@@ -84,6 +86,10 @@
 
 		NSString * label = nil;
 		
+        // adjust for a _def.tick which is too
+        // small to see ?
+        
+        if (minDigits < 4) {
         c = sgn * c;
 		if (c == floor(c)) {
 			label = [NSString stringWithFormat:@"%.0f", c];
@@ -98,7 +104,9 @@
 		} else {
 			label = [NSString stringWithFormat:@"%.3f", c];
 		}
-
+        } else {
+			label = [NSString stringWithFormat:fmt, c];        
+        }
 		TickMark * tick = [[TickMark alloc] initWithLabelStr:label 
 												  withSiUnit:siUnit
 												withSiPrefix:siPrefix
@@ -117,16 +125,16 @@
 	int i = 0;
 	while(i < tmpTicks.count && [((TickMark *)[tmpTicks objectAtIndex:i]).siUnit isEqual:@""]) 
 		i++;
-	
+
 	if (i == tmpTicks.count) {
-		// nothing has a siPrefix
 		individualSIprefix = NO;
 		self.commonSIprefix = siUnit;
-	} else if (i == 1 && [((TickMark*)[tmpTicks objectAtIndex:i]).siPrefix isEqual:((TickMark*)[tmpTicks objectAtIndex:tmpTicks.count-1]).siPrefix]) {
+//	} else if (i == 1 &&  [((TickMark*)[tmpTicks objectAtIndex:i]).siPrefix isEqual:((TickMark*)[tmpTicks lastObject]).siPrefix]) {
+	} else if ([((TickMark*)[tmpTicks objectAtIndex:i]).siPrefix isEqual:((TickMark*)[tmpTicks lastObject]).siPrefix]) {
 		self.commonSIprefix = [NSString stringWithFormat:@"%@%@",((TickMark*)[tmpTicks objectAtIndex:i]).siPrefix, siUnit];
 		individualSIprefix = NO;
 	} else {
-		self.commonSIprefix = siUnit;
+		self.commonSIprefix = siUnit; // @""; // ((TickMark*)[tmpTicks lastObject]).siPrefix;
 		individualSIprefix = YES;
 	}
 	

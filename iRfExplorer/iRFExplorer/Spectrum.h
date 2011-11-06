@@ -22,23 +22,26 @@
 
 @interface Spectrum : NSObject {
     NSArray *dbValues;
-    NSArray *frequenciesMhz;
+    NSArray *frequenciesHz;
 
-    float startFreqMhz;
-    float endFreqMhz;
-    float stepFreqMhz;
+    float startFreqHz;
+    float endFreqHz;
+    float stepFreqHz;
     
     float minDbm;
     float maxDbm;
 }
 
-@property (retain, readonly) NSArray *dbValues, *frequenciesMhz;
+@property (retain, readonly) NSArray *dbValues, *frequenciesHz;
 
-@property (assign, readonly) float startFreqMhz, endFreqMhz, stepFreqMhz;
+@property (assign, readonly) float startFreqHz, endFreqHz, stepFreqHz;
 @property (assign, readonly) float minDbm, maxDbm;
 @property (assign, readonly) NSUInteger count;
 
-- (id)initWithStartFreqMhz:(float)_startFreqMhz
-         withStepFreqMhz:(float)_stepFreqMhz
+- (id)initWithStartFreqHz:(float)_startFreqHz
+         withStepFreqHz:(float)_stepFreqHz
                 withData:(NSArray *)vals;
+
+-(NSString *)tsvDescription;
+-(void)addToPasteboard:(NSPasteboard *)pasteBoard;
 @end

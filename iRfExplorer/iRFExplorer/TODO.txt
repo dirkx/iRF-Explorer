@@ -1,20 +1,40 @@
 TODO:
-    Fix big with double release in RFExplorer.m/dealloc -- parser commented out.
     Check resizing updates
-    Legends can go funny on resizes
-    Cut & Paste of values / images to documents/excel/LaTeX
-    There is a crash when you switch to a demo device when the pulldown menu updates
-    Mhz labels etc are wrong for kHz kit
-    Weird redraw issue in SpectrogramView (marked XX)
-    specs/datasheet in credits
+    There is a crash when you switch to a demo devicea s/when the pulldown menu updates
+    Weird redraw issue in SpectrogramView (marked XX - caches under certain circumstances
+    despite cahce off setting).
+    Ugly _view hack in SomeTabView -- perhaps make full NSViewControllers or similar.
+    Rewrite the NSViews/NSControls into more efficient NS(Action)Cells.
+    We should set a timer parser send config - and if we do not get a config back in 0.5-1.5 seconds - ask for the config - as we are then possiby out of sync.
+    Show min/max band setting in config panel about the board ??
+    Hang on quickly toggling 2400 on/off - CFRunLoop & block on open interaction - but
+    using non-blocked serial open clashes with entitlment rules and profiler.
 
 PROTOCOL WISHES
--   Learn min dBm step and freq. span's ranges on the
-    wire rather than hardcode. Extra #C reply perhaps.
-    (Verions 1.02 will ignore unkn #..\r\n cleanly.)
--   Send a command to the device to 'force' it into scan/measure more
-    when it is in a config menu.
--   Special commend to set the device in remote measure mode
-    during which the screen goes blank/unlit and/or keys get blocked.
+-   When the device is not in mesure mode - but on some other menu flavour - it does not react to any # command. And once the user changes - does not give the #C's.
+-   A way to have the PC change the active board (when there is an expansion one).
+-   Send a command to the device to 'force' it into scan/measure more when it is in a config menu.
+-   Learn min dBm step and freq. span's ranges on the wire rather than hardcode. Extra #C reply perhaps.
 -   discover RBW from a C#
+-   Special commend to set the device in remote measure mode during which the screen goes blank/unlit and/or keys get blocked.
+-   A partially bogus #C (e.g. setting frequency to a silly value) does not yield a #C of what was actually taken/parsed. Better if the device rejected the whole string or always gave a #C reply so you know you're in sync.
+-   Perhaps a master reset or other gauranteed to get device under control sequence.
 
+Device/Hardware
+- Finding out where below comes from (does the device quickly reset itself) ?
+
+    Skipping to next \r\n terminated as no initial '#' or vadid $D/S.
+    0000 raw  52 46 20 45 78 70 6c 6f 72 65 72 20 30 37 2d 73 :RF Explorer 07-s
+    0010 raw  65 70 2d 31 31 20 30 31 2e 30 34 2e 30 34 20 30 :ep-11 01.04.04 0
+    0020 raw  31 2e 30 37 0d 0a 28 43 29 20 41 72 69 65 6c 20 :1.07..(C) Ariel 
+    0030 raw  52 6f 63 68 6f 6c 6c 20 32 30 31 31 0d 0a :Rocholl 2011..
+    ...
+    Skipping to next \r\n terminated as no initial '#' or valid $D/S.
+    0000 raw  28 43 29 20 41 72 69 65 6c 20 52 6f 63 68 6f 6c :(C) Ariel Rochol
+    0010 raw  6c 20 32 30 31 31 0d 0a :l 2011..
+
+- Device can hang hard when dBm's are set -120 .. -110 or similar when 
+  lines overshooting the scale. Powercylce will always reset it.
+
+- Double check that top/bottom Amplitude are really display cut-offs - and that the 
+  values you are getting are not getting scaled up between those bounds.
