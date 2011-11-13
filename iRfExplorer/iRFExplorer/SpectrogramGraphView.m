@@ -186,7 +186,7 @@
         if (spectrum != nil) { 
             NSUInteger n = [spectrum count];
             double f = device.fMinFreqHz  + x * device.fFullRangeHz / w; // actual frequency of 'x'
-            NSInteger fdx = 1.0 * n * (f - device.fStartHz) / device.fSpanHz; 
+            NSInteger fdx = 1.0 * n * (device.fStepHz/2 +  f - device.fStartHz) / device.fSpanHz; 
 
             if (fdx >= 0 && fdx < n) {
                 unsigned char v = (130 - [[spectrum.dbValues objectAtIndex:fdx] floatValue]) * 2;

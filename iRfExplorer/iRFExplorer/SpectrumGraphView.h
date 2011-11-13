@@ -29,7 +29,7 @@ extern const float SOY;
 
 @interface SpectrumGraphView : SomeTabView {
     Spectrum *spectrum;
-    NSMutableArray *avgVals, *maxVals;
+    NSMutableArray *avgVals, *maxVals, *sdVals;
     float averagingTimeWindowInSeconds;
     BOOL decay;
     

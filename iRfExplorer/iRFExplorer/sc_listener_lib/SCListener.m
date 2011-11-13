@@ -312,7 +312,7 @@ static void listeningCallback(void *inUserData, AudioQueueRef inAQ, AudioQueueBu
 }
 
 - (id)init {
-	if ([super init] == nil){
+	if ((self=[super init]) == nil){
 		return nil;
 	}
 	// AudioSessionInitialize(NULL,NULL,NULL,NULL);

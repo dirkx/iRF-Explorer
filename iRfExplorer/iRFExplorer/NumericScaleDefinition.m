@@ -63,12 +63,12 @@
     NSMutableArray * result = [NSMutableArray arrayWithCapacity:nbrOfTicks];
     double c = min;
     
-    for(int i = 0; c < max; i++, c += diff/subTickCount) {
-        if (i % subTickCount == 0)
-            continue;
+    for(int i = 0; c < max; i++) {
+        if (i % subTickCount != 0)
+            [result addObject:[NSNumber numberWithDouble:c]];
         
-        [result addObject:[NSNumber numberWithDouble:c]];
-    }
+        c += diff/subTickCount;
+    };
     
     return [NSArray arrayWithArray:result];
 }

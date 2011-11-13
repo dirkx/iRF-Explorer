@@ -18,6 +18,7 @@
 
 -(void)awakeFromNib {
     [super awakeFromNib];
+    self.backgroundColor = [NSColor whiteColor];
 }
 
 -(void)setDevice:(RFExplorer *)_device {

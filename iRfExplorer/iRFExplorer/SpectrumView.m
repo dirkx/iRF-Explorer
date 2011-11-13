@@ -15,6 +15,11 @@
 @implementation SpectrumView
 @synthesize frequencyLegendView, dbmLegendView,spectrumGraphView;
 
+-(void)awakeFromNib {
+    [super awakeFromNib];
+    self.backgroundColor = [NSColor whiteColor];
+}
+
 -(void)setDevice:(RFExplorer *)_device {
     [super setDevice:_device];
 
@@ -35,7 +40,8 @@
 
 -(void)newConfig:(id)sender {
     [super newConfig:sender];
-   [spectrumGraphView newConfig:sender];
+    [frequencyLegendView setWifi:(device.nFreqSpectrumSteps == 13)];
+    [spectrumGraphView newConfig:sender];
 }     
 
 -(void)newBoard:(id)sender {

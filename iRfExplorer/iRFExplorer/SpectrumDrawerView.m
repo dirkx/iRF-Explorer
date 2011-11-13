@@ -22,6 +22,7 @@
     };
     freqSpanField.noFeedbackNeeded = TRUE;
     freqSpanField.logSlider = TRUE;
+    [self showButtonChange:nil];
 }
 
 -(void)setAllControls:(BOOL)onOff {
@@ -33,15 +34,7 @@
     dbmTopField.enabled = onOff;
     showAvgxButton.enabled = onOff;
     showMaxButton.enabled = onOff;
-    decayButton.enabled = onOff;
-    
-    if (onOff) {
-        return;
-    };
-    
-    showAvgxButton.state = NSOffState;
-    showMaxButton.state = NSOffState;
-    decayButton.state = NSOffState;
+    decayButton.enabled = onOff;    
 }
 
 -(void)newConfig:(id)sender {

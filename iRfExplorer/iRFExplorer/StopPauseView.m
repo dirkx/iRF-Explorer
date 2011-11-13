@@ -194,7 +194,7 @@
     CGContextRef ctx = (CGContextRef) [nsGraphicsContext graphicsPort];
 
     CGContextSetRGBFillColor (ctx, 0,0,0,0);
-    CGContextFillRect(ctx,f);
+    CGContextFillRect(ctx,NSRectToCGRect(f));
 
     if (state == NONE)
         return;
@@ -275,7 +275,6 @@
 }
 
 -(void)dealloc {
-    NSLog(@"Releasing");
     [super dealloc];
     if (timer) 
         [timer release];

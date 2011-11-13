@@ -82,9 +82,11 @@
                                    NSForegroundColorAttributeName, 
                                    nil];
             
-            NSString * label = [NSString stringWithFormat:@"Spectogram started at %@", ts];
+            NSString * msg = NSLocalizedString(@"Spectogram started at %@", 
+                                               @"Timestamp string at top spectogram - followed by time");
+            NSString * label = [NSString stringWithFormat:msg, ts];
             NSSize s = [label sizeWithAttributes:attr];
-            [label drawAtPoint:CGPointMake(ox + (rect.size.width-s.width)/2,y+2)  
+            [label drawAtPoint:NSMakePoint(ox + (rect.size.width-s.width)/2,y+2)  
                 withAttributes:attr];
         }
     };
@@ -121,7 +123,7 @@
             NSString * label = [NSString stringWithFormat:@"%@.%02lu", tstr, decs];
             
             NSSize s = [label sizeWithAttributes:attr];
-            [label drawAtPoint:CGPointMake(ox + (rect.size.width-s.width)/2,
+            [label drawAtPoint:NSMakePoint(ox + (rect.size.width-s.width)/2,
                                            y-s.height/2)  
                 withAttributes:attr];
             const int dashLen = 16;

@@ -40,7 +40,6 @@ NSString const *kDemoAudio = @"demo1";
     connectedTime, configTime, spectrumTime;
 
 -(id)init {
-    NSLog(@"Should not be used.");
     assert(1 == 2);
     return self;
 }
@@ -129,7 +128,7 @@ NSString const *kDemoAudio = @"demo1";
             return @"2.4GM"; 
             break;
         case EXPANSION_DEMO:
-            return @"Emulator";
+            return NSLocalizedString(@"Emulator", @"Emulator - name of demo device");
             break;
         case 255: 
             return nil; 
@@ -413,7 +412,7 @@ NSString const *kDemoAudio = @"demo1";
             return @"500 kbps";
             break;
         default:
-            return @"<unknown>";
+            return NSLocalizedString(@"<unknown baudrate>", @"Unknown baudrate");
     };    
 }
 

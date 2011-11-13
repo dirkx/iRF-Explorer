@@ -35,41 +35,67 @@
 }
 
 +(id)stringFromSeconds:(double)f keepShort:(BOOL)keepShort {
+    NSString * h = NSLocalizedString(@"h",@"short hour unit");
+    NSString * hour = NSLocalizedString(@" hour",@"medium hour unit  - prefix with space where needed");
+    NSString * m = NSLocalizedString(@"m",@"short minute unit");
+    NSString * min = NSLocalizedString(@" min",@"medium minute unit  - prefix with space where needed");
+    NSString * s = NSLocalizedString(@"s",@"short second unit");
+    NSString * sec = NSLocalizedString(@" sec",@"medium second unit - prefix with space where needed");
+
     if (f > 5000) {
         return [NSString stringWithFormat:@"%.1f%@",
-                f / 60 / 60, keepShort ? @"h" : @" hour"];
+                f / 60 / 60, keepShort ? h : hour];
     }
     if (f > 1000) {
         return [NSString stringWithFormat:@"%.0f%@",
-                f / 60, keepShort ? @"m" : @" min"];
+                f / 60, keepShort ? m : min];
     }
     if (f > 100) {
         return [NSString stringWithFormat:@"%.1f%@",
-                f / 60, keepShort ? @"m" : @" min"];
+                f / 60, keepShort ? m : min];
     }
     return [NSString stringWithFormat:@"%.1f%@",
-            f, keepShort ? @"s" : @" sec"];
+            f, keepShort ? s : sec];
 }
 
 +(id)stringFromSeconds:(double)v {
-    NSString * fmt = @"%.1f second%s";
+    NSString * minuteLabel = NSLocalizedString(@"minute",@"Long minute unit");
+    NSString * secondLabel = NSLocalizedString(@"second",@"Long second unit");
+    NSString * minutesLabel = NSLocalizedString(@"minutes",@"Long minute unit");
+    NSString * secondsLabel = NSLocalizedString(@"seconds",@"Long second unit");
+
+    NSString *label = secondLabel;
+    NSString *labels = secondsLabel;
+    
+    NSString * fmt = @"%.1f %@";
     if (v > 400) {
         v /= 60;
-        fmt = @"%.0f minute%s";
+        fmt = @"%.0f %@";
+        label = minuteLabel;
+        labels = minutesLabel;
     }
     else if (v > 120) {
         v /= 60;
-        fmt = @"%.1f minute%s";
+        fmt = @"%.1f %@";
+        label = minuteLabel;
+        labels = minutesLabel;
     };
-    return [NSString stringWithFormat:fmt, v, (v >= 2.0) ? "s" : ""];
+    return [NSString stringWithFormat:fmt, v, (v >= 2.0) ? labels : label];
 }
 
 +(double)secondsFromString:(NSString *)s {
+    NSString * h = NSLocalizedString(@"h",@"short hour unit");
+    NSString * hour = NSLocalizedString(@" hour",@"medium hour unit  - prefix with space where needed");
+    NSString * hours = NSLocalizedString(@" hours",@"medium hour unit plural  - prefix with space where needed");
+    NSString * m = NSLocalizedString(@"m",@"short minute unit");
+    NSString * min = NSLocalizedString(@" min",@"medium minute unit  - prefix with space where needed");
+    NSString * mins = NSLocalizedString(@" mins",@"medium minute unit plural - prefix with space where needed");
+
     double v = [s doubleValue];
     
-    if ([s hasSuffix:@"m"] || [s hasSuffix:@"min"] || [s hasSuffix:@"mins"])
+    if ([s hasSuffix:m] || [s hasSuffix:min] || [s hasSuffix:mins])
         v *= 60;
-    if ([s hasSuffix:@"h"] || [s hasSuffix:@"hour"] || [s hasSuffix:@"hours"])
+    if ([s hasSuffix:h] || [s hasSuffix:hour] || [s hasSuffix:hours])
         v *= 60*60;
 
     return v;
@@ -81,7 +107,7 @@
     // we display just the date after 4 days.
     //
     if (fabs(f) > 3600 * 24 * 4) {
-        NSDateFormatter * ndf = [[NSDateFormatter alloc] init];
+        NSDateFormatter * ndf = [[[NSDateFormatter alloc] init] autorelease];
         [ndf setDateStyle:NSDateFormatterShortStyle];
         [ndf setTimeStyle:NSDateFormatterNoStyle];
         return [ndf stringFromDate:age];
@@ -89,7 +115,7 @@
     // when it is more than 4 hours we show the time
     //
     if (fabs(f) > 3600 * 4) {
-        NSDateFormatter * ndf = [[NSDateFormatter alloc] init];
+        NSDateFormatter * ndf = [[[NSDateFormatter alloc] init] autorelease];
         [ndf setDateStyle:NSDateFormatterNoStyle];
         [ndf setTimeStyle:NSDateFormatterShortStyle];
         return [ndf stringFromDate:age];

@@ -30,12 +30,6 @@
     scanSpeedField.enabled = onOff;
     scanRangeButton.enabled = onOff;
     showTimestampButton.enabled = onOff;
-
-    if (onOff)
-        return;
-    
-    scanRangeButton.state = NSOffState;
-    showTimestampButton.state = NSOffState;
 }
 
 -(void)newBoard:(id)sender {
@@ -72,9 +66,6 @@
 -(IBAction)timeStampOnOff:(id)sender {
     BOOL v = (showTimestampButton.state == NSOnState);
     
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:v] 
-                                             forKey:kPreferenceTimeStamp];
-    
     [spectrogramView.timeStampLegendView setShowTimeStamp:v];
 }
 
@@ -82,6 +73,7 @@
     // update the timers.
     [self scan:nil];
 }
+
 -(BOOL)isScanning {
     return scanRangeButton.state == NSOnState;
 }

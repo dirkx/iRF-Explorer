@@ -34,9 +34,11 @@
              withTitle:(NSString*)title 
               withPath:(NSString*)path 
 {
+#if DEBUG
     NSLog(@"Menu: %@ %@",
                  deviceAdded ? @"Adding" : @"Removing", title);
-
+#endif
+    
     if (deviceAdded) {
         [devices setValue:(NSString *)path forKey:(NSString *)title];            
         [super addItemWithTitle:(NSString *)title];

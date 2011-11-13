@@ -26,6 +26,9 @@
 
 @synthesize ticks, subTicks, fullRange, graphLabel;
 
+const double kWifiMin = 2412000000.0;
+const double kWifiStep = 5000000.0;
+
 -(void)setNeedsDisplay:(BOOL)flag {
     [super setNeedsDisplay:flag];
 
@@ -36,20 +39,49 @@
     max = fullRange ? device.fMaxFreqHz : device.fEndHz;
     span = fullRange ? (max-min) : device.fSpanHz;
     
-    NumericScaleDefinition * ns = [TickScaler calculateIdealScaleFromMin:min
-                                                                 withMax:max
-                                   ];
-    
-    StringScaleDefinition * scale = [[StringScaleDefinition alloc] initWithNumericScaleDefinition:ns 
-                                                                                      withDataMin:min
-                                                                                      withDataMax:max
-                                                                                         withUnit:@"Hz"];
-    
-    self.ticks = scale.ticks;
-    self.subTicks = ns.subTicks;
-    self.graphLabel = [NSString stringWithFormat:@"Frequency (%@)", scale.commonSIprefix];
+    if (wifi) {
+        // Note - the curent firmware only goes up to channel 13 it seems.
+        int N = (device.fEndHz - kWifiMin) / kWifiStep;
+        
+        NSMutableArray * am = [NSMutableArray arrayWithCapacity:13];
+        for(int i = 1; i <= N; i++) {
+            NSString * label = [NSString stringWithFormat:@"%d",i];
+            TickMark * tm = [[TickMark alloc] initWithLabelStr:label
+                                                    withSiUnit:@"" 
+                                                  withSiPrefix:@"" 
+                                                     withValue:kWifiMin + kWifiStep * (i-1)
+                             ];
+            [am addObject:tm];
+            [tm release];
+        }
+        self.ticks = [NSArray arrayWithArray:am];
+        self.subTicks = nil;
+        self.graphLabel = NSLocalizedString(@"Wifi Channel #", @"Frequency legegend when Wifi channels are shown");
+    } else {
+        NumericScaleDefinition * ns = [TickScaler calculateIdealScaleFromMin:min
+                                                                     withMax:max
+                                       ];
+        
+        StringScaleDefinition * scale = [[StringScaleDefinition alloc] 
+                      initWithNumericScaleDefinition:ns 
+                                         withDataMin:min
+                                         withDataMax:max
+                                         withUnit:@"Hz"];
+        
+        self.ticks = scale.ticks;
+        self.subTicks = ns.subTicks;
+        self.graphLabel = [NSString stringWithFormat:NSLocalizedString(@"Frequency (%@)",@"Frequency legend when frequencies are shown; Si prefix added"), scale.commonSIprefix];
+        [scale release];
+    }
+}
 
-    [scale release];
+-(void)setWifi:(BOOL)isWifi {
+    wifi = isWifi;
+    [self setNeedsDisplay:YES];
+}
+
+-(BOOL) wifi { 
+    return wifi;
 }
 
 -(void)drawRect:(NSRect)dirtyRect {    
@@ -68,7 +100,7 @@
     
     if (FALSE) {
         CGContextSetRGBFillColor (cref, 1,1,.2,1);
-        CGContextFillRect (cref, rect);
+        CGContextFillRect (cref, NSRectToCGRect(rect));
     };
 
     float Sx = (spectrumRect.size.width-SOX);
@@ -97,7 +129,7 @@
     
     // show actual range
     //
-    if (TRUE) {
+    if (FALSE) {
         float v0 = min;
         float v1 = max;
 
@@ -110,8 +142,7 @@
         CGPoint vt1[] = { CGPointMake(x1,oy), CGPointMake(x1,oy+OS) };    
         CGContextStrokeLineSegments(cref, vt1, 2 );
     }
-
-    
+   
     if (ticks == nil || ticks.count == 0)
         return;
 
@@ -133,33 +164,41 @@
     
     // Line first/last tick.
     //
-    CGPoint hl2[] = { 
-        CGPointMake(ox + (((TickMark *)[ticks objectAtIndex:0]).value - min) * sx,oy), 
-        CGPointMake(ox + (((TickMark *)[ticks lastObject]).value - min) * sx,oy), 
-    };    
-    CGContextStrokeLineSegments(cref, hl2, 2 );
+    if (FALSE) {
+        CGPoint hl2[] = { 
+            CGPointMake(ox + (((TickMark *)[ticks objectAtIndex:0]).value - min) * sx,oy), 
+            CGPointMake(ox + (((TickMark *)[ticks lastObject]).value - min) * sx,oy), 
+        };    
+        CGContextStrokeLineSegments(cref, hl2, 2 );
+    }
 
     for(int i = 0; i < subTicks.count; i++) {
         double v = [(NSNumber *)[subTicks objectAtIndex:i] doubleValue];
-        float x = ox + (v - min) * sx;
-#if 0
-        if (x < ox)
+        float x = ox + (device.fStepHz/2 + v - min) * sx;
+#if 1
+        if (x < ox-OS)
             continue;
-        if (x > ox + Sx)
+        if (x > ox + Sx+OS)
             continue;
 #endif    
+        int l = 1;
         CGPoint tick[] = { 
             CGPointMake(x,oy), 
-            CGPointMake(x, oy-OS) 
+            CGPointMake(x, oy-OS * l) 
         };    
         CGContextStrokeLineSegments(cref, tick, 2 );
     }
 
     for(int i = 0; i < ticks.count; i++) {
         TickMark * m = [ticks objectAtIndex:i];
-        float v = m.value;
-        
-        float x = ox + (v - min) * sx;
+        float v = m.value;        
+        float x = ox + (device.fStepHz/2 + v - min) * sx;
+#if 1
+        if (x < ox-OS)
+            continue;
+        if (x > ox + Sx+OS)
+            continue;
+#endif    
         
         NSTextAlignment a = NSCenterTextAlignment;
         
@@ -169,9 +208,10 @@
         if (x >= ox + Sx)
             a = NSRightTextAlignment;
         
+        int l = 2;
         CGPoint tick[] = { 
             CGPointMake(x,oy), 
-            CGPointMake(x, oy-OS * 2)
+            CGPointMake(x,oy-OS * l)
         };    
         CGContextStrokeLineSegments(cref, tick, 2 );
         

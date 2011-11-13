@@ -29,9 +29,12 @@
 #include <sys/ioctl.h>
 #include <IOKit/IOKitLib.h>
 #include <IOKit/serial/ioss.h>
+#import "PreferenceConstants.h"
 
 @implementation RFExporerCmds
 @synthesize delegate;
+
+
 
 #pragma mark init and related sundry such as thread kickoff.
 
@@ -48,6 +51,10 @@
     path = [_path retain];
     isSlow = _isSlow;
     
+    logRH = [[[NSUserDefaults standardUserDefaults] valueForKey:kCommsLog] boolValue];
+    debugRH = [[[NSUserDefaults standardUserDefaults] valueForKey:kCommsDebug] boolValue];    
+    cmdRH = [[[NSUserDefaults standardUserDefaults] valueForKey:kCmdLog] boolValue];    
+
     struct termios termattr ;
     int nfd = -1;
     
@@ -58,7 +65,7 @@
     
     const char * cpath = [path cStringUsingEncoding:NSASCIIStringEncoding];
 
-#define ME_UNDERSTAND_PROFILER_OBJECTION_TO_THIS 1
+#define ME_UNDERSTAND_PROFILER_OBJECTION_TO_THIS 0
     
 #if ME_UNDERSTAND_PROFILER_OBJECTION_TO_THIS
     if ((nfd = open(cpath , O_RDWR | O_NOCTTY | O_NONBLOCK ))<0)
@@ -100,7 +107,7 @@
     if ((tcsetattr( nfd, TCSANOW, &termattr )) < 0) {
         NSLog(@"Failed to set serial to 8N1: %s", strerror(errno));
         close(nfd);
-        return FALSE;
+        return nil;
     }
     
     int s = isSlow ? B2400 : (500 * 1000);
@@ -108,7 +115,7 @@
     if (ioctl(nfd, IOSSIOSPEED, &s) < 0) {
         NSLog(@"Failed to set baudrate to %d: %s", s, strerror(errno));
         close(nfd);
-        return FALSE;
+        return nil;
     };
     
     // XX todo - we could do a IOSSDATALAT and set it at 500k x 100 bytes or
@@ -176,31 +183,94 @@ error:
         NSLog(@"Failed to sendCmd: %s", strerror(errno));
     };
     
-    // NSLog(@"Send '#<%02d>%s'", len, cmdStr);
+    if (cmdRH)
+        NSLog(@"Send '#<%02d>%s'", len, cmdStr);
     return (e == s);
 }
 
+#define TO_CONFIG_M (1)
+#define TO_CONFIG_F (2)
+#define TO_SPECTRUM (4)
+#define TO_SCREEN   (8)
+#define TO_FIRST (16)
+#define TO_ALL      (0xFF) 
+
+-(void)setTimeoutMask:(NSUInteger)aMask withTimeout:(NSTimeInterval)tOut {
+    [timeoutTimer invalidate];
+    [timeoutTimer release];
+    timeoutTimer = [[NSTimer scheduledTimerWithTimeInterval:tOut 
+                                                     target:self 
+                                                   selector:@selector(timeoutCallback:) 
+                                                   userInfo:self 
+                                                    repeats:NO] retain];
+    timeoutMask |= aMask;
+    // NSLog(@"Timout set %lx", timeoutMask);
+}
+
+-(void)setTimeoutMask:(NSUInteger)aMask {
+    [self setTimeoutMask:aMask withTimeout:2.5];
+}
+
+-(void)timeoutCallback:(id)sender {
+    // NSLog(@"Timout hit %lx", timeoutMask);
+    [timeoutTimer invalidate];
+    [timeoutTimer release];
+    timeoutTimer = nil;
+    
+    if (timeoutMask == 0)
+            return;
+    
+    if (timeoutMask & TO_FIRST) {
+        // try a reset and one more try - and do it longer.
+        NSLog(@"Retry the init sequence...");
+        
+        timeoutMask &= ~TO_FIRST;
+        [self setTimeoutMask:0 
+                 withTimeout:5.0];
+        [self sendCmd:@"C0"];
+    }
+    [self close];
+    [delegate alertUser:NSLocalizedString(@"Communication with RF Explorer timed out.",
+                                          @"Error in comms timeout/silence")];
+};
+
+-(void)clearTimeoutMask:(NSUInteger)aMask {
+    timeoutMask &= ~aMask;
+    if (timeoutMask)
+        return;
+    
+    [timeoutTimer release];
+    timeoutTimer = nil;
+    // NSLog(@"Timout clear %lx", timeoutMask);
+}
+    
 -(void)getConfigData {
+    [self setTimeoutMask:TO_CONFIG_F | TO_SPECTRUM | TO_CONFIG_M | TO_FIRST];
     [self sendCmd:@"C0"];
 }
 
 -(void)playScreen {
+    [self setTimeoutMask:TO_SCREEN];
     [self sendCmd:@"D1"];
 }
 
 -(void)pauseScreen {
+    [self clearTimeoutMask:TO_SCREEN];
     [self sendCmd:@"D0"];
 }
 
 -(void)pauseSpectrum {
+    [self clearTimeoutMask:TO_SPECTRUM];
     [self sendCmd:@"CH"];
 }
 
 -(void)playSpectrum {
+    [self setTimeoutMask:TO_SPECTRUM];
     [self getConfigData];
 }
 
 -(void)shutdown {
+    [self clearTimeoutMask:TO_ALL];
     [self sendCmd:@"CS"];
 }
 
@@ -233,13 +303,42 @@ error:
     ssize_t l = [tmp length];
 
     BOOL debugPR = FALSE;
-    BOOL logPR = FALSE;
     
     if (!l)
         return;
     
     if (debugPR) 
         [self debug:"PR" buff:p  len:l];
+    
+    // Give up.
+    if (fd <0)
+        return;
+
+    
+    if (!strncmp("RF Explorer",p,11)) {
+        NSLog(@"Unexpected boot-up string seen: %s.  Scheduling a re-ask.", p);
+        [NSTimer scheduledTimerWithTimeInterval:0.5 
+                                         target:self 
+                                       selector:@selector(getConfigData) 
+                                       userInfo:nil
+                                        repeats:NO];
+        return;
+    }
+    
+    if (!strncmp("(C) Ariel Rocholl",p,17)) {
+        NSLog(@"Unexpected copyright string seen: %s. Scheduling a re-ask.", p);
+        [NSTimer scheduledTimerWithTimeInterval:0.5 
+                                         target:self 
+                                       selector:@selector(getConfigData) 
+                                       userInfo:nil
+                                        repeats:NO];
+        [NSAlert alertWithMessageText:@"RF Explorer is (re)booting" 
+                        defaultButton:@"OK" 
+                      alternateButton:nil 
+                          otherButton:nil 
+            informativeTextWithFormat:@"The RF-Exporer device is (re)booting. Will try to re-establish contact in a few seconds."];
+        return;
+    }
     
     /* #C2-M:<Main_Model>, <Expansion_Model>, <Firmware_Version> <EOL>
      *
@@ -258,7 +357,7 @@ error:
      *   #C2-M:003,255,01.07<CRLF>
      */
     if (!strncmp("#C2-M:",p,6) && l < 22) {
-        if (logPR) NSLog(@"C2-M '%s'", p);
+        if (cmdRH) NSLog(@"C2-M '%s'", p);
         
         NSString *main = [NSString stringWithCString:p+6 withLength:3 encoding:NSASCIIStringEncoding];
         NSString *expansion = [NSString stringWithCString:p+10 withLength:3 encoding:NSASCIIStringEncoding];
@@ -274,6 +373,8 @@ error:
         [delegate configWithBoard:[main intValue]
                     withExpansion:[expansion intValue]
                      withFirmware:firmware];
+
+        [self clearTimeoutMask:TO_CONFIG_M | TO_FIRST];
         return;
     }
     
@@ -305,6 +406,10 @@ error:
         
         [delegate newData:arr]; 
         
+        // reset the spectrum timer unless we're paused.
+        //
+        if (timeoutMask & TO_SPECTRUM)
+            [self setTimeoutMask:TO_SPECTRUM];        
         return;
     }
     /* $D<Byte><EOL>
@@ -325,7 +430,11 @@ error:
         
         NSImage * img = [LCDImage imageWithLCD:p+2];
         [delegate newScreen:img]; 
-
+        
+        // reset the screen timer if we're still 'playing'.
+        //
+        if (timeoutMask & TO_SCREEN)
+            [self setTimeoutMask:TO_SCREEN];        
         return;
     }
     /*
@@ -366,7 +475,7 @@ error:
      *
      */
     if (((!strncmp("#C2-F:",p,6)) || (!strncmp("#C2-M:",p,6))) && (l >= 50)) {
-        if (logPR) 
+        if (cmdRH) 
             NSLog(@"C2-F '%s'", p);
         if (debugPR) 
             [self debug:"rw2" buff:p len:l];
@@ -396,6 +505,8 @@ error:
                          withMaxFreq:fMaxFreqKHz * 1000.0f
                         withSpanFreq:fMaxSpanKHz * 1000.0f ];
         
+        [self clearTimeoutMask:TO_CONFIG_F];
+
         if (debugPR)
             NSLog(@"config details passed:\n"
                   "\tStart:\t%ld KHz\n"
@@ -426,10 +537,17 @@ error:
     }
 }
 
+-(void)alertUser:(NSString *)userMsg {
+    [delegate alertUser:userMsg];
+}
+
+#pragma mark In thread
+
 -(void)submit:(const char *)buff withLength:(ssize_t)len 
 {   
     NSData * data = [[NSData alloc] initWithBytes:buff length:len];
 
+    if (fd >=0 )
     [self performSelectorOnMainThread:@selector(processReply:)
                            withObject:data
                         waitUntilDone:NO];
@@ -442,14 +560,14 @@ error:
 -(void)readerHandler:(id)sender {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     char buff[32 * 1024];
-    long l = 0;
-    BOOL debugRH = FALSE;
-    BOOL logRH = FALSE;
+    long lenInBuff = 0;
     unsigned int errCnt = 0;
     unsigned int okCnt = 0;
     int ofd = fd;
  
-    NSLog(@"%@ - Listening on fd %d...",self, fd);
+    if (logRH) 
+        NSLog(@"%@ - Listening on fd %d...",self, fd);
+    
     while(1) {
         if (okCnt > 30) 
             errCnt = 0;
@@ -462,7 +580,7 @@ error:
             break;
         
         // Keep one byte at the end for termination.
-        ssize_t s = read(fd,buff + l,sizeof(buff)-1-l);
+        ssize_t s = read(fd,buff + lenInBuff,sizeof(buff)-1-lenInBuff);
 
         if (fd < 0) {
             break;
@@ -474,28 +592,36 @@ error:
                 continue;
             };
             if (s == 0) {
-                NSLog(@"Lost serial connection to device.");
+                [self performSelectorOnMainThread:@selector(alertUser:) 
+                                       withObject:NSLocalizedString(@"Lost serial connection to device", 
+                                                                    @"Error on serial con close")
+                                    waitUntilDone:YES];
+                if (logRH) NSLog(@"Serial close");
             } else {
-                NSLog(@"Read from serial failed: %s", strerror(errno));
+                NSString * fmt = NSLocalizedString(@"Reading data from RF-Explorer failed: %s", 
+                                                   @"Error on serial read with strerror()");
+                [self performSelectorOnMainThread:@selector(alertUser:) 
+                               withObject:[NSString stringWithFormat:fmt,strerror(errno)]
+                                    waitUntilDone:YES];
+                if (logRH) NSLog(@"Serial read failed: %s", strerror(errno));
             }
             close(fd);
             fd = -1;
             break;
         }
 
-        l+=s;
+        lenInBuff+=s;
 
         if (debugRH) {
-            NSLog(@"Read %ld bytes - have %ld bytes", s, l);
-            
-            [self debug:"HH" buff:buff len:l];
+            NSLog(@"Read %ld bytes - have %ld bytes", s, lenInBuff);
+            [self debug:"HH" buff:buff len:lenInBuff];
         };
         
         // terminate as to allow us to use strstr/index and similar.
         //
-        buff[l+1]='\0';
+        buff[lenInBuff+1]='\0';
         
-        if (l >= sizeof(buff)-1) {
+        if (lenInBuff >= sizeof(buff)-1) {
             char * p = index(buff,'#');
             
             NSLog(@"Blew a buffer, %@.",
@@ -503,119 +629,132 @@ error:
             errCnt++; okCnt = 0;
             
             if (p) {
-                l = p-buff;
-                memcpy(buff,p,l);
+                lenInBuff = p-buff;
+                memcpy(buff,p,lenInBuff);
             } else {
-                l = 0;
+                lenInBuff = 0;
             }
             continue;
         };
  
-        while(1) {            
+        while(lenInBuff > 2) // try extracing/parsing what we have
+        {            
+            char * endCmd;
+            
             if (buff[0] == '$') {
                 long i = 2 + 128 * 8 +2;
-                if ((l >= i) && (buff[1] == 'D')) {
-                    // queue 0 .. i -1;
-                    if (logRH) 
-                        NSLog(@"Submit D (%ld bytes)", i);
-                        
+                if ((lenInBuff >= i) && (buff[1] == 'D')) {
                     [self submit:buff withLength:i -2 ];
-		    okCnt++;
+                    okCnt++;
                     
-                    // continue straight after.
-                    memcpy(buff,buff+i,l-i);  
-                    l -= i;
-                    continue;
+                    if (logRH) 
+                        NSLog(@"$D .. of %ld bytes", i);
+                    
+                    lenInBuff -= i;
+                    memcpy(buff,buff+i,lenInBuff);  
+
+                    // continue straight after with the next command if we can.
+                    continue; 
                 };
                 
-                if ((l > 2) && (buff[1] == 'S')) {
+                if ((lenInBuff > 2) && (buff[1] == 'S')) {
                     unsigned int  steps = buff[2];
-                    unsigned int i = 3 + steps + 2; 
+                    unsigned int i = 3 + steps + 2;
+
                     // current device seems to be 112 only; but
                     // wifi analyser may go as low as 13 and future
                     // devices may hit 255.
                     //
-                    if (l >= i && steps > 10) {
-                        // queue 0 .. i -1;
-                        if (logRH) 
-                            NSLog(@"Submit Short S (%u bytes)", i);
+                    if (lenInBuff < i) 
+                        break; // gather more data.
+                    
+                    [self submit:buff withLength:i-2 ];
+                    okCnt++;
+                    
+                    if (logRH) 
+                        NSLog(@"$S .. of %u bytes", i);
                         
-                        [self submit:buff withLength:i-2 ];
-		    	okCnt++;
-                        
-                        // continue straight after.
-                        memcpy(buff,buff+i,l-i);
-                        l -= i;
-                    }
+                    lenInBuff -= i;
+                    memcpy(buff,buff+i,lenInBuff);
+                    // continue straight after with the next command if we can.
+                    continue;
                 }
+                
+                // we'll need more data - break out of the command parsing loop.
                 break;
             } // if $
             
-            char *e = strnstr(buff,"\r\n",l);
-            char *f = strnstr(buff,"$S",l);
-            char *g = strnstr(buff,"$D",l);
+            if ((buff[0] == '#') && (endCmd = strnstr(buff,"\r\n",lenInBuff))) {
+                long len = endCmd  - buff + 2;
+                [self submit:buff withLength:len-2];
 
-            if (f && f < e)
-                e = f;
-            if (g && g < e)
-                e = g;
+                if (logRH)  
+                    NSLog(@"#..\\r\\n of %ld bytes", len);
 
-            if (e) {
-                long i = e - buff + 2;
-                char * p;
-                long len;
-
-                // We're guessing an unterminated $D/$S
-                //
-                if (e[0] == '$') {
-                    i+=2;
-                    memcpy(buff, e, l - i);
-                    l -= 1;
-                    NSLog(@"Skipping %ld bytes to what seems to be a '$%c...'", l, buff[1]);
-                    continue;
-                };
-                
-                // were hoping for some normal command with a #..\r\n
-                //
-                p = index(buff,'#');
-                len = i - (p - buff);
-                
-                // Queue 0 .. i-1;
-                if (p && len > 0) {
-                    if (logRH) 
-                        NSLog(@"# .. \\r\\n segment (%ld bytes) submitting",len);
-                    [self submit:p withLength:len-2];
-                    okCnt++;
-                } else {
-                    NSLog(@"Skipping to next \\r\\n terminated as no initial '#'.");
-                    [self debug:"raw" buff:buff  len:l];
-                    errCnt++; okCnt = 0;
-                };
-                
-                // Skip \r\n and continue just after.
-                if (l-i > 0) {
-                    memcpy(buff, e+2, l - i);
-                    l -= i;
-                    if (debugRH) 
-                        NSLog(@"and moving %ld bytes to the start", l);
-                } else {
-                    l = 0;
-                };
+                lenInBuff -= len;
+                memcpy(buff,buff+len,lenInBuff);                
+                // continue straight after with the next command if we can.
                 continue;
-            }
+            }; // if #
             
-            if (l >= sizeof(buff)-1) {
-                NSLog(@"Blowing complete buffer");
-                errCnt++; okCnt = 0;
-                l = 0;
+            // And finally try for simple ascii strings.
+            //
+            if ((endCmd = strnstr(buff,"\r\n",lenInBuff))) {
+                int i = 0;
+                for(i = 0; buff + i < endCmd; i++)
+                    if (!(isprint(buff[i])))
+                        break;
+                
+                if (buff + i == endCmd) {
+                    long len = endCmd  - buff + 2;
+                    [self submit:buff withLength:len-2];
+                
+                    if (logRH)  
+                        NSLog(@"<string>\\r\\n of %ld bytes", len);
+                
+                    lenInBuff -= len;
+                    memcpy(buff,buff+len,lenInBuff);                
+                    // continue straight after with the next command if we can.
+                    continue;
+                }; // if some simple string.
+            }; 
+            // f we do not have that much data - and no line ending
+            // then read a bit more (or timeout on that).
+            //
+            if (!strnstr(buff,"\r\n",lenInBuff) && lenInBuff < 400)
+                break;
+
+            errCnt++; 
+            okCnt = 0;
+
+            // Skip over stuff until it looks like something we can deal with.
+            //
+            long i = 0;
+            NSString *rlabel = @"no resync-  ignoring whole buffer";
+
+            for(; i < lenInBuff-2; i++) {
+                if (buff[i] == '$' && (buff[i+1] == 'S' || buff[i+1] == 'D')) {
+                    rlabel = [NSString stringWithFormat:@"resync on a $%c", buff[i+1]];
+                    break;
+                }
+                if ((buff[i] == '#') && (buff[i+1] == 'C')) {
+                    rlabel = @"resync on a #C";
+                    break;                   
+                };
             };
             
-            break;
+            lenInBuff -= i;
+            memcpy(buff, buff+i, lenInBuff);
+            
+            NSLog(@"Skipping %ld bytes (%ld left) - no ^(\\$[DS]|\\#C)...\\r\\n$ sequence; %@", i, lenInBuff, rlabel);
+            if (logRH) 
+                [self debug:"skip" buff:buff len:i];
+            
         }; // while we can extract stuff
     }; // while read() loop
     
-    DebugNSLog(@"%@ Serial listener thread exited on fd %d",self, ofd);
-    // [NSAlert alertWithError:@"Lost connection to RF Explorer"];
+    if (logRH)  
+        NSLog(@"%@ Serial listener thread exited on fd %d",self, ofd);
     [pool release];
 };
 
@@ -627,7 +766,7 @@ error:
     
     if (nfd >=0 ) {
         close(nfd);
-        DebugNSLog(@"Normal close(%d) of %@ on its serial connection.", nfd, self.className);
+        // DebugNSLog(@"Normal close(%d) of %@ on its serial connection.", nfd, self.className);
     };
 }
 
@@ -635,12 +774,13 @@ error:
     if (fd >=0) 
         [self close];
     
+    [timeoutTimer invalidate];
+    [timeoutTimer release];
+    timeoutTimer = nil;
+
     [path release];
     
-    // XX fix-me -- this dealloc causes a crash - because we're prolly
-    // over releasing something - or have just done so. But cannot 
-    // quite find it yet..
-    //
     [super dealloc];    
+    
 }
 @end

@@ -402,7 +402,7 @@ NSArray * baseNiceNumber, *niceNbrs;
 	}
 	else
 	{
-		granularity = -1;
+		granularity = -5;
 	}
 	
 	double dcScore = 0;
@@ -420,8 +420,8 @@ NSArray * baseNiceNumber, *niceNbrs;
         dcScore = -1;
     }
 	
-	if (scaleInt.nbrOfTicks > 1.5*maxNbrOfTicks)
-		granularity = -5;
+	if (scaleInt.nbrOfTicks > 1.2*maxNbrOfTicks)
+		granularity = -10;
 
 	if (scaleInt.nbrOfTicks > 2*maxNbrOfTicks)
 		granularity = -20;

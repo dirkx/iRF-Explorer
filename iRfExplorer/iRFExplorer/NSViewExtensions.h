@@ -11,4 +11,6 @@
 @interface NSView (MyExtensions);
 - (void)setSubViewsEnabled:(BOOL)enabled;
 -(void)drawEmptyRect:(NSRect)dirtyRect;
+void CGContextAddReverseRect(CGContextRef ctx,CGRect frame);
+- (CGPathRef) newPathForRoundedRect:(CGRect)rect radius:(CGFloat)radius;
 @end

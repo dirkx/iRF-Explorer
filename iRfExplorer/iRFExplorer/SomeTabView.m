@@ -12,19 +12,13 @@
 
 @implementation SomeTabView
 @synthesize device,index;
-@synthesize _view;
+@synthesize _view, backgroundColor;
 
 -(void)awakeFromNib {
     [self addSubview:_view];
     index = TAB_NONE;
+    self.backgroundColor = nil;
 }
-
-#if 0
--(void)setNeedsDisplay:(BOOL)flag {
-    NSLog(@"setNeedsDisplay %d for %@", flag, self.className);
-    [super setNeedsDisplay:flag];
-}
-#endif
 
 -(void)printView:(NSView *)view {
     NSPrintInfo *printInfo;
@@ -97,19 +91,13 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    if (index != TAB_SPECTROGRAM && index != TAB_SPECTRUM)
+    if (device)
         return;
 
-    if (YES) {
-        NSGraphicsContext * nsGraphicsContext = [NSGraphicsContext currentContext];
-        CGContextRef cref = (CGContextRef) [nsGraphicsContext graphicsPort];
-        CGContextSetRGBFillColor (cref, 1,1,1,1);
-        CGContextFillRect (cref, self.bounds);
-    };
-    
-    if (device)
+    if (index != TAB_SPECTROGRAM && index != TAB_SPECTRUM)
         return;
     
     [self drawEmptyRect:dirtyRect];
 }
+
 @end

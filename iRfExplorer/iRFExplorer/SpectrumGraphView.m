@@ -39,6 +39,7 @@ const int OS = 8;      // overshoot axises
     [super newBoard:sender];
     [self resetCalculations];
 }
+
 -(Spectrum *)spectrum { 
     return spectrum; 
 }
@@ -48,6 +49,9 @@ const int OS = 8;      // overshoot axises
         [spectrum release];
         spectrum = [_spectrum retain];
     };
+    
+    if (spectrum == nil || [spectrum count] == 0)
+        return;
     
 #ifndef UPDATE_TIMER_WINDOW
 #define UPDATE_TIMER_WINDOW (100)
@@ -69,19 +73,34 @@ const int OS = 8;      // overshoot axises
     
     [self setNeedsDisplay:YES];
 
-    if (!(avgVals|| maxVals))
+    if (avgVals == nil && maxVals == nil)
         return;
     
-    for(NSUInteger i = 0; i < spectrum.count; i++) {
-        float v = [[spectrum.dbValues objectAtIndex:i] floatValue];
-        if (avgVals) {
-            float a = [[avgVals objectAtIndex:i] floatValue];
-            float samples = averagingTimeWindowInSeconds / updateTimeInterval;
-            a = ((samples-1) * a + v)/samples;
+    if (avgVals && avgVals.count == 0) {
+        [avgVals setArray:spectrum.dbValues];
+        for(int i = 0; i < avgVals.count; i++)
+            [sdVals addObject:[NSNumber numberWithDouble:0.0]];
+    }
+    
+    if (maxVals && maxVals.count == 0) 
+        [maxVals setArray:spectrum.dbValues];
 
-            [avgVals replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:a]];                
+    for(NSUInteger i = 0; i < spectrum.dbValues.count; i++) {
+        double v = [[spectrum.dbValues objectAtIndex:i] doubleValue];
+        
+        if (avgVals && i < avgVals.count) {
+            double a = [[avgVals objectAtIndex:i] doubleValue];
+            double olda = a;
+            double sd = [[sdVals objectAtIndex:i] doubleValue];
+            double samples = averagingTimeWindowInSeconds / updateTimeInterval;
+
+            a = ((samples-1) * a + v)/samples;
+            [avgVals replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:a]];                
+            
+            sd =((samples-1) * sd  + (v - olda)*(v - a))/ samples ;
+            [sdVals replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:sd]];                
         }
-        if (maxVals) {
+        if (maxVals && i < maxVals.count) {
             float mm = [[maxVals objectAtIndex:i] floatValue];
             float m = mm;
             if (v > m)
@@ -106,21 +125,19 @@ const int OS = 8;      // overshoot axises
     if (!newState)
         return;
     
-    maxVals = [[NSMutableArray arrayWithArray:spectrum.dbValues] retain];
-    
+    maxVals = [[NSMutableArray array] retain];    
     [self setNeedsDisplay:YES];
 }
 
 -(void)setAndResetShowAvg:(BOOL)newState {
-    [avgVals release];
-    avgVals = nil;
+    [avgVals release]; [sdVals release];
+    avgVals = nil; sdVals = nil;
     
     if (!newState)
         return;
     
-    averagingTimeWindowInSeconds = 50;
-    avgVals = [[NSMutableArray arrayWithArray:spectrum.dbValues] retain];
-
+    avgVals = [[NSMutableArray array] retain];
+    sdVals = [[NSMutableArray array] retain];
     [self setNeedsDisplay:YES];
 }
 
@@ -143,7 +160,7 @@ const int OS = 8;      // overshoot axises
     
     if (FALSE) {
         CGContextSetRGBFillColor (cref, 1,1,1,1);
-        CGContextFillRect (cref, rect);
+        CGContextFillRect(cref, NSRectToCGRect(rect));
     };
     
     float sx = (rect.size.width-SOX) / device.fSpanHz;
@@ -186,14 +203,22 @@ const int OS = 8;      // overshoot axises
     if (TRUE) {
         for(NSUInteger i = 0; i < spectrum.count; i++) {
             float f = [[spectrum.frequenciesHz objectAtIndex:i] floatValue];
-            double x = ox + (f - device.fStartHz) * sx;
+            double x = ox + (device.fStepHz/2 + f - device.fStartHz) * sx;
             
-            float v = [[spectrum.dbValues objectAtIndex:i] floatValue] - device.fAmplitudeMin;
-            double y = oy + v * sy;
+            float v = [[spectrum.dbValues objectAtIndex:i] floatValue];
             
             if (i == 0 || v > ha) {
                 ha = v; hi = i; 
             }
+            
+            if (v <  device.fAmplitudeBottom)
+                v = device.fAmplitudeBottom;
+            
+            if (v > device.fAmplitudeTop)
+                v = device.fAmplitudeTop;
+            
+            v -= device.fAmplitudeBottom;
+            double y = oy + v * sy;
             
             CGContextMoveToPoint(cref, x,oy);
             CGContextAddLineToPoint(cref, x, y);
@@ -207,42 +232,110 @@ const int OS = 8;      // overshoot axises
     
     // Blue Average line
     //
-    if (avgVals) {
-        for(NSUInteger i = 0; i < spectrum.count; i++) {
-            float f = [[spectrum.frequenciesHz objectAtIndex:i] floatValue];
-            double x = ox + (f - device.fStartHz) * sx;
+    if (avgVals && avgVals.count>0) {
+        double bot[avgVals.count];
+        double xv[avgVals.count];
+        
+        CGMutablePathRef topPath = CGPathCreateMutable();
+        CGMutablePathRef botPath = CGPathCreateMutable();
+        CGMutablePathRef encPath = CGPathCreateMutable();
+        
+        for(NSUInteger i = 0; i < avgVals.count; i++) {
+            float f = [[spectrum.frequenciesHz objectAtIndex:i] doubleValue];
+            double x = ox + (device.fStepHz/2 + f - device.fStartHz) * sx;
             
-            float v = [[avgVals objectAtIndex:i] floatValue] - device.fAmplitudeMin;
-            double y = oy + v * sy;
-
+            float v = [[avgVals objectAtIndex:i] doubleValue];
+            float sd = [[sdVals  objectAtIndex:i] doubleValue];
+ 
             if (v >= ha) {
                 ha = v; hi = i; src = 1;
             }
+            
+            if (v <  device.fAmplitudeBottom)
+                v = device.fAmplitudeBottom;
+            
+            if (v > device.fAmplitudeTop)
+                v = device.fAmplitudeTop;
+            
+            v -= device.fAmplitudeBottom;
+            double y = oy + v * sy;
+            double sdy =   sd * sy;
             
             if (i == 0)
                 CGContextMoveToPoint(cref,x,y);
             else
                 CGContextAddLineToPoint(cref,x,y);
+            
+            // Already draw the left to right top part of the
+            // SD area - and keep data so we can create the 
+            // reverse path once we have all the values.
+            xv[i] = x;
+            bot[i] = y - sqrt(sdy);
+            y = y + sqrt(sdy);
+            if (i == 0) {
+                CGPathMoveToPoint(topPath, nil, x, y);
+                CGPathMoveToPoint(encPath, nil, x, y);
+            } else {
+                CGPathAddLineToPoint(topPath, nil, x, y);
+                CGPathAddLineToPoint(encPath, nil, x, y);
+            }
         };
         
-        CGContextSetLineWidth(cref, 2.0 * rect.size.width / 480.0);
+        // And creation of the mirror path from right to left
+        // along with the enclosing area.
+        //
+        for(NSUInteger i = avgVals.count; i > 0; i--) {
+            double y = bot[i-1];
+            double x = xv[i-1];
+            if (i ==  avgVals.count) {
+                CGPathMoveToPoint(botPath, nil, x, y);
+                CGPathAddLineToPoint(encPath, nil, x, y);
+            } else {
+                CGPathAddLineToPoint(botPath, nil, x, y);
+                CGPathAddLineToPoint(encPath, nil, x, y);
+            }
+        };
+        CGPathCloseSubpath(encPath);
+        
+        CGContextSetLineWidth(cref, MIN(3.0, 2.0 * rect.size.width / 480.0));
         CGContextSetRGBStrokeColor(cref, 0,0,0.8,0.7);
         CGContextStrokePath(cref);
+        
+        CGContextSetRGBFillColor(cref, 0,0,0.8,0.3);
+        CGContextAddPath(cref, encPath);
+        CGContextFillPath(cref);
+
+        CGContextSetLineWidth(cref, MIN(1.0, 1.0 * rect.size.width / 480.0));
+        CGContextSetRGBStrokeColor(cref, 0,0,0.8,0.5);
+        CGContextAddPath(cref, topPath);
+        CGContextAddPath(cref, botPath);
+        CGContextStrokePath(cref);
+        
+        CGPathRelease(topPath);
+        CGPathRelease(botPath);
+        CGPathRelease(encPath);
     };
-    
+            
     // Red Average line
     //
     if (maxVals) {
-        for(NSUInteger i = 0; i < spectrum.count; i++) {
+        for(NSUInteger i = 0; i < maxVals.count; i++) {
             float f = [[spectrum.frequenciesHz objectAtIndex:i] floatValue];
-            double x = ox + (f - device.fStartHz) * sx;
+            double x = ox + (device.fStepHz/2 +f - device.fStartHz) * sx;
             
-            float v = [[maxVals objectAtIndex:i] floatValue] - device.fAmplitudeMin;
-            double y = oy + v * sy;
+            float v = [[maxVals objectAtIndex:i] floatValue];
             
             if (v >= ha) {
                 ha = v; hi = i; src = 2;
             }
+            if (v <  device.fAmplitudeBottom)
+                v = device.fAmplitudeBottom;
+            
+            if (v > device.fAmplitudeTop)
+                v = device.fAmplitudeTop;
+            
+            v -= device.fAmplitudeBottom;
+            double y = oy + v * sy;
             
             if (i == 0)
                 CGContextMoveToPoint(cref,x,y);
@@ -260,11 +353,11 @@ const int OS = 8;      // overshoot axises
     //
     if (TRUE) {
         float f = [[spectrum.frequenciesHz objectAtIndex:hi] floatValue];
-        double x = ox + (f - device.fStartHz) * sx;
+        double x = ox + (device.fStepHz/2 + f - device.fStartHz) * sx;
         
         float v = ha;
-        float V = v + device.fAmplitudeMin;
-        double y = oy + v * sy;
+        float V = v; //  + device.fAmplitudeBottom;
+        double y = oy + (v - device.fAmplitudeBottom) * sy;
         
         y += OS + 2;
 
@@ -341,6 +434,7 @@ const int OS = 8;      // overshoot axises
     self.spectrum = nil;
     [avgVals release];
     [maxVals release];
+    [sdVals release];
     [device release];
     [lastUpdate release];
     

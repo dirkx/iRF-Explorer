@@ -29,11 +29,11 @@
 @interface FrequencyLegendView : LegendView {
     NSArray * ticks, * subTicks;
     double min, max, span;
-    BOOL fullRange;
+    BOOL fullRange, wifi;
     NSString * graphLabel;
 }
 
 @property (retain) NSArray * ticks, * subTicks;
 @property (retain) NSString * graphLabel;
-@property (assign) BOOL fullRange;
+@property (assign) BOOL fullRange,wifi;
 @end

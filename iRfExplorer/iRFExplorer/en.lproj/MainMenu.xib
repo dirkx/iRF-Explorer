@@ -12,16 +12,16 @@
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<string>NSTabViewItem</string>
 			<string>NSUserDefaultsController</string>
+			<string>NSTabViewItem</string>
 			<string>NSMenuItem</string>
 			<string>NSMenu</string>
 			<string>NSTextFieldCell</string>
 			<string>NSButtonCell</string>
 			<string>NSButton</string>
+			<string>NSBox</string>
 			<string>NSImageView</string>
 			<string>NSImageCell</string>
-			<string>NSBox</string>
 			<string>NSTabView</string>
 			<string>NSCustomView</string>
 			<string>NSCustomObject</string>
@@ -806,8 +806,9 @@
 						<object class="NSTabView" id="1036856560">
 							<reference key="NSNextResponder" ref="229004048"/>
 							<int key="NSvFlags">18</int>
-							<string key="NSFrame">{{1, 37}, {488, 342}}</string>
+							<string key="NSFrame">{{1, 37}, {488, 336}}</string>
 							<reference key="NSSuperview" ref="229004048"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="697554"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<string key="NSReuseIdentifierKey">_NS:461</string>
@@ -823,8 +824,9 @@
 											<object class="NSCustomView" id="635884974">
 												<reference key="NSNextResponder" ref="697554"/>
 												<int key="NSvFlags">274</int>
-												<string key="NSFrame">{{66, 57}, {366, 222}}</string>
+												<string key="NSFrame">{{66, 57}, {366, 216}}</string>
 												<reference key="NSSuperview" ref="697554"/>
+												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="264138786"/>
 												<string key="NSReuseIdentifierKey">_NS:499</string>
 												<string key="NSClassName">SpectrumGraphView</string>
@@ -832,8 +834,9 @@
 											<object class="NSCustomView" id="998006967">
 												<reference key="NSNextResponder" ref="697554"/>
 												<int key="NSvFlags">276</int>
-												<string key="NSFrameSize">{60, 293}</string>
+												<string key="NSFrameSize">{60, 287}</string>
 												<reference key="NSSuperview" ref="697554"/>
+												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="635884974"/>
 												<bool key="NSViewCanDrawConcurrently">YES</bool>
 												<string key="NSReuseIdentifierKey">_NS:499</string>
@@ -844,6 +847,7 @@
 												<int key="NSvFlags">290</int>
 												<string key="NSFrameSize">{471, 50}</string>
 												<reference key="NSSuperview" ref="697554"/>
+												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="792436354"/>
 												<bool key="NSViewCanDrawConcurrently">YES</bool>
 												<string key="NSReuseIdentifierKey">_NS:499</string>
@@ -852,15 +856,17 @@
 											<object class="NSCustomView" id="792436354">
 												<reference key="NSNextResponder" ref="697554"/>
 												<int key="NSvFlags">301</int>
-												<string key="NSFrameSize">{32, 32}</string>
+												<string key="NSFrame">{{436, 258}, {32, 32}}</string>
 												<reference key="NSSuperview" ref="697554"/>
-												<reference key="NSNextKeyView" ref="100482138"/>
+												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="1036856560"/>
 												<string key="NSReuseIdentifierKey">_NS:499</string>
 												<string key="NSClassName">StopPauseView</string>
 											</object>
 										</object>
-										<string key="NSFrame">{{10, 33}, {468, 296}}</string>
+										<string key="NSFrame">{{10, 33}, {468, 290}}</string>
 										<reference key="NSSuperview" ref="1036856560"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="998006967"/>
 										<string key="NSReuseIdentifierKey">_NS:463</string>
 									</object>
@@ -898,7 +904,7 @@
 														<string>NeXT TIFF v4.0 pasteboard type</string>
 													</object>
 												</object>
-												<string key="NSFrame">{{41, 87}, {384, 192}}</string>
+												<string key="NSFrame">{{41, 85}, {384, 187}}</string>
 												<reference key="NSSuperview" ref="691729645"/>
 												<reference key="NSNextKeyView" ref="503149416"/>
 												<bool key="NSViewIsLayerTreeHost">YES</bool>
@@ -946,7 +952,7 @@
 											<object class="NSTextField" id="503149416">
 												<reference key="NSNextResponder" ref="691729645"/>
 												<int key="NSvFlags">266</int>
-												<string key="NSFrame">{{41, 157}, {386, 38}}</string>
+												<string key="NSFrame">{{41, 151}, {386, 38}}</string>
 												<reference key="NSSuperview" ref="691729645"/>
 												<reference key="NSNextKeyView" ref="211422808"/>
 												<string key="NSReuseIdentifierKey">_NS:3936</string>
@@ -970,7 +976,7 @@
 												</object>
 											</object>
 										</object>
-										<string key="NSFrame">{{10, 33}, {468, 296}}</string>
+										<string key="NSFrame">{{10, 33}, {468, 290}}</string>
 										<reference key="NSNextKeyView" ref="1020399503"/>
 										<string key="NSReuseIdentifierKey">_NS:473</string>
 									</object>
@@ -1004,7 +1010,7 @@
 																<string>NeXT TIFF v4.0 pasteboard type</string>
 															</object>
 														</object>
-														<string key="NSFrameSize">{390, 240}</string>
+														<string key="NSFrameSize">{390, 234}</string>
 														<reference key="NSSuperview" ref="400679331"/>
 														<reference key="NSNextKeyView" ref="790096953"/>
 														<int key="NSViewLayerContentsRedrawPolicy">2</int>
@@ -1022,7 +1028,7 @@
 														<bool key="NSEditable">YES</bool>
 													</object>
 												</object>
-												<string key="NSFrame">{{45, 40}, {390, 240}}</string>
+												<string key="NSFrame">{{45, 40}, {390, 234}}</string>
 												<reference key="NSSuperview" ref="281599808"/>
 												<reference key="NSNextKeyView" ref="933251175"/>
 												<int key="NSViewLayerContentsRedrawPolicy">2</int>
@@ -1032,9 +1038,8 @@
 											<object class="NSCustomView" id="218440501">
 												<reference key="NSNextResponder" ref="281599808"/>
 												<int key="NSvFlags">301</int>
-												<string key="NSFrameSize">{32, 32}</string>
+												<string key="NSFrame">{{436, 258}, {32, 32}}</string>
 												<reference key="NSSuperview" ref="281599808"/>
-												<reference key="NSNextKeyView" ref="100482138"/>
 												<int key="NSViewLayerContentsRedrawPolicy">2</int>
 												<bool key="NSViewCanDrawConcurrently">YES</bool>
 												<string key="NSReuseIdentifierKey">_NS:499</string>
@@ -1054,7 +1059,7 @@
 											<object class="NSCustomView" id="1023950017">
 												<reference key="NSNextResponder" ref="281599808"/>
 												<int key="NSvFlags">274</int>
-												<string key="NSFrameSize">{45, 299}</string>
+												<string key="NSFrameSize">{45, 293}</string>
 												<reference key="NSSuperview" ref="281599808"/>
 												<reference key="NSNextKeyView" ref="400679331"/>
 												<int key="NSViewLayerContentsRedrawPolicy">2</int>
@@ -1065,7 +1070,7 @@
 											<object class="NSCustomView" id="790096953">
 												<reference key="NSNextResponder" ref="281599808"/>
 												<int key="NSvFlags">274</int>
-												<string key="NSFrame">{{45, 40}, {390, 240}}</string>
+												<string key="NSFrame">{{45, 40}, {390, 234}}</string>
 												<reference key="NSSuperview" ref="281599808"/>
 												<reference key="NSNextKeyView" ref="930218594"/>
 												<int key="NSViewLayerContentsRedrawPolicy">2</int>
@@ -1074,7 +1079,7 @@
 												<string key="NSClassName">TimeStampLegendView</string>
 											</object>
 										</object>
-										<string key="NSFrame">{{10, 33}, {468, 296}}</string>
+										<string key="NSFrame">{{10, 33}, {468, 290}}</string>
 										<reference key="NSNextKeyView" ref="1023950017"/>
 										<int key="NSViewLayerContentsRedrawPolicy">2</int>
 									</object>
@@ -1086,8 +1091,7 @@
 									<object class="NSView" key="NSView" id="231128904">
 										<nil key="NSNextResponder"/>
 										<int key="NSvFlags">256</int>
-										<string key="NSFrame">{{10, 33}, {468, 296}}</string>
-										<reference key="NSNextKeyView" ref="100482138"/>
+										<string key="NSFrame">{{10, 33}, {468, 290}}</string>
 									</object>
 									<string key="NSLabel">Config</string>
 									<reference key="NSColor" ref="966342001"/>
@@ -1096,7 +1100,7 @@
 							</object>
 							<reference key="NSSelectedTabViewItem" ref="487258625"/>
 							<object class="NSFont" key="NSFont" id="61812961">
-								<string key="NSName">LucidaGrande</string>
+								<string key="NSName">Azuro</string>
 								<double key="NSSize">13</double>
 								<int key="NSfFlags">1044</int>
 							</object>
@@ -1122,6 +1126,7 @@
 											<int key="NSvFlags">267</int>
 											<string key="NSFrame">{{312, 9}, {151, 17}}</string>
 											<reference key="NSSuperview" ref="22981695"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:3936</string>
 											<bool key="NSEnabled">YES</bool>
@@ -1149,6 +1154,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{3, 8}, {53, 18}}</string>
 											<reference key="NSSuperview" ref="22981695"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="604460723"/>
 											<string key="NSReuseIdentifierKey">_NS:3936</string>
 											<bool key="NSEnabled">YES</bool>
@@ -1168,6 +1174,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{61, 9}, {119, 17}}</string>
 											<reference key="NSSuperview" ref="22981695"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="69600065"/>
 											<string key="NSReuseIdentifierKey">_NS:3936</string>
 											<bool key="NSEnabled">YES</bool>
@@ -1196,6 +1203,7 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{188, 9}, {119, 17}}</string>
 											<reference key="NSSuperview" ref="22981695"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="345409095"/>
 											<string key="NSReuseIdentifierKey">_NS:3936</string>
 											<bool key="NSEnabled">YES</bool>
@@ -1214,12 +1222,14 @@
 									</object>
 									<string key="NSFrame">{{1, 1}, {478, 32}}</string>
 									<reference key="NSSuperview" ref="100482138"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="387979695"/>
 									<string key="NSReuseIdentifierKey">_NS:632</string>
 								</object>
 							</object>
 							<string key="NSFrame">{{5, 2}, {480, 34}}</string>
 							<reference key="NSSuperview" ref="229004048"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="22981695"/>
 							<string key="NSReuseIdentifierKey">_NS:630</string>
 							<string key="NSOffsets">{0, 0}</string>
@@ -1252,10 +1262,11 @@
 					</object>
 					<string key="NSFrameSize">{488, 379}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="1036856560"/>
 					<string key="NSReuseIdentifierKey">_NS:2818</string>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {2560, 1578}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1366, 746}}</string>
 				<string key="NSMinSize">{486, 391}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -1265,11 +1276,10 @@
 				<int key="NSvFlags">274</int>
 				<string key="NSFrameSize">{203, 495}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="563601385">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1344,6 +1354,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{75, 155}, {61, 20}}</string>
 						<reference key="NSSuperview" ref="563601385"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:239</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="88767699">
@@ -1489,6 +1500,7 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{158, 482}</string>
+				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="365349357"/>
 				<string key="NSReuseIdentifierKey">_NS:499</string>
 				<string key="NSClassName">SpectrumDrawerView</string>
@@ -1537,6 +1549,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{21, 357}, {115, 20}}</string>
 						<reference key="NSSuperview" ref="161068742"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:239</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="713144274">
@@ -3374,139 +3387,6 @@
 						<reference key="parent" ref="279825860"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">594</int>
-						<reference key="object" ref="1036856560"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="16033325"/>
-							<reference ref="487258625"/>
-							<reference ref="753827448"/>
-							<reference ref="192923785"/>
-						</object>
-						<reference key="parent" ref="229004048"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">855</int>
-						<reference key="object" ref="192923785"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="281599808"/>
-						</object>
-						<reference key="parent" ref="1036856560"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">856</int>
-						<reference key="object" ref="281599808"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="218440501"/>
-							<reference ref="930218594"/>
-							<reference ref="1023950017"/>
-							<reference ref="790096953"/>
-							<reference ref="400679331"/>
-						</object>
-						<reference key="parent" ref="192923785"/>
-						<string key="objectName">Spectrogram View</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">688</int>
-						<reference key="object" ref="753827448"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="231128904"/>
-						</object>
-						<reference key="parent" ref="1036856560"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">689</int>
-						<reference key="object" ref="231128904"/>
-						<reference key="parent" ref="753827448"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">596</int>
-						<reference key="object" ref="487258625"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="697554"/>
-						</object>
-						<reference key="parent" ref="1036856560"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">597</int>
-						<reference key="object" ref="697554"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="792436354"/>
-							<reference ref="635884974"/>
-							<reference ref="264138786"/>
-							<reference ref="998006967"/>
-						</object>
-						<reference key="parent" ref="487258625"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">595</int>
-						<reference key="object" ref="16033325"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="691729645"/>
-						</object>
-						<reference key="parent" ref="1036856560"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">599</int>
-						<reference key="object" ref="691729645"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="211422808"/>
-							<reference ref="1020399503"/>
-							<reference ref="503149416"/>
-						</object>
-						<reference key="parent" ref="16033325"/>
-						<string key="objectName">Some Tab View</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">600</int>
-						<reference key="object" ref="503149416"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="990607703"/>
-						</object>
-						<reference key="parent" ref="691729645"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">605</int>
-						<reference key="object" ref="990607703"/>
-						<reference key="parent" ref="503149416"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">602</int>
-						<reference key="object" ref="1020399503"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="911377311"/>
-						</object>
-						<reference key="parent" ref="691729645"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">603</int>
-						<reference key="object" ref="911377311"/>
-						<reference key="parent" ref="1020399503"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">601</int>
-						<reference key="object" ref="211422808"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="941087329"/>
-						</object>
-						<reference key="parent" ref="691729645"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">604</int>
-						<reference key="object" ref="941087329"/>
-						<reference key="parent" ref="211422808"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">920</int>
 						<reference key="object" ref="502759107"/>
 						<object class="NSMutableArray" key="children">
@@ -3622,19 +3502,9 @@
 						<reference key="parent" ref="835318025"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1088</int>
-						<reference key="object" ref="218440501"/>
-						<reference key="parent" ref="281599808"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1093</int>
 						<reference key="object" ref="598901723"/>
 						<reference key="parent" ref="835318025"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1087</int>
-						<reference key="object" ref="792436354"/>
-						<reference key="parent" ref="697554"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1095</int>
@@ -3642,38 +3512,40 @@
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">829</int>
-						<reference key="object" ref="264138786"/>
-						<reference key="parent" ref="697554"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">798</int>
-						<reference key="object" ref="998006967"/>
-						<reference key="parent" ref="697554"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1131</int>
-						<reference key="object" ref="930218594"/>
+						<int key="objectID">594</int>
+						<reference key="object" ref="1036856560"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="16033325"/>
+							<reference ref="487258625"/>
+							<reference ref="753827448"/>
+							<reference ref="192923785"/>
 						</object>
-						<reference key="parent" ref="281599808"/>
-						<string key="objectName">Frequency Legend</string>
+						<reference key="parent" ref="229004048"/>
+						<string key="objectName">Tab View (Spectrum, Screen, Spectrogram, Config)</string>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1138</int>
-						<reference key="object" ref="1023950017"/>
+						<int key="objectID">855</int>
+						<reference key="object" ref="192923785"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="281599808"/>
 						</object>
-						<reference key="parent" ref="281599808"/>
-						<string key="objectName">TimeLegend</string>
+						<reference key="parent" ref="1036856560"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1143</int>
-						<reference key="object" ref="790096953"/>
-						<reference key="parent" ref="281599808"/>
-						<string key="objectName">TimeStampLegend</string>
+						<int key="objectID">856</int>
+						<reference key="object" ref="281599808"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="218440501"/>
+							<reference ref="930218594"/>
+							<reference ref="1023950017"/>
+							<reference ref="790096953"/>
+							<reference ref="400679331"/>
+						</object>
+						<reference key="parent" ref="192923785"/>
+						<string key="objectName">Spectrogram View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1152</int>
@@ -3701,9 +3573,145 @@
 						<reference key="parent" ref="933251175"/>
 					</object>
 					<object class="IBObjectRecord">
+						<int key="objectID">1143</int>
+						<reference key="object" ref="790096953"/>
+						<reference key="parent" ref="281599808"/>
+						<string key="objectName">TimeStampLegend</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1138</int>
+						<reference key="object" ref="1023950017"/>
+						<reference key="parent" ref="281599808"/>
+						<string key="objectName">TimeLegend</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1131</int>
+						<reference key="object" ref="930218594"/>
+						<reference key="parent" ref="281599808"/>
+						<string key="objectName">Frequency Legend</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1088</int>
+						<reference key="object" ref="218440501"/>
+						<reference key="parent" ref="281599808"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">688</int>
+						<reference key="object" ref="753827448"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="231128904"/>
+						</object>
+						<reference key="parent" ref="1036856560"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">689</int>
+						<reference key="object" ref="231128904"/>
+						<reference key="parent" ref="753827448"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">596</int>
+						<reference key="object" ref="487258625"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="697554"/>
+						</object>
+						<reference key="parent" ref="1036856560"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">597</int>
+						<reference key="object" ref="697554"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="792436354"/>
+							<reference ref="635884974"/>
+							<reference ref="264138786"/>
+							<reference ref="998006967"/>
+						</object>
+						<reference key="parent" ref="487258625"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">798</int>
+						<reference key="object" ref="998006967"/>
+						<reference key="parent" ref="697554"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">829</int>
+						<reference key="object" ref="264138786"/>
+						<reference key="parent" ref="697554"/>
+					</object>
+					<object class="IBObjectRecord">
 						<int key="objectID">834</int>
 						<reference key="object" ref="635884974"/>
 						<reference key="parent" ref="697554"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1087</int>
+						<reference key="object" ref="792436354"/>
+						<reference key="parent" ref="697554"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">595</int>
+						<reference key="object" ref="16033325"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="691729645"/>
+						</object>
+						<reference key="parent" ref="1036856560"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">599</int>
+						<reference key="object" ref="691729645"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="211422808"/>
+							<reference ref="1020399503"/>
+							<reference ref="503149416"/>
+						</object>
+						<reference key="parent" ref="16033325"/>
+						<string key="objectName">Some Tab View</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">600</int>
+						<reference key="object" ref="503149416"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="990607703"/>
+						</object>
+						<reference key="parent" ref="691729645"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">605</int>
+						<reference key="object" ref="990607703"/>
+						<reference key="parent" ref="503149416"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">602</int>
+						<reference key="object" ref="1020399503"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="911377311"/>
+						</object>
+						<reference key="parent" ref="691729645"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">603</int>
+						<reference key="object" ref="911377311"/>
+						<reference key="parent" ref="1020399503"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">601</int>
+						<reference key="object" ref="211422808"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="941087329"/>
+						</object>
+						<reference key="parent" ref="691729645"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">604</int>
+						<reference key="object" ref="941087329"/>
+						<reference key="parent" ref="211422808"/>
 					</object>
 				</object>
 			</object>
@@ -3714,16 +3722,23 @@
 					<string>-1.IBPluginDependency</string>
 					<string>-2.IBPluginDependency</string>
 					<string>-3.IBPluginDependency</string>
+					<string>1002.IBAttributePlaceholdersKey</string>
 					<string>1002.IBPluginDependency</string>
 					<string>1003.IBPluginDependency</string>
+					<string>1004.IBAttributePlaceholdersKey</string>
 					<string>1004.IBPluginDependency</string>
 					<string>1005.IBPluginDependency</string>
 					<string>1008.IBPluginDependency</string>
 					<string>1009.IBPluginDependency</string>
+					<string>1025.IBAttributePlaceholdersKey</string>
 					<string>1025.IBPluginDependency</string>
+					<string>1026.IBAttributePlaceholdersKey</string>
 					<string>1026.IBPluginDependency</string>
+					<string>1027.IBAttributePlaceholdersKey</string>
 					<string>1027.IBPluginDependency</string>
+					<string>1028.IBAttributePlaceholdersKey</string>
 					<string>1028.IBPluginDependency</string>
+					<string>1029.IBAttributePlaceholdersKey</string>
 					<string>1029.IBPluginDependency</string>
 					<string>1083.IBPluginDependency</string>
 					<string>1087.IBPluginDependency</string>
@@ -3811,8 +3826,10 @@
 					<string>588.IBPluginDependency</string>
 					<string>589.IBPluginDependency</string>
 					<string>590.IBPluginDependency</string>
+					<string>593.IBAttributePlaceholdersKey</string>
 					<string>593.IBPluginDependency</string>
 					<string>593.IBUserGuides</string>
+					<string>594.CustomClassName</string>
 					<string>594.IBPluginDependency</string>
 					<string>595.IBPluginDependency</string>
 					<string>596.IBPluginDependency</string>
@@ -3852,10 +3869,13 @@
 					<string>829.IBPluginDependency</string>
 					<string>83.IBPluginDependency</string>
 					<string>834.IBPluginDependency</string>
+					<string>836.IBAttributePlaceholdersKey</string>
 					<string>836.IBPluginDependency</string>
 					<string>837.IBPluginDependency</string>
+					<string>838.IBAttributePlaceholdersKey</string>
 					<string>838.IBPluginDependency</string>
 					<string>839.IBPluginDependency</string>
+					<string>840.IBAttributePlaceholdersKey</string>
 					<string>840.IBPluginDependency</string>
 					<string>841.IBPluginDependency</string>
 					<string>848.IBPluginDependency</string>
@@ -3863,9 +3883,13 @@
 					<string>855.IBPluginDependency</string>
 					<string>856.CustomClassName</string>
 					<string>856.IBPluginDependency</string>
+					<string>860.IBAttributePlaceholdersKey</string>
 					<string>860.IBPluginDependency</string>
+					<string>914.IBAttributePlaceholdersKey</string>
 					<string>914.IBPluginDependency</string>
+					<string>915.IBAttributePlaceholdersKey</string>
 					<string>915.IBPluginDependency</string>
+					<string>917.IBAttributePlaceholdersKey</string>
 					<string>917.IBPluginDependency</string>
 					<string>92.IBPluginDependency</string>
 					<string>920.IBPluginDependency</string>
@@ -3874,6 +3898,7 @@
 					<string>949.IBPluginDependency</string>
 					<string>952.IBPluginDependency</string>
 					<string>954.IBPluginDependency</string>
+					<string>988.IBAttributePlaceholdersKey</string>
 					<string>988.IBPluginDependency</string>
 					<string>989.IBPluginDependency</string>
 				</object>
@@ -3882,16 +3907,78 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="604460723"/>
+							<string key="toolTip">The main board in the RF Explorer.</string>
+						</object>
+					</object>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="69600065"/>
+							<string key="toolTip">The second expansion board in the RF Explorer, if any.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="447775148"/>
+							<string key="toolTip">Adjust how often the spectrogram scrolls up; i.e. how many seconds to collect data before starting on a blank line.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="548917441"/>
+							<string key="toolTip">The center frequency of the spectrum. Use the slider below to adjust the width of the spectrum.   When blue the value is being adjusted, when grey it is passed to the RFExplorer; and once back the actual value on the RFExplorer device is show.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="180542943"/>
+							<string key="toolTip">The frequency covered by the entire graph.    When blue the value is being adjusted, when grey it is passed to the RFExplorer; and once back the actual value on the RFExplorer device is show.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="374317064"/>
+							<object class="NSMutableString" key="toolTip">
+								<bytes key="NS.bytes">VGhlIGhpZ2hlc3Qgc2lnbmFsIHZhbCB1ZSB0byBkaXNwbGF5LiBBbnkgaGlnaGVyIHZhbHVlcyBhcmUg
+aWdub3JlZCAoYW5kIHNob3cgYXMgYSBiYXIgd2hpY2ggaGl0cyBhZ2FpbnN0IHRoZSB0b3Agb2YgdGhl
+IGdyYXBoKS4gIOKAqOKAqFdoZW4gYmx1ZSB0aGUgdmFsdWUgaXMgYmVpbmcgYWRqdXN0ZWQsIHdoZW4g
+Z3JleSBpdCBpcyBwYXNzZWQgdG8gdGhlIFJGRXhwbG9yZXI7IGFuZCBvbmNlIGJhY2sgdGhlIGFjdHVh
+bCB2YWx1ZSBvbiB0aGUgUkZFeHBsb3JlciBkZXZpY2UgaXMgc2hvdy4</bytes>
+							</object>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="440815274"/>
+							<string key="toolTip">The lowest signal value still displayed; any lower values are simply ignored.   When blue the value is being adjusted, when grey it is passed to the RFExplorer; and once back the actual value on the RFExplorer device is show.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3979,10 +4066,19 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="100482138"/>
+							<string key="toolTip">Information about the currently connected device, if any.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSMutableArray">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 					</object>
+					<string>CustomizableTabView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4022,10 +4118,34 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="1000417168"/>
+							<string key="toolTip">Show the maximum, either absolute; or let it decay.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="270490292"/>
+							<string key="toolTip">Show the average value (adjust the averaging period in preferences)</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="326944499"/>
+							<string key="toolTip">Allow the maximum to decay to the current value. Adjust the time this take in the preferences.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4033,6 +4153,41 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>SpectrogramView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="563601385"/>
+							<string key="toolTip">Frequency and amplitude settings for the RF explorer. Changes are appplied immediately ; but can take up to 2 secconds to fully propagate. If the device is unable to take a setting or rounds it to a different value - then this setting will be displayed. </string>
+						</object>
+					</object>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="161068742"/>
+							<string key="toolTip">Drawer to control the spectrogram itself. The configuration of the spectrometer continues to be controlled from the spectrum tab and associated spectrum control drawer. Change frequency and amplitude settings there.</string>
+						</object>
+					</object>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="810020470"/>
+							<string key="toolTip">Contineously move the center frequency to cover th entire range possible. Adjust speed and strategy in the preferences.</string>
+						</object>
+					</object>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="357888491"/>
+							<string key="toolTip">Show timestamps every once in a while. Useful when frequently adjusting the measurement speeds and settings.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4041,9 +4196,14 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="345409095"/>
+							<string key="toolTip">Once connected - the firmware verson of the device connected. This software assumes version 1.07 or newer.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
@@ -4060,9 +4220,947 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1168</int>
+			<int key="maxID">1169</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<object class="IBPartialClassDescription">
+					<string key="className">ConfigView</string>
+					<string key="superclassName">SomeTabView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>infoAttenBott</string>
+							<string>infoAttenMax</string>
+							<string>infoAttenMin</string>
+							<string>infoAttenTop</string>
+							<string>infoBandApproxRbm</string>
+							<string>infoBandCenterFreq</string>
+							<string>infoBandMaxFreq</string>
+							<string>infoBandMinFreq</string>
+							<string>infoBandSpanFreq</string>
+							<string>infoBoardMaxFreq</string>
+							<string>infoBoardMinFreq</string>
+							<string>infoBoardSteps</string>
+							<string>infoBoardTitle</string>
+							<string>infoDevBaudrate</string>
+							<string>infoDevExpansion</string>
+							<string>infoDevFirmware</string>
+							<string>infoDevMain</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>infoAttenBott</string>
+							<string>infoAttenMax</string>
+							<string>infoAttenMin</string>
+							<string>infoAttenTop</string>
+							<string>infoBandApproxRbm</string>
+							<string>infoBandCenterFreq</string>
+							<string>infoBandMaxFreq</string>
+							<string>infoBandMinFreq</string>
+							<string>infoBandSpanFreq</string>
+							<string>infoBoardMaxFreq</string>
+							<string>infoBoardMinFreq</string>
+							<string>infoBoardSteps</string>
+							<string>infoBoardTitle</string>
+							<string>infoDevBaudrate</string>
+							<string>infoDevExpansion</string>
+							<string>infoDevFirmware</string>
+							<string>infoDevMain</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoAttenBott</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoAttenMax</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoAttenMin</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoAttenTop</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoBandApproxRbm</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoBandCenterFreq</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoBandMaxFreq</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoBandMinFreq</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoBandSpanFreq</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoBoardMaxFreq</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoBoardMinFreq</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoBoardSteps</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoBoardTitle</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoDevBaudrate</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoDevExpansion</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoDevFirmware</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">infoDevMain</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ConfigView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">CustomizableTabView</string>
+					<string key="superclassName">NSTabView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/CustomizableTabView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">FrequencyLegendView</string>
+					<string key="superclassName">LegendView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/FrequencyLegendView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">FrequencyTextFieldSliderView</string>
+					<string key="superclassName">SliderTextUnitView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/FrequencyTextFieldSliderView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">LegendView</string>
+					<string key="superclassName">NSView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">graphView</string>
+						<string key="NS.object.0">NSView</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">graphView</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">graphView</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/LegendView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSDocument</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>printDocument:</string>
+							<string>revertDocumentToSaved:</string>
+							<string>runPageLayout:</string>
+							<string>saveDocument:</string>
+							<string>saveDocumentAs:</string>
+							<string>saveDocumentTo:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>printDocument:</string>
+							<string>revertDocumentToSaved:</string>
+							<string>runPageLayout:</string>
+							<string>saveDocument:</string>
+							<string>saveDocumentAs:</string>
+							<string>saveDocumentTo:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">printDocument:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">revertDocumentToSaved:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">runPageLayout:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">saveDocument:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">saveDocumentAs:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">saveDocumentTo:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NSDocument.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SignalTextFieldSliderView</string>
+					<string key="superclassName">SliderTextUnitView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SignalTextFieldSliderView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SliderTextUnitView</string>
+					<string key="superclassName">NSControl</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SliderTextUnitView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SomeDrawerView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SomeDrawerView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SomeTabView</string>
+					<string key="superclassName">NSView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">_view</string>
+						<string key="NS.object.0">NSView</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">_view</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">_view</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SomeTabView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SpectrogramDrawerView</string>
+					<string key="superclassName">SomeDrawerView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>lineSpeedChanged:</string>
+							<string>scanRangeOnOff:</string>
+							<string>timeStampOnOff:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>lineSpeedChanged:</string>
+							<string>scanRangeOnOff:</string>
+							<string>timeStampOnOff:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">lineSpeedChanged:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">scanRangeOnOff:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">timeStampOnOff:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>scanRangeButton</string>
+							<string>scanSpeedField</string>
+							<string>showTimestampButton</string>
+							<string>spectrogramView</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSButton</string>
+							<string>TimePeriodTextFieldSliderView</string>
+							<string>NSButton</string>
+							<string>SpectrogramView</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>scanRangeButton</string>
+							<string>scanSpeedField</string>
+							<string>showTimestampButton</string>
+							<string>spectrogramView</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">scanRangeButton</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">scanSpeedField</string>
+								<string key="candidateClassName">TimePeriodTextFieldSliderView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">showTimestampButton</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">spectrogramView</string>
+								<string key="candidateClassName">SpectrogramView</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SpectrogramDrawerView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SpectrogramGraphView</string>
+					<string key="superclassName">SomeTabView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">imageView</string>
+						<string key="NS.object.0">NSImageView</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">imageView</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">imageView</string>
+							<string key="candidateClassName">NSImageView</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SpectrogramGraphView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SpectrogramView</string>
+					<string key="superclassName">SomeTabView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>frequencyLegendView</string>
+							<string>graphView</string>
+							<string>spectrogramGraphView</string>
+							<string>timeLegendView</string>
+							<string>timeStampLegendView</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>FrequencyLegendView</string>
+							<string>NSView</string>
+							<string>SpectrogramGraphView</string>
+							<string>TimeLegendView</string>
+							<string>TimeStampLegendView</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>frequencyLegendView</string>
+							<string>graphView</string>
+							<string>spectrogramGraphView</string>
+							<string>timeLegendView</string>
+							<string>timeStampLegendView</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">frequencyLegendView</string>
+								<string key="candidateClassName">FrequencyLegendView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">graphView</string>
+								<string key="candidateClassName">NSView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">spectrogramGraphView</string>
+								<string key="candidateClassName">SpectrogramGraphView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">timeLegendView</string>
+								<string key="candidateClassName">TimeLegendView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">timeStampLegendView</string>
+								<string key="candidateClassName">TimeStampLegendView</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SpectrogramView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SpectrumDrawerView</string>
+					<string key="superclassName">SomeDrawerView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>setCenterFreqValue:</string>
+							<string>setDbmBotValue:</string>
+							<string>setDbmTopValue:</string>
+							<string>setFreqSpanValue:</string>
+							<string>showButtonChange:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>setCenterFreqValue:</string>
+							<string>setDbmBotValue:</string>
+							<string>setDbmTopValue:</string>
+							<string>setFreqSpanValue:</string>
+							<string>showButtonChange:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">setCenterFreqValue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">setDbmBotValue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">setDbmTopValue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">setFreqSpanValue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showButtonChange:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>centerFrequencyField</string>
+							<string>dbmBotField</string>
+							<string>dbmTopField</string>
+							<string>decayButton</string>
+							<string>freqSpanField</string>
+							<string>showAvgxButton</string>
+							<string>showMaxButton</string>
+							<string>spectrumGraphView</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>FrequencyTextFieldSliderView</string>
+							<string>SignalTextFieldSliderView</string>
+							<string>SignalTextFieldSliderView</string>
+							<string>NSButton</string>
+							<string>FrequencyTextFieldSliderView</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>SpectrumGraphView</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>centerFrequencyField</string>
+							<string>dbmBotField</string>
+							<string>dbmTopField</string>
+							<string>decayButton</string>
+							<string>freqSpanField</string>
+							<string>showAvgxButton</string>
+							<string>showMaxButton</string>
+							<string>spectrumGraphView</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">centerFrequencyField</string>
+								<string key="candidateClassName">FrequencyTextFieldSliderView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dbmBotField</string>
+								<string key="candidateClassName">SignalTextFieldSliderView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dbmTopField</string>
+								<string key="candidateClassName">SignalTextFieldSliderView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">decayButton</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">freqSpanField</string>
+								<string key="candidateClassName">FrequencyTextFieldSliderView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">showAvgxButton</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">showMaxButton</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">spectrumGraphView</string>
+								<string key="candidateClassName">SpectrumGraphView</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SpectrumDrawerView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SpectrumGraphView</string>
+					<string key="superclassName">SomeTabView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SpectrumGraphView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">SpectrumView</string>
+					<string key="superclassName">SomeTabView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>dbmLegendView</string>
+							<string>frequencyLegendView</string>
+							<string>spectrumGraphView</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>dBmLegendView</string>
+							<string>FrequencyLegendView</string>
+							<string>SpectrumGraphView</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>dbmLegendView</string>
+							<string>frequencyLegendView</string>
+							<string>spectrumGraphView</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dbmLegendView</string>
+								<string key="candidateClassName">dBmLegendView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">frequencyLegendView</string>
+								<string key="candidateClassName">FrequencyLegendView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">spectrumGraphView</string>
+								<string key="candidateClassName">SpectrumGraphView</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/SpectrumView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">StopPauseView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/StopPauseView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">TimeLegendView</string>
+					<string key="superclassName">LegendView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/TimeLegendView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">TimePeriodTextFieldSliderView</string>
+					<string key="superclassName">SliderTextUnitView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/TimePeriodTextFieldSliderView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">TimeStampLegendView</string>
+					<string key="superclassName">LegendView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/TimeStampLegendView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">dBmLegendView</string>
+					<string key="superclassName">LegendView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/dBmLegendView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">iRFExplorerAppDelegate</string>
+					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>changeBoard:</string>
+							<string>configScreenUpdating:</string>
+							<string>newDocument:</string>
+							<string>showCustomAboutPanel:</string>
+							<string>showPreferences:</string>
+							<string>toggleLiveScreenUpdate:</string>
+							<string>togglePausePlay:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>changeBoard:</string>
+							<string>configScreenUpdating:</string>
+							<string>newDocument:</string>
+							<string>showCustomAboutPanel:</string>
+							<string>showPreferences:</string>
+							<string>toggleLiveScreenUpdate:</string>
+							<string>togglePausePlay:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">changeBoard:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">configScreenUpdating:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">newDocument:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showCustomAboutPanel:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showPreferences:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">toggleLiveScreenUpdate:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">togglePausePlay:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>boardLabel</string>
+							<string>configTabView</string>
+							<string>drawerView</string>
+							<string>expansionLabel</string>
+							<string>firmwareLabel</string>
+							<string>liveButton</string>
+							<string>liveImageCell</string>
+							<string>mainView</string>
+							<string>pausedLabel</string>
+							<string>screenTabView</string>
+							<string>spectogramDrawerView</string>
+							<string>spectrogramGraphView</string>
+							<string>spectrogramStopPauseView</string>
+							<string>spectrogramView</string>
+							<string>spectrumDrawerView</string>
+							<string>spectrumGraphView</string>
+							<string>spectrumScollView</string>
+							<string>spectrumStopPauseView</string>
+							<string>spectrumView</string>
+							<string>window</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSTextField</string>
+							<string>ConfigView</string>
+							<string>NSDrawer</string>
+							<string>NSTextField</string>
+							<string>NSTextField</string>
+							<string>NSButton</string>
+							<string>NSImageView</string>
+							<string>CustomizableTabView</string>
+							<string>NSTextField</string>
+							<string>SomeTabView</string>
+							<string>SpectrogramDrawerView</string>
+							<string>SpectrogramGraphView</string>
+							<string>StopPauseView</string>
+							<string>SpectrogramView</string>
+							<string>SpectrumDrawerView</string>
+							<string>NSView</string>
+							<string>NSScrollView</string>
+							<string>StopPauseView</string>
+							<string>SpectrumView</string>
+							<string>NSWindow</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>boardLabel</string>
+							<string>configTabView</string>
+							<string>drawerView</string>
+							<string>expansionLabel</string>
+							<string>firmwareLabel</string>
+							<string>liveButton</string>
+							<string>liveImageCell</string>
+							<string>mainView</string>
+							<string>pausedLabel</string>
+							<string>screenTabView</string>
+							<string>spectogramDrawerView</string>
+							<string>spectrogramGraphView</string>
+							<string>spectrogramStopPauseView</string>
+							<string>spectrogramView</string>
+							<string>spectrumDrawerView</string>
+							<string>spectrumGraphView</string>
+							<string>spectrumScollView</string>
+							<string>spectrumStopPauseView</string>
+							<string>spectrumView</string>
+							<string>window</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">boardLabel</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">configTabView</string>
+								<string key="candidateClassName">ConfigView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">drawerView</string>
+								<string key="candidateClassName">NSDrawer</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">expansionLabel</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">firmwareLabel</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">liveButton</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">liveImageCell</string>
+								<string key="candidateClassName">NSImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">mainView</string>
+								<string key="candidateClassName">CustomizableTabView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">pausedLabel</string>
+								<string key="candidateClassName">NSTextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">screenTabView</string>
+								<string key="candidateClassName">SomeTabView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">spectogramDrawerView</string>
+								<string key="candidateClassName">SpectrogramDrawerView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">spectrogramGraphView</string>
+								<string key="candidateClassName">SpectrogramGraphView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">spectrogramStopPauseView</string>
+								<string key="candidateClassName">StopPauseView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">spectrogramView</string>
+								<string key="candidateClassName">SpectrogramView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">spectrumDrawerView</string>
+								<string key="candidateClassName">SpectrumDrawerView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">spectrumGraphView</string>
+								<string key="candidateClassName">NSView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">spectrumScollView</string>
+								<string key="candidateClassName">NSScrollView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">spectrumStopPauseView</string>
+								<string key="candidateClassName">StopPauseView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">spectrumView</string>
+								<string key="candidateClassName">SpectrumView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">window</string>
+								<string key="candidateClassName">NSWindow</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/iRFExplorerAppDelegate.h</string>
+					</object>
+				</object>
+			</object>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">

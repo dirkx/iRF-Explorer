@@ -20,6 +20,9 @@
 		32378F7C144F59F80059EAC8 /* ColourMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 32378F7B144F59F80059EAC8 /* ColourMap.m */; };
 		323F4E8F1440293E00FF7998 /* RFExporerCmds.m in Sources */ = {isa = PBXBuildFile; fileRef = 323F4E8E1440293E00FF7998 /* RFExporerCmds.m */; };
 		323F4E9214402B5A00FF7998 /* SerialDevicesPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 323F4E9114402B5A00FF7998 /* SerialDevicesPopUpButton.m */; };
+		32510758146F21F90022A75A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 32510756146F21F90022A75A /* Localizable.strings */; };
+		3251075E146F29D40022A75A /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32510760146F29D40022A75A /* Preferences.xib */; };
+		32510761146F29E80022A75A /* ConfigTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32510763146F29E80022A75A /* ConfigTabView.xib */; };
 		3251BC7814406EC300196405 /* NSStringExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3251BC7714406EC300196405 /* NSStringExtensions.m */; };
 		3253D16714600D4900C5C1E6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3253D16614600D4900C5C1E6 /* SystemConfiguration.framework */; };
 		32591B2314488CCB0093DDC9 /* Spectrum.m in Sources */ = {isa = PBXBuildFile; fileRef = 32591B2214488CCA0093DDC9 /* Spectrum.m */; };
@@ -44,13 +47,11 @@
 		326C2E59145F948E00F0965C /* NotifyingSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 326C2E58145F948E00F0965C /* NotifyingSlider.m */; };
 		326D2E7D1455E3D6005A20CA /* ConfigView.m in Sources */ = {isa = PBXBuildFile; fileRef = 326D2E7C1455E3D6005A20CA /* ConfigView.m */; };
 		326D2E801455E41E005A20CA /* SomeTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 326D2E7F1455E41E005A20CA /* SomeTabView.m */; };
-		326D2E821455E9E6005A20CA /* ConfigTabView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 326D2E811455E9E6005A20CA /* ConfigTabView.xib */; };
 		32705331145EEAA3002349DC /* SliderTextUnitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32705330145EEAA3002349DC /* SliderTextUnitView.m */; };
-		3289D9211466C89F004FD9B7 /* CHANGELOG.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 3289D9181466C89F004FD9B7 /* CHANGELOG.markdown */; };
-		3289D9221466C89F004FD9B7 /* CHANGES.dirkx in Resources */ = {isa = PBXBuildFile; fileRef = 3289D9191466C89F004FD9B7 /* CHANGES.dirkx */; };
+		3280A6A3146D9AF800174703 /* CustomizableTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3280A6A0146D9AF800174703 /* CustomizableTabView.m */; };
+		3280A6A4146D9AF800174703 /* NSColorExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3280A6A2146D9AF800174703 /* NSColorExtensions.m */; };
 		3289D9231466C89F004FD9B7 /* kiss_fft.c in Sources */ = {isa = PBXBuildFile; fileRef = 3289D91A1466C89F004FD9B7 /* kiss_fft.c */; };
 		3289D9241466C89F004FD9B7 /* kiss_fftr.c in Sources */ = {isa = PBXBuildFile; fileRef = 3289D91C1466C89F004FD9B7 /* kiss_fftr.c */; };
-		3289D9251466C89F004FD9B7 /* README.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 3289D91E1466C89F004FD9B7 /* README.markdown */; };
 		3289D9261466C89F004FD9B7 /* SCListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 3289D9201466C89F004FD9B7 /* SCListener.m */; };
 		32A03269145973610045DC53 /* NamedArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A03268145973600045DC53 /* NamedArray.m */; };
 		32A0D5AB143CEBDC00464DCD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32A0D5AA143CEBDC00464DCD /* Cocoa.framework */; };
@@ -60,7 +61,6 @@
 		32A0D5BE143CEBDE00464DCD /* iRFExplorerAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A0D5BD143CEBDE00464DCD /* iRFExplorerAppDelegate.m */; };
 		32A0D5C1143CEBDF00464DCD /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32A0D5BF143CEBDF00464DCD /* MainMenu.xib */; };
 		32A0D5C9143CEEE000464DCD /* PreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A0D5C8143CEEE000464DCD /* PreferenceController.m */; };
-		32A0D5CB143CEF0900464DCD /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32A0D5CA143CEF0900464DCD /* Preferences.xib */; };
 		32A0D5D1143CF75E00464DCD /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32A0D5D0143CF75E00464DCD /* IOKit.framework */; };
 		32A56299146314610086D894 /* NSUserInterfaceDefaultsExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 32A56298146314610086D894 /* NSUserInterfaceDefaultsExtensions.m */; };
 		32ACFE811448D3270098AB7C /* TickScaler.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE761448D3270098AB7C /* TickScaler.m */; };
@@ -73,6 +73,7 @@
 		32B4CAA2145DCC1400D0661A /* ScalarWithUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B4CAA1145DCC1400D0661A /* ScalarWithUnit.m */; };
 		32B643BE14569B280072A302 /* NSViewExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B643BD14569B280072A302 /* NSViewExtensions.m */; };
 		32CBD2BF14485B8B004C88C2 /* dBmLegendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32CBD2BE14485B8B004C88C2 /* dBmLegendView.m */; };
+		32E006E9146899F90024C638 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32E006E8146899F90024C638 /* defaults.plist */; };
 		32E2291A143D29F200FD9D19 /* SerialDeviceTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E22919143D29F200FD9D19 /* SerialDeviceTracker.m */; };
 		32E7089A14614693004A7165 /* StopPauseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E7089914614693004A7165 /* StopPauseView.m */; };
 		32EC05DC1448A1C600B53197 /* Icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = 32EC05DB1448A1C600B53197 /* Icons.icns */; };
@@ -155,6 +156,9 @@
 		323F4E9014402B5A00FF7998 /* SerialDevicesPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerialDevicesPopUpButton.h; sourceTree = "<group>"; };
 		323F4E9114402B5A00FF7998 /* SerialDevicesPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SerialDevicesPopUpButton.m; sourceTree = "<group>"; };
 		324E9577146222630004682E /* iRFExplorer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = iRFExplorer.entitlements; sourceTree = "<group>"; };
+		32510757146F21F90022A75A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3251075F146F29D40022A75A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Preferences.xib; sourceTree = "<group>"; };
+		32510762146F29E80022A75A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ConfigTabView.xib; sourceTree = "<group>"; };
 		3251BC7614406EC300196405 /* NSStringExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringExtensions.h; sourceTree = "<group>"; };
 		3251BC7714406EC300196405 /* NSStringExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringExtensions.m; sourceTree = "<group>"; };
 		3253D16614600D4900C5C1E6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = ../../../../../System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<group>"; };
@@ -202,10 +206,13 @@
 		326D2E7C1455E3D6005A20CA /* ConfigView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigView.m; sourceTree = "<group>"; };
 		326D2E7E1455E41E005A20CA /* SomeTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SomeTabView.h; sourceTree = "<group>"; };
 		326D2E7F1455E41E005A20CA /* SomeTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SomeTabView.m; sourceTree = "<group>"; };
-		326D2E811455E9E6005A20CA /* ConfigTabView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigTabView.xib; sourceTree = "<group>"; };
 		3270532F145EEAA3002349DC /* SliderTextUnitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderTextUnitView.h; sourceTree = "<group>"; };
 		32705330145EEAA3002349DC /* SliderTextUnitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderTextUnitView.m; sourceTree = "<group>"; };
 		32736AAD145C3A4900C1D917 /* PreferenceConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferenceConstants.h; sourceTree = "<group>"; };
+		3280A69F146D9AF800174703 /* CustomizableTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomizableTabView.h; sourceTree = "<group>"; };
+		3280A6A0146D9AF800174703 /* CustomizableTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomizableTabView.m; sourceTree = "<group>"; };
+		3280A6A1146D9AF800174703 /* NSColorExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSColorExtensions.h; sourceTree = "<group>"; };
+		3280A6A2146D9AF800174703 /* NSColorExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSColorExtensions.m; sourceTree = "<group>"; };
 		3289D9171466C89F004FD9B7 /* _kiss_fft_guts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _kiss_fft_guts.h; sourceTree = "<group>"; };
 		3289D9181466C89F004FD9B7 /* CHANGELOG.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.markdown; sourceTree = "<group>"; };
 		3289D9191466C89F004FD9B7 /* CHANGES.dirkx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGES.dirkx; sourceTree = "<group>"; };
@@ -233,7 +240,6 @@
 		32A0D5C0143CEBDF00464DCD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		32A0D5C7143CEEE000464DCD /* PreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferenceController.h; sourceTree = "<group>"; };
 		32A0D5C8143CEEE000464DCD /* PreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferenceController.m; sourceTree = "<group>"; };
-		32A0D5CA143CEF0900464DCD /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		32A0D5D0143CF75E00464DCD /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		32A56297146314610086D894 /* NSUserInterfaceDefaultsExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSUserInterfaceDefaultsExtensions.h; sourceTree = "<group>"; };
 		32A56298146314610086D894 /* NSUserInterfaceDefaultsExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSUserInterfaceDefaultsExtensions.m; sourceTree = "<group>"; };
@@ -257,6 +263,7 @@
 		32B643BD14569B280072A302 /* NSViewExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSViewExtensions.m; sourceTree = "<group>"; };
 		32CBD2BD14485B8B004C88C2 /* dBmLegendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dBmLegendView.h; sourceTree = "<group>"; };
 		32CBD2BE14485B8B004C88C2 /* dBmLegendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = dBmLegendView.m; sourceTree = "<group>"; };
+		32E006E8146899F90024C638 /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
 		32E22918143D29F200FD9D19 /* SerialDeviceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerialDeviceTracker.h; sourceTree = "<group>"; };
 		32E22919143D29F200FD9D19 /* SerialDeviceTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SerialDeviceTracker.m; sourceTree = "<group>"; };
 		32E7089814614693004A7165 /* StopPauseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopPauseView.h; sourceTree = "<group>"; };
@@ -340,6 +347,8 @@
 		32591B25144893E10093DDC9 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				3280A6A1146D9AF800174703 /* NSColorExtensions.h */,
+				3280A6A2146D9AF800174703 /* NSColorExtensions.m */,
 				32B643BC14569B280072A302 /* NSViewExtensions.h */,
 				32B643BD14569B280072A302 /* NSViewExtensions.m */,
 				3236D0391452CAE700017FD7 /* AveragingNumber.h */,
@@ -361,16 +370,9 @@
 		326C2E1B145F33BF00F0965C /* UI Elements */ = {
 			isa = PBXGroup;
 			children = (
-				322BD6521465B9C8000E2AC5 /* LegendView.h */,
-				322BD6531465B9C9000E2AC5 /* LegendView.m */,
-				32CBD2BD14485B8B004C88C2 /* dBmLegendView.h */,
-				32CBD2BE14485B8B004C88C2 /* dBmLegendView.m */,
-				32F9B73C144596F200226BE8 /* FrequencyLegendView.h */,
-				32F9B73D144596F200226BE8 /* FrequencyLegendView.m */,
-				322BD64F1465B999000E2AC5 /* TimeLegendView.h */,
-				322BD6501465B99A000E2AC5 /* TimeLegendView.m */,
-				322BD6551465BFDF000E2AC5 /* TimeStampLegendView.h */,
-				322BD6561465BFE0000E2AC5 /* TimeStampLegendView.m */,
+				3280A69F146D9AF800174703 /* CustomizableTabView.h */,
+				3280A6A0146D9AF800174703 /* CustomizableTabView.m */,
+				3280A69D146D99E100174703 /* Legends */,
 				326C2E1D145F33F200F0965C /* Slider, Text, Unit combos */,
 				323F4E9014402B5A00FF7998 /* SerialDevicesPopUpButton.h */,
 				323F4E9114402B5A00FF7998 /* SerialDevicesPopUpButton.m */,
@@ -505,6 +507,23 @@
 			name = "TAB - Config";
 			sourceTree = "<group>";
 		};
+		3280A69D146D99E100174703 /* Legends */ = {
+			isa = PBXGroup;
+			children = (
+				322BD6521465B9C8000E2AC5 /* LegendView.h */,
+				322BD6531465B9C9000E2AC5 /* LegendView.m */,
+				32CBD2BD14485B8B004C88C2 /* dBmLegendView.h */,
+				32CBD2BE14485B8B004C88C2 /* dBmLegendView.m */,
+				32F9B73C144596F200226BE8 /* FrequencyLegendView.h */,
+				32F9B73D144596F200226BE8 /* FrequencyLegendView.m */,
+				322BD64F1465B999000E2AC5 /* TimeLegendView.h */,
+				322BD6501465B99A000E2AC5 /* TimeLegendView.m */,
+				322BD6551465BFDF000E2AC5 /* TimeStampLegendView.h */,
+				322BD6561465BFE0000E2AC5 /* TimeStampLegendView.m */,
+			);
+			name = Legends;
+			sourceTree = "<group>";
+		};
 		32A0D59B143CEBDB00464DCD = {
 			isa = PBXGroup;
 			children = (
@@ -573,11 +592,13 @@
 		32A0D5B1143CEBDD00464DCD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				32510756146F21F90022A75A /* Localizable.strings */,
+				32E006E8146899F90024C638 /* defaults.plist */,
 				324E9577146222630004682E /* iRFExplorer.entitlements */,
 				32EC05DB1448A1C600B53197 /* Icons.icns */,
 				32A0D5BF143CEBDF00464DCD /* MainMenu.xib */,
-				32A0D5CA143CEF0900464DCD /* Preferences.xib */,
-				326D2E811455E9E6005A20CA /* ConfigTabView.xib */,
+				32510760146F29D40022A75A /* Preferences.xib */,
+				32510763146F29E80022A75A /* ConfigTabView.xib */,
 				32A0D5B2143CEBDD00464DCD /* iRFExplorer-Info.plist */,
 				32A0D5B3143CEBDD00464DCD /* InfoPlist.strings */,
 				32A0D5B6143CEBDD00464DCD /* main.m */,
@@ -685,12 +706,16 @@
 /* Begin PBXProject section */
 		32A0D59D143CEBDB00464DCD /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 32A0D5A0143CEBDB00464DCD /* Build configuration list for PBXProject "iRFExplorer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				nl,
 			);
 			mainGroup = 32A0D59B143CEBDB00464DCD;
 			productRefGroup = 32A0D5A7143CEBDC00464DCD /* Products */;
@@ -712,12 +737,11 @@
 				32A0D5B5143CEBDD00464DCD /* InfoPlist.strings in Resources */,
 				32A0D5BB143CEBDD00464DCD /* Credits.rtf in Resources */,
 				32A0D5C1143CEBDF00464DCD /* MainMenu.xib in Resources */,
-				32A0D5CB143CEF0900464DCD /* Preferences.xib in Resources */,
+				3251075E146F29D40022A75A /* Preferences.xib in Resources */,
 				32EC05DC1448A1C600B53197 /* Icons.icns in Resources */,
-				326D2E821455E9E6005A20CA /* ConfigTabView.xib in Resources */,
-				3289D9211466C89F004FD9B7 /* CHANGELOG.markdown in Resources */,
-				3289D9221466C89F004FD9B7 /* CHANGES.dirkx in Resources */,
-				3289D9251466C89F004FD9B7 /* README.markdown in Resources */,
+				32510761146F29E80022A75A /* ConfigTabView.xib in Resources */,
+				32E006E9146899F90024C638 /* defaults.plist in Resources */,
+				32510758146F21F90022A75A /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -787,6 +811,8 @@
 				3289D9231466C89F004FD9B7 /* kiss_fft.c in Sources */,
 				3289D9241466C89F004FD9B7 /* kiss_fftr.c in Sources */,
 				3289D9261466C89F004FD9B7 /* SCListener.m in Sources */,
+				3280A6A3146D9AF800174703 /* CustomizableTabView.m in Sources */,
+				3280A6A4146D9AF800174703 /* NSColorExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -821,6 +847,31 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		32510756146F21F90022A75A /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32510757146F21F90022A75A /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+			wrapsLines = 0;
+		};
+		32510760146F29D40022A75A /* Preferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3251075F146F29D40022A75A /* en */,
+			);
+			name = Preferences.xib;
+			sourceTree = "<group>";
+		};
+		32510763146F29E80022A75A /* ConfigTabView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32510762146F29E80022A75A /* en */,
+			);
+			name = ConfigTabView.xib;
+			sourceTree = "<group>";
+		};
 		32A0D5B3143CEBDD00464DCD /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -852,9 +903,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -864,7 +916,6 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -879,18 +930,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = NO;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};

@@ -31,26 +31,28 @@
     if (on)
         return;
     
-    infoBandCenterFreq.stringValue = @"";
-    infoBandMinFreq.stringValue = @"";
-    infoBandMaxFreq.stringValue = @"";
-    infoBandSpanFreq.stringValue = @"";
-    infoBandApproxRbm.stringValue = @"";
+    NSString * noVal = NSLocalizedString(@"<none>", @"No data yet value");
+                                         
+    infoBandCenterFreq.stringValue =noVal;
+    infoBandMinFreq.stringValue = noVal;
+    infoBandMaxFreq.stringValue = noVal;
+    infoBandSpanFreq.stringValue = noVal;
+    infoBandApproxRbm.stringValue = noVal;
     
-    infoAttenTop.stringValue = @"";
-    infoAttenBott.stringValue = @"";
-    infoAttenMax.stringValue = @"";
-    infoAttenMin.stringValue = @"";
+    infoAttenTop.stringValue = noVal;
+    infoAttenBott.stringValue = noVal;
+    infoAttenMax.stringValue = noVal;
+    infoAttenMin.stringValue = noVal;
     
-    infoDevFirmware.stringValue = @"";
-    infoDevMain.stringValue = @"";
-    infoDevExpansion.stringValue = @"";
-    infoDevBaudrate.stringValue = @"";
+    infoDevFirmware.stringValue = noVal;
+    infoDevMain.stringValue = noVal;
+    infoDevExpansion.stringValue = noVal;
+    infoDevBaudrate.stringValue = noVal;
     
-    infoBoardTitle.stringValue = @"";
-    infoBoardMinFreq.stringValue = @"";
-    infoBoardMaxFreq.stringValue = @"";
-    infoBoardSteps.stringValue = @"";
+    infoBoardTitle.stringValue = noVal;
+    infoBoardMinFreq.stringValue = noVal;
+    infoBoardMaxFreq.stringValue = noVal;
+    infoBoardSteps.stringValue = noVal;
 }
 
 -(void)newConfig:(id)sender {
@@ -100,7 +102,7 @@
     infoDevMain.stringValue = device.mainBoard;
     infoDevFirmware.stringValue = device.firmware;
     infoDevBaudrate.stringValue = device.commsSpeedAsString;    
-    infoDevExpansion.stringValue = device.expansionBoard ? device.expansionBoard : @"none";
+    infoDevExpansion.stringValue = device.expansionBoard ? device.expansionBoard : NSLocalizedString(@"none", @"Shown when an expansion board is not present");
 }
 
 -(NSString *)descriptionWithFormat:(format_t)format {    

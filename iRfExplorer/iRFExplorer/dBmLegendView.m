@@ -25,7 +25,7 @@
 #import "TickScaler.h"
 
 @implementation dBmLegendView
-@synthesize ticks;
+@synthesize ticks, subTicks;
 
 -(RFExplorer *)device { 
     return device; 
@@ -58,7 +58,7 @@
                                                               withDataMax:device.fAmplitudeTop 
                                                                  withUnit:@"dBm"];
     self.ticks = scale.ticks;
-    
+    self.subTicks = ns.subTicks;
     [scale release];
 }
 
@@ -78,7 +78,7 @@
     
     if (FALSE) {
         CGContextSetRGBFillColor (cref, 1,0,1,1);
-        CGContextFillRect (cref, rect);
+        CGContextFillRect (cref, NSRectToCGRect(rect));
     };
     
     /* 2011-10-16 17:27:35.315 iRFExplorer[44812:707] LE: Frame: {{ 4,  5}, { 59, 278}} and bounds {{0, 0}, {59, 278}}
@@ -108,20 +108,21 @@
         CGContextStrokeLineSegments(cref, v, 2 );
         return;
     };
-    
-    // Marks at the actual possible range.
-    CGPoint l0[] = { 
-        CGPointMake(ox,y0), 
-        CGPointMake(ox+kMargin,y0) 
-    };    
-    CGContextStrokeLineSegments(cref, l0, 2 );
-    
-    CGPoint l1[] = { 
-        CGPointMake(ox,y1), 
-        CGPointMake(ox+kMargin,y1) 
-    };    
-    CGContextStrokeLineSegments(cref, l1, 2 );
-    
+  
+    if (FALSE) {
+        // Marks at the actual possible range.
+        CGPoint l0[] = { 
+            CGPointMake(ox,y0), 
+            CGPointMake(ox+kMargin,y0) 
+        };    
+        CGContextStrokeLineSegments(cref, l0, 2 );
+        
+        CGPoint l1[] = { 
+            CGPointMake(ox,y1), 
+            CGPointMake(ox+kMargin,y1) 
+        };    
+        CGContextStrokeLineSegments(cref, l1, 2 );
+    }    
 
     CGContextSetRGBStrokeColor(cref, 0,0,0,1);
 

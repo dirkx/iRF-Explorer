@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ApplicationProperties</key>
+	<dict>
+		<key>ApplicationPath</key>
+		<string>Applications/iRFExplorer.app</string>
+		<key>CFBundleIdentifier</key>
+		<string>org.webweaving.iRFExplorer</string>
+		<key>CFBundleShortVersionString</key>
+		<string>1.07</string>
+		<key>IconPaths</key>
+		<array>
+			<string>Applications/iRFExplorer.app/Contents/Resources/Icons.icns</string>
+		</array>
+	</dict>
+	<key>ArchiveVersion</key>
+	<real>1</real>
+	<key>CreationDate</key>
+	<date>2011-11-06T21:02:15Z</date>
+	<key>Name</key>
+	<string>fred</string>
+	<key>SchemeName</key>
+	<string>fred</string>
+	<key>Status</key>
+	<string>Submitted</string>
+</dict>
+</plist>

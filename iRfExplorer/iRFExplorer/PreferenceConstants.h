@@ -33,4 +33,8 @@ NSString * const kPreferenceShowTimestamps;
 NSString * const kPreferenceShowDecay;
 NSString * const kPreferenceScanFullrange;
 
+// Not exposed through UI settings.
+NSString * const kCmdLog;
+NSString * const kCommsLog;
+NSString * const kCommsDebug;
 #endif

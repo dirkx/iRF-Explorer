@@ -26,10 +26,10 @@
 #import "RFExplorer.h"
 
 @interface dBmLegendView : LegendView {
-    NSArray * ticks;
+    NSArray * ticks, * subTicks;
 }
 
-@property (retain) NSArray * ticks;
+@property (retain) NSArray * ticks, * subTicks;
 
 
 @end

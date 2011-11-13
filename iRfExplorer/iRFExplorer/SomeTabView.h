@@ -22,10 +22,12 @@ typedef enum {
     RFExplorer *device;
     IBOutlet NSView * _view;
     tab_t index;
+    NSColor *backgroundColor;
 }
 
 @property (retain) RFExplorer *device;
 @property (retain) IBOutlet NSView * _view;
+@property (retain) NSColor *backgroundColor;
 @property (assign) tab_t index;
 
 -(void)newConfig:(id)sender;

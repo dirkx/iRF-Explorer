@@ -63,12 +63,14 @@
 // Drawers
 @synthesize spectogramDrawerView,spectrumDrawerView;
 
+const BOOL debug = FALSE;
 
 #pragma mark Startup and application level sundry.
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    NSString * demoTitle = @"Demo (using a microphone)";
+    NSString * demoTitle = NSLocalizedString(@"Demo (using a microphone)",
+                                             @"Label of the demo device in pref-panel.");
 
     serialDeviceTracker = [[SerialDeviceTracker alloc] init];
     serialDeviceTracker.delegate = self;
@@ -128,9 +130,13 @@
     spectrogramView.index = TAB_SPECTROGRAM;
     spectrogramGraphView.index = TAB_NONE;
     
+    double avgSpeedInSeconds =[[[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceAvgValue] doubleValue];
+    spectrumGraphView.averagingTimeWindowInSeconds = avgSpeedInSeconds;
 }
 
-// Simple way to get a but 
+// Simple way to get an about number with the
+// SVN revision # in it.
+//
 - (IBAction)showCustomAboutPanel:(id)sender
 {
     NSString *appVersion = [NSString stringWithFormat:@"%@ - Revision:%@", 
@@ -151,19 +157,19 @@
     [rfExplorer close];    
 	return NSTerminateNow ;
 }
-    
+ 
+#pragma mark default plist loading into UserDefaults
+
 + (void)setupDefaults
 {
     NSString *userDefaultsValuesPath;
     NSDictionary *userDefaultsValuesDict;
-    // NSDictionary *initialValuesDict;
     userDefaultsValuesPath=[[NSBundle mainBundle] pathForResource:@"defaults"
                                                            ofType:@"plist"];
     
     userDefaultsValuesDict=[NSDictionary dictionaryWithContentsOfFile:userDefaultsValuesPath];
 
     [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsValuesDict];    
-    // [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:initialValuesDict];
 }
 
 +(void)initialize {
@@ -204,6 +210,17 @@
 
 // Callbacks - SerialDeviceTracker
 //
+-(void)attemptToConnectHomeDevice:(NSString *)devTitle {
+    if (rfExplorer)
+        return;
+    
+    if (debug) NSLog(@"Self initiated attempt to connect to %@", devTitle);
+    [preferenceController.deviceSelectionButton selectItemWithTitle:devTitle];
+    self.settingDeviceTitle = devTitle;
+        
+    [self changedPreferences];
+}
+
 -(void)changeInDevices:(BOOL)deviceAdded 
              withTitle:(NSString*)title 
               withPath:(NSString*)path 
@@ -213,10 +230,11 @@
                                                        withPath:path];
     
     if (rfExplorer == nil && [title isEqualToString:@"SLAB_USBtoUART"]) {
-        [preferenceController.deviceSelectionButton selectItemWithTitle:title];
-        self.settingDeviceTitle = title;
         // give the device the time to power up - as otherwise we get cruft...
-        [self performSelector:@selector(changedPreferences) withObject:nil afterDelay:2.0];
+        //
+        [self performSelector:@selector(attemptToConnectHomeDevice:) 
+                   withObject:title 
+                   afterDelay:1.0];
     }
 }
 
@@ -254,7 +272,7 @@
 
     // Do we 'empty' the 4 slider fields ?
     
-    boardLabel.stringValue = @"<none found>";    
+    boardLabel.stringValue = NSLocalizedString(@"<none found>", @"No device found lablel in main window");
     expansionLabel.stringValue = @"";
 
     [spectogramDrawerView setAllControls:onOff];
@@ -276,36 +294,52 @@
     [rfExplorer release];    
     rfExplorer = nil;
     
-    NSString * devPath = [serialDeviceTracker.devices objectForKey:settingDeviceTitle ];
-    if (devPath) {
-        rfExplorer = [[RFExplorer alloc] initWithPath:devPath
-                                      withSlowSetting:settingDeviceIsSlow
-                                         withDelegate:self];
-        if (!rfExplorer) {
-            [NSAlert alertWithMessageText:@"Failed to connect to RF-Explorer"
-                            defaultButton:nil 
-                          alternateButton:nil 
-                              otherButton:nil 
-                informativeTextWithFormat:@"Did not manage to make a connection to the RF-Explorer device "
-             "via the %@ serial port (%@): %s",
-             settingDeviceTitle, devPath, strerror(errno)
-             ];
-        };
-        // Hmm - we should go to messages :) and change the pattern.
-        spectrogramView.device = rfExplorer;
-        configTabView.device = rfExplorer;                
-        spectrumDrawerView.device = rfExplorer;
-        spectogramDrawerView.device = rfExplorer;
-        spectrumView.device = rfExplorer;
-    }
-    
-    // deviceLabel.stringValue = rfExplorer ? settingDeviceTitle : @"<unset>";
-
-    firmwareLabel.stringValue = rfExplorer ? @"Contacting..." : 
-        (devPath ? @"Comms failed" : @"");
-        
     [self setAllControls:FALSE];
     [self configScreenUpdating:self];
+
+    firmwareLabel.stringValue =  NSLocalizedString(@"Not connected",
+                                                   @"main window status prior to connecting");
+
+    NSString * devPath = [serialDeviceTracker.devices objectForKey:settingDeviceTitle ];
+    
+    if (devPath == nil)
+        return;
+    
+    firmwareLabel.stringValue =  NSLocalizedString(@"Connecting...",
+                                                   @"main window status during connecting");
+    
+    rfExplorer = [[RFExplorer alloc] initWithPath:devPath
+                                  withSlowSetting:settingDeviceIsSlow
+                                     withDelegate:self];
+    if (rfExplorer == nil) {
+        NSAlert * a = [NSAlert alertWithMessageText:NSLocalizedString(@"Failed to connect to RF-Explorer", @"Error to connect alert: title")
+                                      defaultButton:nil 
+                                    alternateButton:nil 
+                                        otherButton:nil 
+                          informativeTextWithFormat: NSLocalizedString(@"Did not manage to make a connection to the RF-Explorer device "
+                                                                       "via the %@ serial port (%@): %s", @"Error to connect: description; argumetns are devicename, path and strerror()"),
+                       settingDeviceTitle, devPath, strerror(errno)
+                       ];
+        
+        [a beginSheetModalForWindow:window 
+                      modalDelegate:nil
+                     didEndSelector:nil 
+                        contextInfo:nil];
+        
+        firmwareLabel.stringValue =  NSLocalizedString(@"Comms failed", 
+                                                       @"Main window after conencting failed");
+        return;
+    };
+
+    // Hmm - we should go to messages :) and change the pattern.
+    spectrogramView.device = rfExplorer;
+    configTabView.device = rfExplorer;                
+    spectrumDrawerView.device = rfExplorer;
+    spectogramDrawerView.device = rfExplorer;
+    spectrumView.device = rfExplorer;
+    
+    firmwareLabel.stringValue = NSLocalizedString(@"Initialzing", 
+                                                  @"main window - status when all is well");        
 }
 
 -(IBAction)changeBoard:(id)sender {
@@ -349,12 +383,14 @@
 -(IBAction)configScreenUpdating:(id)sender {
     if (playing) {
         [rfExplorer playScreen];        
-        liveButton.title = @"pause display";
+        liveButton.title = NSLocalizedString(@"pause display", 
+                                             @"Text shown in button live screen display, pause");
         [pausedLabel setHidden:TRUE];
         liveImageCell.alphaValue = 1.0;
     } else {
         [rfExplorer pauseScreen];
-        liveButton.title = @"start live display";
+        liveButton.title = NSLocalizedString(@"start live display", 
+                                             @"Text shown in button live screen display, start");
         [pausedLabel setHidden:FALSE];
         liveImageCell.alphaValue = 0.3;
     };
@@ -422,8 +458,6 @@
 }
 
 -(IBAction)print:(id)sender {
-    NSLog(@"Yup - first responder responds");
-    
     SomeTabView * tabView = (SomeTabView *)mainView.selectedTabViewItem.view;
     switch ([mainView indexOfTabViewItem:mainView.selectedTabViewItem]) {
         case TAB_SCREEN: 
@@ -467,10 +501,7 @@
 }
 
 -(void)newBoard:(id)sender {
-    assert(sender == rfExplorer);
-    
-    firmwareLabel.stringValue = rfExplorer.firmware;
-    
+    firmwareLabel.stringValue = rfExplorer.firmware;    
     boardLabel.stringValue = rfExplorer.mainBoard;    
 
     if (rfExplorer.expansionBoard == nil) {
@@ -513,13 +544,15 @@
     //
     [[boardSwitch cellAtRow:0 column:0] setEnabled:NO];
 
-    [[boardSwitch cellAtRow:0 column:0] setTitle:rfExplorer.mainBoard ? rfExplorer.mainBoard : @"<unknown>"];
+    NSString * unk = NSLocalizedString(@"<unknown>",@"String for unknown board");
+
+    [[boardSwitch cellAtRow:0 column:0] setTitle:rfExplorer.mainBoard ? rfExplorer.mainBoard : unk];
     if (rfExplorer.hasExpansionBoard) {
-        [[boardSwitch cellAtRow:0 column:1] setTitle:rfExplorer.expansionBoard ? rfExplorer.expansionBoard : @"<unknown>"];
+        [[boardSwitch cellAtRow:0 column:1] setTitle:rfExplorer.expansionBoard ? rfExplorer.expansionBoard : unk];
         [[boardSwitch cellAtRow:0 column:1] setEnabled:NO];
     } else {
-        // hiding it..
-        [[boardSwitch cellAtRow:0 column:1] setTitle:@"<not present>"];        
+        NSString * nope = NSLocalizedString(@"<not present>",@"String for an empty board slot");
+        [[boardSwitch cellAtRow:0 column:1] setTitle:nope];        
         [[boardSwitch cellAtRow:0 column:1] setEnabled:NO];
     }
     [boardSwitch selectCellAtRow:0 column:rfExplorer.expansionBoardActive ? 1 : 0];
@@ -530,15 +563,29 @@
 }
 
 -(void)alertUser:(NSString *)userMsg {
-   [NSAlert alertWithMessageText:userMsg 
-                   defaultButton:@"OK" 
-                 alternateButton:nil 
-                     otherButton:nil 
-       informativeTextWithFormat:@"RF Explorer failure: %@. " \
-                "Check that you see the normal graph display " \
-                "updating or try unplugging and reinserting " \
-                "the device.", userMsg
-    ];
+    NSString * devPath = rfExplorer  ? (rfExplorer .path ? rfExplorer.path : @"")
+                                     : [serialDeviceTracker.devices objectForKey:settingDeviceTitle ];
+    
+    NSString * title = [NSString stringWithFormat:NSLocalizedString(@"Communication issue %@", 
+                                                                    @"Title of alert warning on most errors, argument is the device name if any."),
+                        devPath];
+    
+    NSString * msg = NSLocalizedString(
+                                       @"%@.\n"
+                                       @"You can select (another) device in the Preference panel (⌘,).", 
+                                       @"Text on connection loss. Argument is the message.");
+
+    NSAlert * alert =  [NSAlert alertWithMessageText:title 
+                                        defaultButton:NSLocalizedString(@"OK" ,
+                                                                        @"OK button after error")
+                                      alternateButton:nil 
+                                          otherButton:nil 
+                            informativeTextWithFormat:msg, userMsg];
+    // [alert runModal];
+    [alert beginSheetModalForWindow:window 
+                      modalDelegate:nil 
+                     didEndSelector:nil 
+                        contextInfo:nil];
 }
 
 #pragma mark Cleanup sundry

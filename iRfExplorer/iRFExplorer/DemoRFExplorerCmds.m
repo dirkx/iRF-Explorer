@@ -35,6 +35,10 @@ double const kGAIN = 0.31;
 #pragma mark init and related sundry such as thread kickoff.
 
 - (id)initWithPath:(NSString *)_path withSlowSpeed:(BOOL)_isSlow {
+    self = [super init];
+    if (self == nil)
+        return nil;
+    
     cmdQue = [[NSMutableArray alloc] initWithCapacity:10];
     
     path = [_path retain];

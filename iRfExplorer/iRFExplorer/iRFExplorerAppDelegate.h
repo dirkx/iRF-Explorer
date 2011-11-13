@@ -38,7 +38,7 @@
 #import "SpectrogramDrawerView.h"
 #import "SpectrogramGraphView.h"
 #import "StopPauseView.h"
-
+#import "CustomizableTabView.h"
 
 @interface iRFExplorerAppDelegate : NSObject <NSApplicationDelegate, 
                                        // NSWindowDelegate,
@@ -54,7 +54,7 @@
     NSString *settingDeviceTitle;
     BOOL settingDeviceIsSlow;
     
-    IBOutlet NSTabView *mainView;
+    IBOutlet CustomizableTabView *mainView;
     IBOutlet NSDrawer *drawerView;
     IBOutlet NSWindow *window;
     
@@ -92,7 +92,7 @@
     IBOutlet SpectrumDrawerView * spectrumDrawerView;
 }
 
-@property (assign) IBOutlet NSTabView *mainView;
+@property (assign) IBOutlet CustomizableTabView *mainView;
 @property (assign) IBOutlet NSWindow *window;
 
 // Drawers

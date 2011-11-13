@@ -79,6 +79,13 @@ typedef enum {
     BOOL isSlow;
     int fd;
     NSUInteger unkPktTypeCount;
+
+    NSTimer * timeoutTimer;
+    NSUInteger timeoutMask;
+    
+    BOOL debugRH;
+    BOOL logRH;
+    BOOL cmdRH;
 }
 
 @property (assign) id <RFCallbacks> delegate;

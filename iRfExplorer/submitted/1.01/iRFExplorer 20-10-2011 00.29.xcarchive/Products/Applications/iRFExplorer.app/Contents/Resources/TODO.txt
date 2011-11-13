@@ -1,0 +1,14 @@
+TODO:
+    Fix big with double release in RFExplorer.m/dealloc -- parser commented out.
+    Check resizing updates
+    Legends can go funny on resizes
+    Cut & Paste of values / images to documents/excel/LaTeX
+
+PROTOCOL WISHES
+-   Learn min dBm step and freq. span's ranges on the
+    wire rather than hardcode. Extra #C reply perhaps.
+-   Send a command to the device to 'force' it into scan/measure more.
+-   Special commend to set the device in remote measure mode
+    during which the screen goes blank/unlit and/or keys get blocked.
+
+

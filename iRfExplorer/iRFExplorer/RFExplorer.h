@@ -63,7 +63,7 @@ NSString const *kDemoAudio;
     
     // hardware range
     double fMinFreqHz, fMaxFreqHz, fMaxSpanHz, fMinSpanHz, fFullRangeHz;
-    double fAmplitudeMin, fAmplitudeMax, fAmplitudeMinSpan, fAmplitudeFullRange;
+    double fAmplitudeMin, fAmplitudeMax, fAmplitudeMinSpan, fAmplitudeFullRange;    
 }
 
 @property (assign) id <RFGUICallbacks> delegate;

@@ -74,7 +74,7 @@
         else
             y -= 2.5;
         
-        [label drawAtPoint:CGPointMake(ox - OS - 1 -s.width,y /* moving baseline of font */)         
+        [label drawAtPoint:NSMakePoint(ox - OS - 1 -s.width,y /* moving baseline of font */)         
             withAttributes:nil];
     }
 }

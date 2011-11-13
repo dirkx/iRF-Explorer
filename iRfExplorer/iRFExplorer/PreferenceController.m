@@ -50,6 +50,12 @@ NSString * const kPreferenceTimeStamp = @"timeStamp";
 NSString * const kPreferenceShowDecay = @"showDecay";
 NSString * const kPreferenceScanFullrange = @"scanFullrange";
 
+// Not exposed through UI settings.
+//
+NSString * const kCmdLog = @"cmdLog";
+NSString * const kCommsLog = @"commsLog";
+NSString * const kCommsDebug = @"commsDebug";
+
 @implementation PreferenceController
 @synthesize slowSpeedButton, deviceSelectionButton;
 @synthesize decayLabel, decaySlider;
@@ -98,8 +104,10 @@ NSString * const kPreferenceScanFullrange = @"scanFullrange";
         name=SCDynamicStoreCopyComputerName(NULL,NULL);
         computerName=[NSString stringWithString:(NSString *)name];
         
+        NSString * fmt = NSLocalizedString(@"Measured by %@ on %@",
+                                           @"Default LIMS string, arguments are full user name and computername");
         NSUserDefaultsController * udc = [NSUserDefaultsController sharedUserDefaultsController];
-        [udc.values setValue:[NSString stringWithFormat:@"Measured by %@ on %@", NSFullUserName(), computerName] 
+        [udc.values setValue:[NSString stringWithFormat:fmt, NSFullUserName(), computerName] 
                forKey:kPreferenceLimsCommentString];
         
         CFRelease(name);
@@ -178,11 +186,17 @@ NSString * const kPreferenceScanFullrange = @"scanFullrange";
 
 -(IBAction)lingerTimeChange:(id)sender {
     double v = lingerTimeTextField.doubleValue;
+    NSString * _h = NSLocalizedString(@"h",@"short hour unit");
+//    NSString * _hour = NSLocalizedString(@" hour",@"medium hour unit  - prefix with space where needed");
+    NSString * _m = NSLocalizedString(@"m",@"short minute unit");
+//    NSString * _min = NSLocalizedString(@" min",@"medium minute unit  - prefix with space where needed");
+//    NSString * _s = NSLocalizedString(@"s",@"short second unit");
+//    NSString * _sec = NSLocalizedString(@" sec",@"medium second unit - prefix with space where needed");
     
-    if ([lingerTimeTextField.stringValue hasSuffix:@"m"])
+    if ([lingerTimeTextField.stringValue hasSuffix:_m])
         v *= 60.0;
 
-    if ([lingerTimeTextField.stringValue hasSuffix:@"h"])
+    if ([lingerTimeTextField.stringValue hasSuffix:_h])
         v *= 60 * 60.0;
 
     // shorten to mins or seconds as needed.
