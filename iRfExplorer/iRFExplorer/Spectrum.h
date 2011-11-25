@@ -24,22 +24,22 @@
     NSArray *dbValues;
     NSArray *frequenciesHz;
 
-    float startFreqHz;
-    float endFreqHz;
-    float stepFreqHz;
+    double startFreqHz;
+    double endFreqHz;
+    double stepFreqHz;
     
-    float minDbm;
-    float maxDbm;
+    double minDbm;
+    double maxDbm;
 }
 
 @property (retain, readonly) NSArray *dbValues, *frequenciesHz;
 
-@property (assign, readonly) float startFreqHz, endFreqHz, stepFreqHz;
-@property (assign, readonly) float minDbm, maxDbm;
+@property (assign, readonly) double startFreqHz, endFreqHz, stepFreqHz;
+@property (assign, readonly) double minDbm, maxDbm;
 @property (assign, readonly) NSUInteger count;
 
-- (id)initWithStartFreqHz:(float)_startFreqHz
-         withStepFreqHz:(float)_stepFreqHz
+- (id)initWithStartFreqHz:(double)_startFreqHz
+         withStepFreqHz:(double)_stepFreqHz
                 withData:(NSArray *)vals;
 
 -(NSString *)tsvDescription;

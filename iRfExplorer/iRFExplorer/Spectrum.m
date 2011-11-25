@@ -26,8 +26,8 @@
 @synthesize dbValues, frequenciesHz;
 @synthesize minDbm,maxDbm;
 
-- (id)initWithStartFreqHz:(float)_startFreqHz
-         withStepFreqHz:(float)_stepFreqHz
+- (id)initWithStartFreqHz:(double)_startFreqHz
+         withStepFreqHz:(double)_stepFreqHz
                 withData:(NSArray *)vals
 {
     self = [super init];
@@ -50,7 +50,7 @@
         if (v > maxDbm)
             maxDbm = v;        
 
-        [f addObject:[NSNumber numberWithFloat:startFreqHz + i * stepFreqHz]];
+        [f addObject:[NSNumber numberWithDouble:startFreqHz + i * stepFreqHz]];
     };
     
     frequenciesHz = [[NSArray arrayWithArray:f] retain];

@@ -32,7 +32,7 @@
 	     withDiff:(double)_diff
  withNiceNbrScore:(double)_niceNbrScore
    withNbrOfTicks:(int)_nbrOfTicks
-    withSubTickCount:(double)_subCount
+    withSubTickCount:(int)_subCount
 	 includesZero:(BOOL)_includesZero
  withDataCoverage:(double)_dataCoverage
 {

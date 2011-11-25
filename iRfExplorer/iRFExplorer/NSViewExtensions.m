@@ -5,6 +5,7 @@
 //  After http://www.cocoabuilder.com/archive/cocoa/71931-setenabled-on-nsview.html
 
 #import "NSViewExtensions.h"
+#import "PreferenceConstants.h"
 
 @implementation NSView(MyExtensions)
 
@@ -39,7 +40,7 @@
                                           @"Demo prompting msg");
     
     NSDictionary * attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                           [NSFont fontWithName:@"Helvetica" size:36], NSFontAttributeName,
+                           [NSFont fontWithName:kMainFont size:kMainFontSize], NSFontAttributeName,
                            [NSColor darkGrayColor], NSForegroundColorAttributeName, 
                            nil];
     
@@ -50,7 +51,7 @@
     [msg drawAtPoint:NSMakePoint(x,y) withAttributes:attr];
     
     attr = [NSDictionary dictionaryWithObjectsAndKeys:
-            [NSFont fontWithName:@"Helvetica Oblique" size:10], NSFontAttributeName,
+            [NSFont fontWithName:kItalicFont size:kMainSmallFontSize], NSFontAttributeName,
             [NSColor lightGrayColor], NSForegroundColorAttributeName, 
             nil];
     

@@ -809,7 +809,7 @@
 							<string key="NSFrame">{{1, 37}, {488, 336}}</string>
 							<reference key="NSSuperview" ref="229004048"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="697554"/>
+							<reference key="NSNextKeyView" ref="691729645"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<string key="NSReuseIdentifierKey">_NS:461</string>
 							<object class="NSMutableArray" key="NSTabViewItems">
@@ -817,7 +817,7 @@
 								<object class="NSTabViewItem" id="487258625">
 									<string key="NSIdentifier">1</string>
 									<object class="NSView" key="NSView" id="697554">
-										<reference key="NSNextResponder" ref="1036856560"/>
+										<nil key="NSNextResponder"/>
 										<int key="NSvFlags">256</int>
 										<object class="NSMutableArray" key="NSSubviews">
 											<bool key="EncodedWithXMLCoder">YES</bool>
@@ -826,8 +826,7 @@
 												<int key="NSvFlags">274</int>
 												<string key="NSFrame">{{66, 57}, {366, 216}}</string>
 												<reference key="NSSuperview" ref="697554"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="264138786"/>
+												<reference key="NSNextKeyView" ref="792436354"/>
 												<string key="NSReuseIdentifierKey">_NS:499</string>
 												<string key="NSClassName">SpectrumGraphView</string>
 											</object>
@@ -836,7 +835,6 @@
 												<int key="NSvFlags">276</int>
 												<string key="NSFrameSize">{60, 287}</string>
 												<reference key="NSSuperview" ref="697554"/>
-												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="635884974"/>
 												<bool key="NSViewCanDrawConcurrently">YES</bool>
 												<string key="NSReuseIdentifierKey">_NS:499</string>
@@ -847,8 +845,7 @@
 												<int key="NSvFlags">290</int>
 												<string key="NSFrameSize">{471, 50}</string>
 												<reference key="NSSuperview" ref="697554"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="792436354"/>
+												<reference key="NSNextKeyView" ref="100482138"/>
 												<bool key="NSViewCanDrawConcurrently">YES</bool>
 												<string key="NSReuseIdentifierKey">_NS:499</string>
 												<string key="NSClassName">FrequencyLegendView</string>
@@ -858,15 +855,12 @@
 												<int key="NSvFlags">301</int>
 												<string key="NSFrame">{{436, 258}, {32, 32}}</string>
 												<reference key="NSSuperview" ref="697554"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="1036856560"/>
+												<reference key="NSNextKeyView" ref="264138786"/>
 												<string key="NSReuseIdentifierKey">_NS:499</string>
 												<string key="NSClassName">StopPauseView</string>
 											</object>
 										</object>
 										<string key="NSFrame">{{10, 33}, {468, 290}}</string>
-										<reference key="NSSuperview" ref="1036856560"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="998006967"/>
 										<string key="NSReuseIdentifierKey">_NS:463</string>
 									</object>
@@ -885,7 +879,7 @@
 								<object class="NSTabViewItem" id="16033325">
 									<string key="NSIdentifier">2</string>
 									<object class="NSView" key="NSView" id="691729645">
-										<nil key="NSNextResponder"/>
+										<reference key="NSNextResponder" ref="1036856560"/>
 										<int key="NSvFlags">256</int>
 										<object class="NSMutableArray" key="NSSubviews">
 											<bool key="EncodedWithXMLCoder">YES</bool>
@@ -906,6 +900,7 @@
 												</object>
 												<string key="NSFrame">{{41, 85}, {384, 187}}</string>
 												<reference key="NSSuperview" ref="691729645"/>
+												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="503149416"/>
 												<bool key="NSViewIsLayerTreeHost">YES</bool>
 												<int key="NSViewLayerContentsRedrawPolicy">2</int>
@@ -916,7 +911,7 @@
 													<int key="NSCellFlags2">33554432</int>
 													<string key="NSCellIdentifier">_NS:1658</string>
 													<int key="NSAlign">0</int>
-													<int key="NSScale">0</int>
+													<int key="NSScale">3</int>
 													<int key="NSStyle">2</int>
 													<bool key="NSAnimates">NO</bool>
 												</object>
@@ -927,7 +922,8 @@
 												<int key="NSvFlags">290</int>
 												<string key="NSFrame">{{172, 53}, {122, 19}}</string>
 												<reference key="NSSuperview" ref="691729645"/>
-												<reference key="NSNextKeyView" ref="100482138"/>
+												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="1036856560"/>
 												<string key="NSReuseIdentifierKey">_NS:1534</string>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="941087329">
@@ -954,6 +950,7 @@
 												<int key="NSvFlags">266</int>
 												<string key="NSFrame">{{41, 151}, {386, 38}}</string>
 												<reference key="NSSuperview" ref="691729645"/>
+												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="211422808"/>
 												<string key="NSReuseIdentifierKey">_NS:3936</string>
 												<bool key="NSEnabled">YES</bool>
@@ -977,6 +974,8 @@
 											</object>
 										</object>
 										<string key="NSFrame">{{10, 33}, {468, 290}}</string>
+										<reference key="NSSuperview" ref="1036856560"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="1020399503"/>
 										<string key="NSReuseIdentifierKey">_NS:473</string>
 									</object>
@@ -1040,6 +1039,7 @@
 												<int key="NSvFlags">301</int>
 												<string key="NSFrame">{{436, 258}, {32, 32}}</string>
 												<reference key="NSSuperview" ref="281599808"/>
+												<reference key="NSNextKeyView" ref="930218594"/>
 												<int key="NSViewLayerContentsRedrawPolicy">2</int>
 												<bool key="NSViewCanDrawConcurrently">YES</bool>
 												<string key="NSReuseIdentifierKey">_NS:499</string>
@@ -1050,7 +1050,7 @@
 												<int key="NSvFlags">290</int>
 												<string key="NSFrameSize">{488, 38}</string>
 												<reference key="NSSuperview" ref="281599808"/>
-												<reference key="NSNextKeyView" ref="218440501"/>
+												<reference key="NSNextKeyView" ref="100482138"/>
 												<int key="NSViewLayerContentsRedrawPolicy">2</int>
 												<bool key="NSViewCanDrawConcurrently">YES</bool>
 												<string key="NSReuseIdentifierKey">_NS:499</string>
@@ -1072,7 +1072,7 @@
 												<int key="NSvFlags">274</int>
 												<string key="NSFrame">{{45, 40}, {390, 234}}</string>
 												<reference key="NSSuperview" ref="281599808"/>
-												<reference key="NSNextKeyView" ref="930218594"/>
+												<reference key="NSNextKeyView" ref="218440501"/>
 												<int key="NSViewLayerContentsRedrawPolicy">2</int>
 												<bool key="NSViewCanDrawConcurrently">YES</bool>
 												<string key="NSReuseIdentifierKey">_NS:499</string>
@@ -1092,15 +1092,16 @@
 										<nil key="NSNextResponder"/>
 										<int key="NSvFlags">256</int>
 										<string key="NSFrame">{{10, 33}, {468, 290}}</string>
+										<reference key="NSNextKeyView" ref="100482138"/>
 									</object>
 									<string key="NSLabel">Config</string>
 									<reference key="NSColor" ref="966342001"/>
 									<reference key="NSTabView" ref="1036856560"/>
 								</object>
 							</object>
-							<reference key="NSSelectedTabViewItem" ref="487258625"/>
+							<reference key="NSSelectedTabViewItem" ref="16033325"/>
 							<object class="NSFont" key="NSFont" id="61812961">
-								<string key="NSName">Azuro</string>
+								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
 								<int key="NSfFlags">1044</int>
 							</object>
@@ -1108,7 +1109,7 @@
 							<bool key="NSAllowTruncatedLabels">YES</bool>
 							<object class="NSMutableArray" key="NSSubviews">
 								<bool key="EncodedWithXMLCoder">YES</bool>
-								<reference ref="697554"/>
+								<reference ref="691729645"/>
 							</object>
 						</object>
 						<object class="NSBox" id="100482138">
@@ -1127,7 +1128,6 @@
 											<string key="NSFrame">{{312, 9}, {151, 17}}</string>
 											<reference key="NSSuperview" ref="22981695"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:3936</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="668949234">
@@ -1266,16 +1266,15 @@
 					<reference key="NSNextKeyView" ref="1036856560"/>
 					<string key="NSReuseIdentifierKey">_NS:2818</string>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1366, 746}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{486, 391}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSCustomView" id="688471690">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<string key="NSFrameSize">{203, 495}</string>
-				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="563601385">
@@ -1288,6 +1287,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{20, 216}, {118, 50}}</string>
 						<reference key="NSSuperview" ref="563601385"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="270490292"/>
 						<string key="NSReuseIdentifierKey">_NS:499</string>
 						<string key="NSClassName">SignalTextFieldSliderView</string>
@@ -1297,6 +1297,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{20, 283}, {118, 50}}</string>
 						<reference key="NSSuperview" ref="563601385"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="117404473"/>
 						<string key="NSReuseIdentifierKey">_NS:499</string>
 						<string key="NSClassName">SignalTextFieldSliderView</string>
@@ -1306,6 +1307,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{20, 351}, {118, 50}}</string>
 						<reference key="NSSuperview" ref="563601385"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="480917303"/>
 						<string key="NSReuseIdentifierKey">_NS:499</string>
 						<string key="NSClassName">FrequencyTextFieldSliderView</string>
@@ -1315,6 +1317,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{20, 419}, {118, 50}}</string>
 						<reference key="NSSuperview" ref="563601385"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="472019338"/>
 						<string key="NSReuseIdentifierKey">_NS:499</string>
 						<string key="NSClassName">FrequencyTextFieldSliderView</string>
@@ -1324,6 +1327,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{18, 177}, {118, 20}}</string>
 						<reference key="NSSuperview" ref="563601385"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="77726470"/>
 						<string key="NSReuseIdentifierKey">_NS:239</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1354,7 +1358,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{75, 155}, {61, 20}}</string>
 						<reference key="NSSuperview" ref="563601385"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:239</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="88767699">
@@ -1379,6 +1383,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{18, 155}, {61, 20}}</string>
 						<reference key="NSSuperview" ref="563601385"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="326944499"/>
 						<string key="NSReuseIdentifierKey">_NS:239</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1404,6 +1409,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{33, 191}, {90, 18}}</string>
 						<reference key="NSSuperview" ref="563601385"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1000417168"/>
 						<string key="NSReuseIdentifierKey">_NS:3936</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1427,6 +1433,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{17, 260}, {124, 18}}</string>
 						<reference key="NSSuperview" ref="563601385"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="440815274"/>
 						<string key="NSReuseIdentifierKey">_NS:3936</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1446,6 +1453,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{20, 328}, {117, 18}}</string>
 						<reference key="NSSuperview" ref="563601385"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="374317064"/>
 						<string key="NSReuseIdentifierKey">_NS:3936</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1465,6 +1473,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{20, 396}, {117, 18}}</string>
 						<reference key="NSSuperview" ref="563601385"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="180542943"/>
 						<string key="NSReuseIdentifierKey">_NS:3936</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1484,6 +1493,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{20, 464}, {117, 18}}</string>
 						<reference key="NSSuperview" ref="563601385"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="548917441"/>
 						<string key="NSReuseIdentifierKey">_NS:3936</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1501,6 +1511,7 @@
 				</object>
 				<string key="NSFrameSize">{158, 482}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="365349357"/>
 				<string key="NSReuseIdentifierKey">_NS:499</string>
 				<string key="NSClassName">SpectrumDrawerView</string>
@@ -1515,6 +1526,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{20, 419}, {118, 50}}</string>
 						<reference key="NSSuperview" ref="161068742"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="502759107"/>
 						<string key="NSReuseIdentifierKey">_NS:499</string>
 						<string key="NSClassName">TimePeriodTextFieldSliderView</string>
@@ -1524,6 +1536,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{21, 379}, {115, 20}}</string>
 						<reference key="NSSuperview" ref="161068742"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="357888491"/>
 						<string key="NSReuseIdentifierKey">_NS:239</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1549,7 +1562,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{21, 357}, {115, 20}}</string>
 						<reference key="NSSuperview" ref="161068742"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:239</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="713144274">
@@ -1574,6 +1587,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{21, 395}, {115, 18}}</string>
 						<reference key="NSSuperview" ref="161068742"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="810020470"/>
 						<string key="NSReuseIdentifierKey">_NS:3936</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1593,6 +1607,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{20, 463}, {115, 18}}</string>
 						<reference key="NSSuperview" ref="161068742"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="447775148"/>
 						<string key="NSReuseIdentifierKey">_NS:3936</string>
 						<bool key="NSEnabled">YES</bool>
@@ -1610,6 +1625,7 @@
 				</object>
 				<string key="NSFrameSize">{158, 481}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="21919165"/>
 				<string key="NSReuseIdentifierKey">_NS:499</string>
 				<string key="NSClassName">SpectrogramDrawerView</string>
@@ -3825,19 +3841,27 @@
 					<string>587.NSWindowTemplate.visibleAtLaunch</string>
 					<string>588.IBPluginDependency</string>
 					<string>589.IBPluginDependency</string>
+					<string>590.IBAttributePlaceholdersKey</string>
 					<string>590.IBPluginDependency</string>
 					<string>593.IBAttributePlaceholdersKey</string>
 					<string>593.IBPluginDependency</string>
 					<string>593.IBUserGuides</string>
 					<string>594.CustomClassName</string>
+					<string>594.IBAttributePlaceholdersKey</string>
 					<string>594.IBPluginDependency</string>
+					<string>595.IBAttributePlaceholdersKey</string>
 					<string>595.IBPluginDependency</string>
+					<string>596.IBAttributePlaceholdersKey</string>
 					<string>596.IBPluginDependency</string>
 					<string>597.CustomClassName</string>
+					<string>597.IBAttributePlaceholdersKey</string>
 					<string>597.IBPluginDependency</string>
 					<string>599.CustomClassName</string>
+					<string>599.IBAttributePlaceholdersKey</string>
 					<string>599.IBPluginDependency</string>
+					<string>600.IBAttributePlaceholdersKey</string>
 					<string>600.IBPluginDependency</string>
+					<string>601.IBAttributePlaceholdersKey</string>
 					<string>601.IBPluginDependency</string>
 					<string>602.IBPluginDependency</string>
 					<string>602.IBViewIntegration.shadowBlurRadius</string>
@@ -3852,8 +3876,10 @@
 					<string>660.IBPluginDependency</string>
 					<string>671.IBPluginDependency</string>
 					<string>676.IBPluginDependency</string>
+					<string>688.IBAttributePlaceholdersKey</string>
 					<string>688.IBPluginDependency</string>
 					<string>689.CustomClassName</string>
+					<string>689.IBAttributePlaceholdersKey</string>
 					<string>689.IBPluginDependency</string>
 					<string>73.IBPluginDependency</string>
 					<string>74.IBPluginDependency</string>
@@ -3880,8 +3906,10 @@
 					<string>841.IBPluginDependency</string>
 					<string>848.IBPluginDependency</string>
 					<string>849.IBPluginDependency</string>
+					<string>855.IBAttributePlaceholdersKey</string>
 					<string>855.IBPluginDependency</string>
 					<string>856.CustomClassName</string>
+					<string>856.IBAttributePlaceholdersKey</string>
 					<string>856.IBPluginDependency</string>
 					<string>860.IBAttributePlaceholdersKey</string>
 					<string>860.IBPluginDependency</string>
@@ -4065,6 +4093,14 @@ bCB2YWx1ZSBvbiB0aGUgUkZFeHBsb3JlciBkZXZpY2UgaXMgc2hvdy4</bytes>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="229004048"/>
+							<string key="toolTip">Main window - use the tabs to change between the spectrum, a live display, a spectogram over time or to see the settings.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSMutableDictionary">
 						<string key="NS.key.0">ToolTip</string>
@@ -4079,14 +4115,70 @@ bCB2YWx1ZSBvbiB0aGUgUkZFeHBsb3JlciBkZXZpY2UgaXMgc2hvdy4</bytes>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 					</object>
 					<string>CustomizableTabView</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="1036856560"/>
+							<string key="toolTip">Main window - use the tabs to change between the spectrum, a live display, a spectogram over time or to see the settings.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">AccessibilityDescription</string>
+						<object class="IBAccessibilityAttribute" key="NS.object.0">
+							<string key="name">AccessibilityDescription</string>
+							<reference key="object" ref="16033325"/>
+							<string key="accessibilityValue">Actual screen of the LCD explorer; use the button below to start/pause; or press space.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">AccessibilityDescription</string>
+						<object class="IBAccessibilityAttribute" key="NS.object.0">
+							<string key="name">AccessibilityDescription</string>
+							<reference key="object" ref="487258625"/>
+							<string key="accessibilityValue">Main spectrum - as also displayed on the LCD of the RF Explorer. Use space to pause.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>SpectrumView</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="697554"/>
+							<string key="toolTip">Main spectrum - as also displayed on the LCD of the RF Explorer. Use space to pause.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>SomeTabView</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="691729645"/>
+							<string key="toolTip">Actual screen of the LCD explorer; use the button below to start/pause; or press space.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="503149416"/>
+							<string key="toolTip">Actual screen of the LCD explorer; use the button below to start/pause; or press space.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="211422808"/>
+							<string key="toolTip">Play/pause button for above display. Or use the space bar as a key shortcut.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<real value="0.0"/>
@@ -4101,8 +4193,24 @@ bCB2YWx1ZSBvbiB0aGUgUkZFeHBsb3JlciBkZXZpY2UgaXMgc2hvdy4</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">AccessibilityDescription</string>
+						<object class="IBAccessibilityAttribute" key="NS.object.0">
+							<string key="name">AccessibilityDescription</string>
+							<reference key="object" ref="753827448"/>
+							<string key="accessibilityValue">Configuration of the device.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>ConfigView</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="231128904"/>
+							<string key="toolTip">Configuration of the device.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4150,8 +4258,24 @@ bCB2YWx1ZSBvbiB0aGUgUkZFeHBsb3JlciBkZXZpY2UgaXMgc2hvdy4</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">AccessibilityDescription</string>
+						<object class="IBAccessibilityAttribute" key="NS.object.0">
+							<string key="name">AccessibilityDescription</string>
+							<reference key="object" ref="192923785"/>
+							<string key="accessibilityValue">Spectogram - shows change over time. Use the space bar to pause.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>SpectrogramView</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="281599808"/>
+							<string key="toolTip">Spectogram - shows change over time. Use the space bar to pause.</string>
+						</object>
+					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSMutableDictionary">
 						<string key="NS.key.0">ToolTip</string>
@@ -5038,7 +5162,7 @@ bCB2YWx1ZSBvbiB0aGUgUkZFeHBsb3JlciBkZXZpY2UgaXMgc2hvdy4</bytes>
 							<string>StopPauseView</string>
 							<string>SpectrogramView</string>
 							<string>SpectrumDrawerView</string>
-							<string>NSView</string>
+							<string>SpectrumGraphView</string>
 							<string>NSScrollView</string>
 							<string>StopPauseView</string>
 							<string>SpectrumView</string>
@@ -5134,7 +5258,7 @@ bCB2YWx1ZSBvbiB0aGUgUkZFeHBsb3JlciBkZXZpY2UgaXMgc2hvdy4</bytes>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">spectrumGraphView</string>
-								<string key="candidateClassName">NSView</string>
+								<string key="candidateClassName">SpectrumGraphView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">spectrumScollView</string>

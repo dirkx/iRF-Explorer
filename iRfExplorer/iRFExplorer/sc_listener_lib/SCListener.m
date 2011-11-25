@@ -42,8 +42,12 @@ static void listeningCallback(void *inUserData, AudioQueueRef inAQ, AudioQueueBu
 
 + (SCListener *)sharedListener {
 	@synchronized(self) {
+#ifndef __clang_analyzer__
 		if (sharedListener == nil)
-			[[self alloc] init];
+			sharedListener = [[super allocWithZone:NULL] init];
+#else
+        assert("You do not want to run this - build sans etc.." == NULL);
+#endif
 	}
 
 	return sharedListener;
@@ -93,14 +97,14 @@ static void listeningCallback(void *inUserData, AudioQueueRef inAQ, AudioQueueBu
 
 - (Float32)averagePower {
 	if (![self isListening])
-		return 0.0;
+		return 0.0f;
 
 	return [self levels][0].mAveragePower;
 }
 
 - (Float32)peakPower {
 	if (![self isListening])
-		return 0.0;
+		return 0.0f;
 
 	return [self levels][0].mPeakPower;
 }
@@ -114,7 +118,7 @@ static void listeningCallback(void *inUserData, AudioQueueRef inAQ, AudioQueueBu
 }
 
 - (void)updateLevels {
-	UInt32 ioDataSize = format.mChannelsPerFrame * sizeof(AudioQueueLevelMeterState);
+	UInt32 ioDataSize = (UInt32)(format.mChannelsPerFrame * sizeof(AudioQueueLevelMeterState));
 	AudioQueueGetProperty(queue, (AudioQueuePropertyID)kAudioQueueProperty_CurrentLevelMeter, levels, &ioDataSize);
 }
 
@@ -206,7 +210,7 @@ static void listeningCallback(void *inUserData, AudioQueueRef inAQ, AudioQueueBu
 		int low_bin = 0;
 		int new_value = 0;
 		for(int i = 0; i < fft_range; i++){
-			int next_bin = round((double)i / (double)j);
+			int next_bin = (int)round((double)i / (double)j);
 
 			if(next_bin > low_bin){
 				freq_db_harmonic[low_bin] += new_value;
@@ -214,7 +218,7 @@ static void listeningCallback(void *inUserData, AudioQueueRef inAQ, AudioQueueBu
 				new_value = 0;
 			}
 			
-			new_value = MAX(new_value, freq_db[i]);  
+			new_value = MAX(new_value, (int)freq_db[i]);  
 		}
 	}
 }
@@ -256,7 +260,7 @@ static void listeningCallback(void *inUserData, AudioQueueRef inAQ, AudioQueueBu
 	int freq_index = [self findTopSpike];
 
 	// Calculate frequency from fft bin number.
-	return (Float32)freq_index * format.mSampleRate / kFFTSIZE;
+	return (Float32)(freq_index * format.mSampleRate / kFFTSIZE);
 }
 
 #pragma mark -

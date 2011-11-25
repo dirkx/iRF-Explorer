@@ -38,11 +38,6 @@
 
 #pragma mark init and related sundry such as thread kickoff.
 
-- (id)init {
-    NSLog(@"One should never call init on %@ - specify Path and Speed", self.className);
-    return nil;
-}
-
 - (id)initWithPath:(NSString *)_path withSlowSpeed:(BOOL)_isSlow {
     self = [super init];
     if (self == nil)
@@ -55,6 +50,28 @@
     debugRH = [[[NSUserDefaults standardUserDefaults] valueForKey:kCommsDebug] boolValue];    
     cmdRH = [[[NSUserDefaults standardUserDefaults] valueForKey:kCmdLog] boolValue];    
 
+#if 1
+    // Logging on on CTRL+ALT (and Cmd, and Shift) pressed.
+    //
+    CGEventRef event = CGEventCreate(NULL);
+    CGEventFlags modifiers = CGEventGetFlags(event);
+    CFRelease(event);
+    NSUInteger buttonMask0= kCGEventFlagMaskAlternate; // already pressed to include demo device.
+    NSUInteger buttonMask1 = buttonMask0 | kCGEventFlagMaskControl;
+    NSUInteger buttonMask2 = buttonMask0 | kCGEventFlagMaskCommand;
+    NSUInteger buttonMask3 = buttonMask0 | kCGEventFlagMaskShift;
+
+    if ((modifiers & buttonMask1) == buttonMask1) { 
+        cmdRH = TRUE;
+    }
+    if ((modifiers & buttonMask2) == buttonMask2) { 
+        logRH = TRUE;
+    }
+    if ((modifiers & buttonMask3) == buttonMask3) { 
+        debugRH = TRUE;
+    }
+#endif
+    
     struct termios termattr ;
     int nfd = -1;
     
@@ -486,24 +503,24 @@ error:
         int flag;
         
         // #C2-M:0022500,0892857,-050,-120,0112,0,000,0240000,0960000,0100000\r\n'
-        sscanf(p+6,"%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld",
+        sscanf(p+6,"%ld,%ld,%ld,%ld,%ld,%u,%ld,%ld,%ld,%ld",
                &fStartKHz, &fStepHz, 
                &fAmplitudeTop, &fAmplitudeBottom, &nFreqSpectrumSteps,
                &flag,
-               &eMode, &fMinFreqKHz, &fMaxFreqKHz, &fMaxSpanKHz);
+               (long*)&eMode, &fMinFreqKHz, &fMaxFreqKHz, &fMaxSpanKHz);
         
         BOOL bExpansionBoardActive = (flag == 1);
                 
-        [delegate configWithStartHz:fStartKHz * 1000.0f
+        [delegate configWithStartHz:fStartKHz * 1000.
                          withStepHz:fStepHz
                     withAmplitudeTop:fAmplitudeTop
                  withAmplitudeBottom:fAmplitudeBottom
                            withSteps:nFreqSpectrumSteps
             withExpansionBoardActive:bExpansionBoardActive
                              witMode:eMode
-                         withMinFreq:fMinFreqKHz * 1000.0f
-                         withMaxFreq:fMaxFreqKHz * 1000.0f
-                        withSpanFreq:fMaxSpanKHz * 1000.0f ];
+                         withMinFreq:fMinFreqKHz * 1000.
+                         withMaxFreq:fMaxFreqKHz * 1000.
+                        withSpanFreq:fMaxSpanKHz * 1000. ];
         
         [self clearTimeoutMask:TO_CONFIG_F];
 
@@ -529,8 +546,10 @@ error:
 
     if (unkPktTypeCount++ < 5) {
         char ign[8];
-        for(int i = 0; i < sizeof(ign)-1 && i < l; i++) 
-            ign[i] = (p[i]<32||p[i]>128) ? '.' : p[i];
+        for(int i = 0; i < sizeof(ign)-1 && i < l; i++) {
+            // rely on *p to be unsigned char; so >128 is in fact below 32.
+            ign[i] = (p[i]<32) ? '.' : p[i];
+        }
         ign[sizeof(ign)-1] = '\0';
 	    NSLog(@"No idea what to do with <%s..> - ignoring.%@",p,
               ((unkPktTypeCount==5) ? @" And won't tell you about it any more" : @""));

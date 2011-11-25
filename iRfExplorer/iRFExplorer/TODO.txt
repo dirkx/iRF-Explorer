@@ -1,4 +1,6 @@
 Changes
+1.09    remove screenshot from submitted bundle.
+
 1.08   pair down bundle details.
        fix defaults.plist; fix drawers their defaults.
        ignoring device power up strings - and use 
@@ -10,15 +12,20 @@ Changes
        dBm values corrected for narrow scales
        bettert serial handling
        all strings localized
-       
+       fix Hz on max - sensible range.
+       more tooltips
+       fixed paused scaling live display.
+    
 BUGS:
-	check min/max etc for defaults
-	X axis gets too long for some settings
+	X axis still gets too long for some settings
     Guessed RBW on the LCD screen and in the Config panel is way 
-    off in certain settings. Too large for higher widths; 
-    too small for the low range.
+       off in certain settings. Too large for higher widths; 
+       too small for the low range.
+    no tooltips on config and preference window.
 
 TODO:  
+    Decent icon, decent text for app store, decent screenshot.
+    Helpfile/dcoumentation.
     Cmplete Localization with an extra language.
     simplify sliders on pref-panel. perhaps make them self-save if a bindings 
     value is set.
@@ -30,6 +37,8 @@ TODO:
     Rewrite the NSViews/NSControls into more efficient NS(Action)Cells.
     Show min/max band setting in config panel about the board ??
     using non-blocked serial open clashes with entitlment rules and profiler.
+    move SD code into spectrum/average
+    consider adding save-as.
 
 PROTOCOL WISHES
 -   When the device is not in mesure mode - but on some other menu flavour - it does not react to any # command. And once the user changes - does not give the #C's.

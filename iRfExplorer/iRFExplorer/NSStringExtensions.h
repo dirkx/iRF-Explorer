@@ -24,6 +24,7 @@
 @interface NSString (MyExtensions);
 
 +(id)stringWithCString:(const char*)buff withLength:(int)len encoding:(NSStringEncoding)enc;
+-(BOOL)contains:(NSString *)aSubstring;
 
 +(id)stringFromAge:(double)seconds keepShort:(BOOL)keepShort;
 +(id)stringFromDate:(NSDate *)age keepShort:(BOOL)keepShort;
@@ -33,5 +34,7 @@
 +(id)stringFromSeconds:(double)seconds;
 +(id)stringFromSeconds:(double)f keepShort:(BOOL)keepShort;
 +(double)secondsFromString:(NSString *)s;
++(id)stringFromDouble:(double) v;
+
 -(NSString*)asLatex;
 @end

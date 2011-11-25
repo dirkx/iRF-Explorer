@@ -67,6 +67,8 @@ const BOOL debug = FALSE;
 
 #pragma mark Startup and application level sundry.
 
+NSString * const kDefaultSiLABSdriver = @"SLAB_USBtoUART";
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     NSString * demoTitle = NSLocalizedString(@"Demo (using a microphone)",
@@ -139,11 +141,27 @@ const BOOL debug = FALSE;
 //
 - (IBAction)showCustomAboutPanel:(id)sender
 {
-    NSString *appVersion = [NSString stringWithFormat:@"%@ - Revision:%@", 
+    NSString *fmt1 = NSLocalizedString(@"%@ - Revision:%@", 
+                                      @"ApplicationVersion string in AboutPanel - first CFBundleShortVersionString and then svn revesion #");
+
+    NSString *appVersion = [NSString stringWithFormat:fmt1, 
                             [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], 
                             @REVISION];
+
+#ifdef DEBUG
+    NSString *fmt2 = @"DEBUG";
+#else
+    NSString *fmt2 = NSLocalizedString(@"", 
+                                       @"Version string in AboutPanel - normally empty, argument is CFBundleVersionString");
+#endif
     
-    NSDictionary *optionsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:appVersion, @"ApplicationVersion", nil];
+    NSString *mainVersion = [NSString stringWithFormat:fmt2, 
+                            [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersionString"]];
+    
+    NSDictionary *optionsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                       appVersion, @"ApplicationVersion", 
+                                       mainVersion, @"Version",
+                                       nil];
         
     [NSApp orderFrontStandardAboutPanelWithOptions:optionsDictionary];
 }
@@ -229,7 +247,7 @@ const BOOL debug = FALSE;
                                                       withTitle:title 
                                                        withPath:path];
     
-    if (rfExplorer == nil && [title isEqualToString:@"SLAB_USBtoUART"]) {
+    if (rfExplorer == nil && [title contains:kDefaultSiLABSdriver]) {
         // give the device the time to power up - as otherwise we get cruft...
         //
         [self performSelector:@selector(attemptToConnectHomeDevice:) 
@@ -238,11 +256,11 @@ const BOOL debug = FALSE;
     }
 }
 
--(void)setDecaySpeed:(float)decaySpeedInSeconds {
+-(void)setDecaySpeed:(double)decaySpeedInSeconds {
     spectrumGraphView.decayInSeconds = decaySpeedInSeconds;
 }
 
--(void)setAvgSpeed:(float)avgSpeedInSeconds {
+-(void)setAvgSpeed:(double)avgSpeedInSeconds {
     spectrumGraphView.averagingTimeWindowInSeconds = avgSpeedInSeconds;
 }
 
@@ -257,7 +275,7 @@ const BOOL debug = FALSE;
 -(void)setAllControls:(BOOL)onOff {
     
     // second tab.
-    liveButton.enabled = onOff;
+    [liveButton setEnabled:onOff];
 
     // 4th tab
     [configTabView setAllControls:onOff];
@@ -272,7 +290,8 @@ const BOOL debug = FALSE;
 
     // Do we 'empty' the 4 slider fields ?
     
-    boardLabel.stringValue = NSLocalizedString(@"<none found>", @"No device found lablel in main window");
+    boardLabel.stringValue = NSLocalizedString(@"<none found>",
+                                               @"No device found lablel in main window");
     expansionLabel.stringValue = @"";
 
     [spectogramDrawerView setAllControls:onOff];
@@ -386,13 +405,13 @@ const BOOL debug = FALSE;
         liveButton.title = NSLocalizedString(@"pause display", 
                                              @"Text shown in button live screen display, pause");
         [pausedLabel setHidden:TRUE];
-        liveImageCell.alphaValue = 1.0;
+        liveImageCell.alphaValue = 1.0f;
     } else {
         [rfExplorer pauseScreen];
         liveButton.title = NSLocalizedString(@"start live display", 
                                              @"Text shown in button live screen display, start");
         [pausedLabel setHidden:FALSE];
-        liveImageCell.alphaValue = 0.3;
+        liveImageCell.alphaValue = 0.3f;
     };
 }
 
@@ -484,9 +503,9 @@ const BOOL debug = FALSE;
     NSSize s = liveImageCell.bounds.size;
     
     if (s.width / s.height < ratio)
-        s.width = ratio * s.height;
+        s.width = (float) (ratio * s.height);
     else
-        s.height = s.width / ratio;
+        s.height = (float) (s.width / ratio);
             
     [img setSize:s];
     liveImageCell.image = img;

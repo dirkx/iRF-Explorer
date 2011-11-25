@@ -120,14 +120,36 @@
         [ndf setTimeStyle:NSDateFormatterShortStyle];
         return [ndf stringFromDate:age];
     }
+    
     // and anything shorter - we show the age in secnds.
     //
     return [NSString stringFromSeconds:f keepShort:YES];
 }
 
+// String where we try to keep the extra zero's as limited as we can.
+//
++(id)stringFromDouble:(double) v {
+    NSString * label;
+    double c = fabs(v);
+    if (c == floor(c)) {
+        label = [NSString stringWithFormat:@"%.0f", v];
+    } else if (c*10 == floor(10*c)) {
+        label = [NSString stringWithFormat:@"%.01f", v];
+    } else if (c*100 == floor(100*c)) {
+        label = [NSString stringWithFormat:@"%.02f", v];
+    } else if (c*3 == floor(3*c)) {
+        label = [NSString stringWithFormat:@"%.02f", v];
+    } else if (c*6 == floor(6*c)) {
+        label = [NSString stringWithFormat:@"%.02f", v];
+    } else {
+        label = [NSString stringWithFormat:@"%.3f", v];
+    }
+    return label;
+}
+
 +(id)stringFromHz:(double)f {
     NSString * unit = @"Hz";
-    NSString * fmt = @"%.2f %@";
+    NSString * fmt = @"%@ %@";
     
     if (f > 1200.0) {
         unit = @"Khz";
@@ -141,7 +163,7 @@
         unit = @"Ghz";
         f /= 1000.0;
     }   
-    return [NSString stringWithFormat:fmt, f,unit];
+    return [NSString stringWithFormat:fmt, [NSString stringFromDouble:f] ,unit];
 }
 
 -(NSString*)asLatex {
@@ -155,5 +177,9 @@
     return s;
 }
 
+-(BOOL)contains:(NSString *)aSubstring {
+    NSRange r = [self rangeOfString:aSubstring];
+    return r.location != NSNotFound;
+}
 
 @end

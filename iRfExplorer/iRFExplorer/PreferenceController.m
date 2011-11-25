@@ -56,6 +56,14 @@ NSString * const kCmdLog = @"cmdLog";
 NSString * const kCommsLog = @"commsLog";
 NSString * const kCommsDebug = @"commsDebug";
 
+// Essentially hardcoded for now.
+//
+NSString * const kMainFont = @"Helvetica";
+NSString * const kItalicFont = @"Helvetica Oblique";
+double const kMainFontSize = 36.;
+double const kMainSmallFontSize = 10.;
+double const kMainMediumFontSize = 16.0;
+
 @implementation PreferenceController
 @synthesize slowSpeedButton, deviceSelectionButton;
 @synthesize decayLabel, decaySlider;
@@ -66,17 +74,17 @@ NSString * const kCommsDebug = @"commsDebug";
 -(double)sliderToValue:(double) v {
     v = 0.2 + 0.2 * v * v * v;
     if (v > 10) 
-        v = floorf(v);
+        v = floor(v);
     else if (v > 3)
-        v = 2.0 * floorf(v/2.0);
+        v = 2.0 * floor(v/2.0);
     return v;
 }
 
 -(void)readPreferences {
     // NSString * deviceTitle = [[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceSelectedDevice];
     BOOL isSlow = [[[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceSlowSpeed] boolValue];
-    float decay = [[[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceDecayValue] floatValue];
-    float avg = [[[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceAvgValue] floatValue]; 
+    double decay = [[[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceDecayValue] doubleValue];
+    double avg = [[[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceAvgValue] doubleValue]; 
     scan_strategy_t e = [[[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceScanStrategy] intValue];
     double lingerTime = [[[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceLingerTime] doubleValue];
     
@@ -147,16 +155,16 @@ NSString * const kCommsDebug = @"commsDebug";
 }
 
 -(IBAction)decaySliderChange:(NSSlider *)sender {
-    float v = sender.floatValue;
+    double v = sender.doubleValue;
     
     // bit of a lie - really the slider value.
     // [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:v] forKey:@"decayValue"];
 
     v = 0.2 + 0.2 * v * v * v;
     if (v > 10) 
-        v = floorf(v);
+        v = floor(v);
     else if (v > 3)
-         v = 2.0 * floorf(v/2.0);
+         v = 2.0 * floor(v/2.0);
     
     [decayLabel setStringValue:[NSString stringFromSeconds:v]];
 
@@ -164,16 +172,16 @@ NSString * const kCommsDebug = @"commsDebug";
 }
 
 -(IBAction)avgSliderChange:(NSSlider *)sender {
-    float v = sender.floatValue;
+    double v = sender.doubleValue;
     
     // bit of a lie - really the slider value.
     // [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:v] forKey:@"avgValue"];
     
     v = 0.2 + 0.2 * v * v * v;
     if (v > 10) 
-        v = floorf(v);
+        v = floor(v);
     else if (v > 3)
-        v = 2.0 * floorf(v/2.0);
+        v = 2.0 * floor(v/2.0);
     
     [avgLabel setStringValue:[NSString stringFromSeconds:v]];
     

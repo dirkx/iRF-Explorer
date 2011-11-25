@@ -18,6 +18,7 @@
 // limitations under the License.
 // 
 
+#import "PreferenceConstants.h"
 #import "FrequencyLegendView.h"
 #import "SpectrumGraphView.h"
 #import "TickScaler.h"
@@ -41,7 +42,7 @@ const double kWifiStep = 5000000.0;
     
     if (wifi) {
         // Note - the curent firmware only goes up to channel 13 it seems.
-        int N = (device.fEndHz - kWifiMin) / kWifiStep;
+        NSUInteger N = (device.fEndHz - kWifiMin) / kWifiStep;
         
         NSMutableArray * am = [NSMutableArray arrayWithCapacity:13];
         for(int i = 1; i <= N; i++) {
@@ -103,22 +104,22 @@ const double kWifiStep = 5000000.0;
         CGContextFillRect (cref, NSRectToCGRect(rect));
     };
 
-    float Sx = (spectrumRect.size.width-SOX);
-    float sx = Sx/span;
+    double Sx = (spectrumRect.size.width-SOX);
+    double sx = Sx/span;
 
     /* 2011-10-16 14:46:42.245 iRFExplorer[39566:707] LE: Frame: {{63, 5}, {394, 54}} and bounds {{0, 0}, {394, 54}}
      * 2011-10-16 14:46:42.246 iRFExplorer[39566:707] GR: Frame: {{88, 75}, {355, 180}} and bounds {{0, 0}, {355, 180}}
      */
-    float dX = self.graphView.frame.origin.x - self.frame.origin.x;
+    double dX = self.graphView.frame.origin.x - self.frame.origin.x;
     
-    float ox = SOX/2 + rect.origin.x + dX;
-    float oy = rect.size.height+ rect.origin.y - 2;
+    double ox = SOX/2 + rect.origin.x + dX;
+    double oy = rect.size.height+ rect.origin.y - 2;
 
     CGContextSetLineWidth(cref, 1.0);
     CGContextSetRGBStrokeColor(cref, 0,0,0,1);
 
     // double scaler = MAX(0.7,MIN(MIN(rect.size.width / 471.0, rect.size.height / 50.0),2.5));
-    double scaler = MAX(0.8, MIN(1.2, spectrumRect.size.width/400));
+    double scaler = MAX(0.8, MIN(1.2, spectrumRect.size.width/500));
     
     // Line actual range
     CGPoint hl[] = { 
@@ -130,11 +131,11 @@ const double kWifiStep = 5000000.0;
     // show actual range
     //
     if (FALSE) {
-        float v0 = min;
-        float v1 = max;
+        double v0 = min;
+        double v1 = max;
 
-        float x0 = ox + (v0 - min) * sx;
-        float x1 = ox + (v1 - min) * sx;
+        double x0 = ox + (v0 - min) * sx;
+        double x1 = ox + (v1 - min) * sx;
         
         CGPoint vt0[] = { CGPointMake(x0,oy), CGPointMake(x0,oy+OS) };    
         CGContextStrokeLineSegments(cref, vt0, 2 );
@@ -151,7 +152,7 @@ const double kWifiStep = 5000000.0;
     if (TRUE) {
 
         NSDictionary * attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                               [NSFont fontWithName:@"Helvetica" size:14.0 * scaler], NSFontAttributeName,
+                               [NSFont fontWithName:kMainFont size:kMainMediumFontSize /* was 14.0 */ * scaler], NSFontAttributeName,
                                [NSColor darkGrayColor], NSForegroundColorAttributeName, 
                                nil];
         
@@ -174,7 +175,7 @@ const double kWifiStep = 5000000.0;
 
     for(int i = 0; i < subTicks.count; i++) {
         double v = [(NSNumber *)[subTicks objectAtIndex:i] doubleValue];
-        float x = ox + (device.fStepHz/2 + v - min) * sx;
+        double x = ox + (device.fStepHz/2 + v - min) * sx;
 #if 1
         if (x < ox-OS)
             continue;
@@ -191,8 +192,8 @@ const double kWifiStep = 5000000.0;
 
     for(int i = 0; i < ticks.count; i++) {
         TickMark * m = [ticks objectAtIndex:i];
-        float v = m.value;        
-        float x = ox + (device.fStepHz/2 + v - min) * sx;
+        double v = m.value;        
+        double x = ox + (device.fStepHz/2 + v - min) * sx;
 #if 1
         if (x < ox-OS)
             continue;
@@ -217,8 +218,8 @@ const double kWifiStep = 5000000.0;
         
         NSSize s = [m.labelStr sizeWithAttributes:nil];
         
-        float lx = x;
-        float ly = oy - s.height - OS*2;
+        double lx = x;
+        double ly = oy - s.height - OS*2;
 
         switch (a) {
             case NSCenterTextAlignment:
@@ -233,7 +234,7 @@ const double kWifiStep = 5000000.0;
                 break;
         }
         NSDictionary * attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                               [NSFont fontWithName:@"Helvetica" size:10.0 * scaler], NSFontAttributeName,
+                               [NSFont fontWithName:kMainFont size:kMainSmallFontSize * scaler], NSFontAttributeName,
                                [NSColor darkGrayColor], NSForegroundColorAttributeName, 
                                nil];
         

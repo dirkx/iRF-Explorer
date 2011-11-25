@@ -39,11 +39,11 @@ NSArray * baseNiceNumber, *niceNbrs;
 	 * For instance the first number gets the maximum score, the last gets the minimum score.
 	 */
 	baseNiceNumber = [[[NSArray alloc] initWithObjects:
-					  [NSNumber numberWithFloat:1.0],
-					  [NSNumber numberWithFloat:5.0],
-					  [NSNumber numberWithFloat:2.0],
-					  [NSNumber numberWithFloat:2.5],
-					  [NSNumber numberWithFloat:3.0],
+					  [NSNumber numberWithFloat:1.0f],
+					  [NSNumber numberWithFloat:5.0f],
+					  [NSNumber numberWithFloat:2.0f],
+					  [NSNumber numberWithFloat:2.5f],
+					  [NSNumber numberWithFloat:3.0f],
 					  nil] autorelease];
 	
 	niceNbrs = [self createBaseNiceNumbersWith:baseNiceNumber];
@@ -73,7 +73,7 @@ NSArray * baseNiceNumber, *niceNbrs;
 
 	NSArray * scaleIntervals = [self createRangeOfCandidateScaleIntervalsWithDataMin:min
 																		  withDataMax:max
-																		 withExponent:exp
+																		 withExponent:(int)exp
 																		 withNiceNbrs:niceNbrs
 																		  includeZero:hasZero];
 	

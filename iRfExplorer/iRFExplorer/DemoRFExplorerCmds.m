@@ -39,6 +39,11 @@ double const kGAIN = 0.31;
     if (self == nil)
         return nil;
     
+    if ((scl = [SCListener sharedListener]) == nil) {
+        [self release];
+        return nil;
+    }    
+    
     cmdQue = [[NSMutableArray alloc] initWithCapacity:10];
     
     path = [_path retain];
@@ -46,15 +51,18 @@ double const kGAIN = 0.31;
     fd = 1;
     crashMode = [[_path substringWithRange:NSMakeRange(4, 1)] intValue];
     
+    minFreq = 0;
+    maxFreq =  kSAMPLERATE / 4;
+    maxSpan = maxFreq - minFreq;
+    
     startFreq = 200;
     endFreq =   kSAMPLERATE / 4;
+    
     steps = 100;
     
     // complete lie - we just picked something which sora looked OK.
     botAmp = -120;
     topAmp = -1;
-    
-    scl = [SCListener sharedListener];
     
     [NSThread detachNewThreadSelector:@selector(readerHandler:) 
                              toTarget:self 
@@ -76,13 +84,22 @@ double const kGAIN = 0.31;
 }
 
 #pragma mark Receive thread - where we fake up our stuff.
+
+// RFExplorer to PC
+// #C2-F:<Start_Freq KHZ>, <Freq_Step HZ>, <Amp_Top>, <Amp_Bottom>, <Sweep_Steps>, <ExpModuleActive>, 
+//    <CurrentMode>, <Min_Freq KHZ>, <Max_Freq KHZ>, <Max_Span KHZ> <EOL>
 -(NSString *)c2String {
-    return [NSString stringWithFormat:@"#C2-F:%07ld,%07d,-%03.0f,-%03.0f,%04d,0,000,0000000,0000012,00000012\r\n",
-            (long)floor(startFreq/1000.f),
+    return [NSString stringWithFormat:@"#C2-F:%07ld,%07d,-%03.0f,-%03.0f,%04d,%1d,%03d,%07d,%07d,%07d\r\n",
+            (long)floor(startFreq/1000.),
             (long)floor((endFreq-startFreq)/steps), 
             -topAmp,
             -botAmp,
-            steps
+            steps,
+            0, // not using the expansion card.
+            MODE_SPECTRUM_ANALYZER,
+            (long)floor(minFreq/1000.),
+            (long)floor(maxFreq/1000.),
+            (long)floor(maxSpan/1000.)
             ];
 }
 
@@ -96,14 +113,14 @@ double const kGAIN = 0.31;
     {
         char buff[1024];
         int len;
-        int bytesRW = 0;
+        NSUInteger bytesRW = 0;
 
         if (fd < 0)
             break;
         
         if ([cmdQue count] > 0) 
         {
-            NSString * cmd = [NSString stringWithFormat:[cmdQue objectAtIndex:0]];
+            NSString * cmd = [NSString stringWithString:[cmdQue objectAtIndex:0]];
             [cmdQue removeObjectAtIndex:0];
 
             bytesRW += [cmd length];
@@ -125,12 +142,15 @@ double const kGAIN = 0.31;
                 long fAmplitudeTop, fAmplitudeBottom;
                 long startFreqKhz, endFreqKhz;
 
+                // #<Size>C2-F:<Start_Freq KHZ>, <End_Freq KHZ>, <Amp_Top>, <Amp_Bottom
+                // PC to RF Explorer
+                //
                 sscanf(p+6,"%ld,%ld,%ld,%ld",
                        &startFreqKhz, &endFreqKhz, 
                        &fAmplitudeTop, &fAmplitudeBottom);
                                 
-                startFreq = 1000.f * startFreqKhz;
-                endFreq =  1000.f * endFreqKhz;
+                startFreq = 1000. * startFreqKhz;
+                endFreq =  1000. * endFreqKhz;
                 topAmp = (int)fAmplitudeTop;
                 botAmp = (int)fAmplitudeBottom;
                 
@@ -165,7 +185,7 @@ double const kGAIN = 0.31;
             for(int i = 0; i < steps; i++) {
                 double f = startFreq + i * bwidth;
                 
-                int j = (f - fftMin) / fftSpan;
+                long j = (f - fftMin) / fftSpan;
                 double v = 0; int n = 0;
                 
                 while(j < fftN) {
@@ -216,7 +236,7 @@ double const kGAIN = 0.31;
         // sleep to mimic 500k/2400 baud speeds and the 0.03-6 delay we seem to
         // observe in practice for any type of turn around.
         //
-        NSTimeInterval interval = bytesRW * 8.f / (isSlow ? 2400.f : 500000.f) + 0.2f;
+        NSTimeInterval interval = (NSTimeInterval)(bytesRW) * 8.f / (isSlow ? 2400.f : 500000.f) + 0.2f;
         
         [NSThread sleepForTimeInterval:interval];            
     }; // while read() loop

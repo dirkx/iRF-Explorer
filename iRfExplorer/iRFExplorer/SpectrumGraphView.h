@@ -24,25 +24,25 @@
 #import "RFExplorer.h"   
 #import "SomeTabView.h"
 
-extern const float SOX;
-extern const float SOY;
+extern const CGFloat SOX;
+extern const CGFloat SOY;
 
 @interface SpectrumGraphView : SomeTabView {
     Spectrum *spectrum;
     NSMutableArray *avgVals, *maxVals, *sdVals;
-    float averagingTimeWindowInSeconds;
+    double averagingTimeWindowInSeconds;
     BOOL decay;
     
     NSDate *lastUpdate;
     
     NSTimeInterval updateTimeInterval;
-    float decayInSeconds;
+    double decayInSeconds;
 }
 
 @property (retain) Spectrum *spectrum;
 
-@property (assign) float decayInSeconds;
-@property (assign) float averagingTimeWindowInSeconds;
+@property (assign) double decayInSeconds;
+@property (assign) double averagingTimeWindowInSeconds;
 
 -(void)setAndResetShowMax:(BOOL)newState;
 -(void)setAndResetShowAvg:(BOOL)newState;

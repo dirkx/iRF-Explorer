@@ -18,7 +18,7 @@
 // limitations under the License.
 // 
 //
-
+#import "NSStringExtensions.h"
 #import "StringScaleDefinition.h"
 #import "NumericScaleDefinition.h"
 
@@ -90,20 +90,7 @@
         // small to see ?
         
         if (minDigits < 4) {
-        c = sgn * c;
-		if (c == floor(c)) {
-			label = [NSString stringWithFormat:@"%.0f", c];
-		} else if (c*10 == floor(10*c)) {
-			label = [NSString stringWithFormat:@"%.01f", c];
-		} else if (c*100 == floor(100*c)) {
-			label = [NSString stringWithFormat:@"%.02f", c];
-		} else if (c*3 == floor(3*c)) {
-			label = [NSString stringWithFormat:@"%.02f", c];
-		} else if (c*6 == floor(6*c)) {
-			label = [NSString stringWithFormat:@"%.02f", c];
-		} else {
-			label = [NSString stringWithFormat:@"%.3f", c];
-		}
+            label = [NSString stringFromDouble:sgn * c];
         } else {
 			label = [NSString stringWithFormat:fmt, c];        
         }

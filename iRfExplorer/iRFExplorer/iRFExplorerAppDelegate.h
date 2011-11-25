@@ -20,7 +20,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "svnrevision.h"
+
 #import "PreferenceController.h"
 #import "SerialDeviceTracker.h"
 #import "RFExporerCmds.h"
@@ -39,6 +39,8 @@
 #import "SpectrogramGraphView.h"
 #import "StopPauseView.h"
 #import "CustomizableTabView.h"
+
+#import "svnrevision.h"
 
 @interface iRFExplorerAppDelegate : NSObject <NSApplicationDelegate, 
                                        // NSWindowDelegate,
@@ -107,7 +109,7 @@
 
 // Tab 1
 @property (assign) IBOutlet SpectrumView * spectrumView;
-@property (assign) IBOutlet NSView *spectrumGraphView;
+@property (assign) IBOutlet SpectrumGraphView *spectrumGraphView;
 @property (assign) IBOutlet StopPauseView *spectrumStopPauseView;
 
 // Tab 2

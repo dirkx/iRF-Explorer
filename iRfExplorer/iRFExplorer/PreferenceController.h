@@ -32,8 +32,8 @@
 -(void)changedPreferences;
 -(void)setSettingDeviceTitle:(NSString*)title;
 -(void)setSettingDeviceIsSlow:(BOOL)isSlow;
--(void)setDecaySpeed:(float)decaySpeedInSeconds;
--(void)setAvgSpeed:(float)avgSpeedInSeconds;
+-(void)setDecaySpeed:(double)decaySpeedInSeconds;
+-(void)setAvgSpeed:(double)avgSpeedInSeconds;
 -(void)setScanStrategy:(NSUInteger)e withLinger:(double)lingerTimeinSeconds;
 @end
 

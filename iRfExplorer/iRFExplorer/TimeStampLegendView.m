@@ -2,10 +2,24 @@
 //  TimeSlotLegendView.m
 //  iRFExplorer
 //
-//  Created by Dirk-Willem van Gulik on 05/11/2011.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 WebWeaving. All rights reserved.
+//                 Dirk-Willem van Gulik <dirkx(at)webweaving(dot)org>
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
 //
 
+#import "PreferenceConstants.h"
 #import "TimeStampLegendView.h"
 #import "SpectrogramView.h"
 
@@ -63,6 +77,7 @@
     // initially show the start time as we scroll 
     // up - and fade it out slowly once we get near 
     // the top.
+    //
     if ([sg.agesInSeconds count] < sg.nAges) {
         double ox = rect.origin.x - 4; // Offset from main graph.
         NSDate * ts = sg.floatAge;
@@ -75,7 +90,7 @@
             if (d > 100.f) d = 100.f;
             d = (100.f-d) / 100.f;
             NSDictionary * attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [NSFont fontWithName:@"Helvetica" size:16.0], 
+                                   [NSFont fontWithName:kMainFont size:kMainMediumFontSize /* was 16.0 */], 
                                    NSFontAttributeName,
                                    [NSColor colorWithDeviceWhite:d 
                                                            alpha:0.5],
@@ -104,7 +119,7 @@
             if (d > 30.f) d = 30.f;
             d = (30.f-d) / 30.f;
             NSDictionary * attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [NSFont fontWithName:@"Helvetica" size:12.0], 
+                                   [NSFont fontWithName:kMainFont size:kMainSmallFontSize], 
                                    NSFontAttributeName,
                                    [NSColor colorWithDeviceWhite:d 
                                                            alpha:0.5],

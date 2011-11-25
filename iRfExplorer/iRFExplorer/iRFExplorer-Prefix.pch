@@ -6,5 +6,9 @@
     #import <Cocoa/Cocoa.h>
 #endif
 
-#define DebugNSLog if (FALSE) NSLog
+#ifdef DEBUG
+#   define DebugNSLog if (FALSE) NSLog
+#else
+#   define DebugNSLog NSLog
+#endif
 

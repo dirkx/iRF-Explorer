@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>lineSpeed</key>
+	<real>0.1</real>
+	<key>lingerTime</key>
+	<string>25</string>
+	<key>noImages</key>
+	<false/>
+	<key>scanFullRange</key>
+	<false/>
+	<key>scanRange</key>
+	<false/>
+	<key>scanStrategy</key>
+	<false/>
+	<key>showAverage</key>
+	<true/>
+	<key>showDecay</key>
+	<true/>
+	<key>showMax</key>
+	<true/>
+	<key>showTimestamps</key>
+	<true/>
+	<key>slowSpeed</key>
+	<false/>
+	<key>timeStamp</key>
+	<true/>
+	<key>avgValue</key>
+	<integer>5</integer>
+	<key>decayValue</key>
+	<string>3</string>
+	<key>pngOverPdf</key>
+	<false/>
+	<key>latexOverTsv</key>
+	<false/>
+	<key>limsIncludeSettings</key>
+	<false/>
+	<key>limsIncludeHostInfo</key>
+	<false/>
+	<key>limsIncludeTimeStamps</key>
+	<false/>
+	<key>limsIncludeDeviceInfo</key>
+	<false/>
+	<key>limsIncludeComment</key>
+	<false/>
+	<key>limsCommentString</key>
+	<false/>
+	<key>commsLog</key>
+	<false/>
+	<key>commsDebug</key>
+	<false/>
+	<key>cmdLog</key>
+	<false/>
+</dict>
+</plist>

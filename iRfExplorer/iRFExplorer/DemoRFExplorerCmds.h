@@ -27,7 +27,7 @@
     NSMutableArray * cmdQue;
     BOOL spectrumRun, lcdRun;
     int crashMode;
-    double startFreq, endFreq, botAmp, topAmp;
+    double startFreq, endFreq, botAmp, topAmp, minFreq, maxFreq, maxSpan;
     int steps;
     NSTimer * timer;
 }

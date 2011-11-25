@@ -142,11 +142,11 @@
 		322BD6521465B9C8000E2AC5 /* LegendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LegendView.h; sourceTree = "<group>"; };
 		322BD6531465B9C9000E2AC5 /* LegendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LegendView.m; sourceTree = "<group>"; };
 		322BD6551465BFDF000E2AC5 /* TimeStampLegendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeStampLegendView.h; sourceTree = "<group>"; };
-		322BD6561465BFE0000E2AC5 /* TimeStampLegendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeStampLegendView.m; sourceTree = "<group>"; };
+		322BD6561465BFE0000E2AC5 /* TimeStampLegendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TimeStampLegendView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		32312E7014441E6600488611 /* LCDImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCDImage.h; sourceTree = "<group>"; };
 		32312E7114441E6600488611 /* LCDImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCDImage.m; sourceTree = "<group>"; };
 		32312E741444561000488611 /* SpectrumGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumGraphView.h; sourceTree = "<group>"; };
-		32312E751444561000488611 /* SpectrumGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpectrumGraphView.m; sourceTree = "<group>"; };
+		32312E751444561000488611 /* SpectrumGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SpectrumGraphView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3236D0391452CAE700017FD7 /* AveragingNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AveragingNumber.h; sourceTree = "<group>"; };
 		3236D03A1452CAE700017FD7 /* AveragingNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AveragingNumber.m; sourceTree = "<group>"; };
 		32378F7A144F59F80059EAC8 /* ColourMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColourMap.h; sourceTree = "<group>"; };
@@ -156,11 +156,11 @@
 		323F4E9014402B5A00FF7998 /* SerialDevicesPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerialDevicesPopUpButton.h; sourceTree = "<group>"; };
 		323F4E9114402B5A00FF7998 /* SerialDevicesPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SerialDevicesPopUpButton.m; sourceTree = "<group>"; };
 		324E9577146222630004682E /* iRFExplorer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = iRFExplorer.entitlements; sourceTree = "<group>"; };
-		32510757146F21F90022A75A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		32510757146F21F90022A75A /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3251075F146F29D40022A75A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Preferences.xib; sourceTree = "<group>"; };
 		32510762146F29E80022A75A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ConfigTabView.xib; sourceTree = "<group>"; };
-		3251BC7614406EC300196405 /* NSStringExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringExtensions.h; sourceTree = "<group>"; };
-		3251BC7714406EC300196405 /* NSStringExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringExtensions.m; sourceTree = "<group>"; };
+		3251BC7614406EC300196405 /* NSStringExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSStringExtensions.h; path = iRFExplorer/NSStringExtensions.h; sourceTree = "<group>"; };
+		3251BC7714406EC300196405 /* NSStringExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSStringExtensions.m; path = iRFExplorer/NSStringExtensions.m; sourceTree = "<group>"; };
 		3253D16614600D4900C5C1E6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = ../../../../../System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<group>"; };
 		32591B2114488CCA0093DDC9 /* Spectrum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spectrum.h; sourceTree = "<group>"; };
 		32591B2214488CCA0093DDC9 /* Spectrum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spectrum.m; sourceTree = "<group>"; };
@@ -171,9 +171,9 @@
 		326C2E21145F345300F0965C /* FrequencyTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrequencyTextField.h; sourceTree = "<group>"; };
 		326C2E22145F345300F0965C /* FrequencyTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrequencyTextField.m; sourceTree = "<group>"; };
 		326C2E24145F348900F0965C /* SignalTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignalTextField.h; sourceTree = "<group>"; };
-		326C2E25145F348900F0965C /* SignalTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignalTextField.m; sourceTree = "<group>"; };
-		326C2E28145F35C000F0965C /* ScalerDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScalerDefinition.h; sourceTree = "<group>"; };
-		326C2E29145F35C000F0965C /* ScalerDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScalerDefinition.m; sourceTree = "<group>"; };
+		326C2E25145F348900F0965C /* SignalTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SignalTextField.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		326C2E28145F35C000F0965C /* ScalerDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ScalerDefinition.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		326C2E29145F35C000F0965C /* ScalerDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ScalerDefinition.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		326C2E2B145F360100F0965C /* NoPrefixes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoPrefixes.h; sourceTree = "<group>"; };
 		326C2E2C145F360100F0965C /* NoPrefixes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoPrefixes.m; sourceTree = "<group>"; };
 		326C2E2E145F363100F0965C /* SiPrefixes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SiPrefixes.h; sourceTree = "<group>"; };
@@ -184,8 +184,8 @@
 		326C2E36145F36ED00F0965C /* Timeperiod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Timeperiod.m; sourceTree = "<group>"; };
 		326C2E38145F375400F0965C /* Frequency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frequency.h; sourceTree = "<group>"; };
 		326C2E39145F375400F0965C /* Frequency.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Frequency.m; sourceTree = "<group>"; };
-		326C2E3B145F375E00F0965C /* Signal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Signal.h; sourceTree = "<group>"; };
-		326C2E3C145F375E00F0965C /* Signal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Signal.m; sourceTree = "<group>"; };
+		326C2E3B145F375E00F0965C /* Signal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Signal.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		326C2E3C145F375E00F0965C /* Signal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Signal.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		326C2E3F145F395D00F0965C /* FrequencyTextFieldSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrequencyTextFieldSliderView.h; sourceTree = "<group>"; };
 		326C2E40145F395E00F0965C /* FrequencyTextFieldSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrequencyTextFieldSliderView.m; sourceTree = "<group>"; };
 		326C2E42145F398000F0965C /* SignalTextFieldSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignalTextFieldSliderView.h; sourceTree = "<group>"; };
@@ -193,26 +193,26 @@
 		326C2E45145F399B00F0965C /* TimePeriodTextFieldSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimePeriodTextFieldSliderView.h; sourceTree = "<group>"; };
 		326C2E46145F399C00F0965C /* TimePeriodTextFieldSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimePeriodTextFieldSliderView.m; sourceTree = "<group>"; };
 		326C2E49145F567A00F0965C /* SpectrumDrawerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrumDrawerView.h; sourceTree = "<group>"; };
-		326C2E4A145F567B00F0965C /* SpectrumDrawerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpectrumDrawerView.m; sourceTree = "<group>"; };
+		326C2E4A145F567B00F0965C /* SpectrumDrawerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SpectrumDrawerView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		326C2E4C145F5AF400F0965C /* SomeDrawerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SomeDrawerView.h; sourceTree = "<group>"; };
 		326C2E4D145F5AF600F0965C /* SomeDrawerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SomeDrawerView.m; sourceTree = "<group>"; };
-		326C2E4F145F5C7F00F0965C /* SpectrogramDrawerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpectrogramDrawerView.h; sourceTree = "<group>"; };
-		326C2E50145F5C8100F0965C /* SpectrogramDrawerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpectrogramDrawerView.m; sourceTree = "<group>"; };
+		326C2E4F145F5C7F00F0965C /* SpectrogramDrawerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SpectrogramDrawerView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		326C2E50145F5C8100F0965C /* SpectrogramDrawerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SpectrogramDrawerView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		326C2E54145F93D300F0965C /* NotifyingSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyingSliderCell.h; sourceTree = "<group>"; };
 		326C2E55145F93D400F0965C /* NotifyingSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyingSliderCell.m; sourceTree = "<group>"; };
 		326C2E57145F948D00F0965C /* NotifyingSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotifyingSlider.h; sourceTree = "<group>"; };
 		326C2E58145F948E00F0965C /* NotifyingSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotifyingSlider.m; sourceTree = "<group>"; };
 		326D2E7B1455E3D6005A20CA /* ConfigView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigView.h; sourceTree = "<group>"; };
 		326D2E7C1455E3D6005A20CA /* ConfigView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigView.m; sourceTree = "<group>"; };
-		326D2E7E1455E41E005A20CA /* SomeTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SomeTabView.h; sourceTree = "<group>"; };
-		326D2E7F1455E41E005A20CA /* SomeTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SomeTabView.m; sourceTree = "<group>"; };
+		326D2E7E1455E41E005A20CA /* SomeTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SomeTabView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		326D2E7F1455E41E005A20CA /* SomeTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SomeTabView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3270532F145EEAA3002349DC /* SliderTextUnitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderTextUnitView.h; sourceTree = "<group>"; };
 		32705330145EEAA3002349DC /* SliderTextUnitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderTextUnitView.m; sourceTree = "<group>"; };
-		32736AAD145C3A4900C1D917 /* PreferenceConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferenceConstants.h; sourceTree = "<group>"; };
+		32736AAD145C3A4900C1D917 /* PreferenceConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PreferenceConstants.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3280A69F146D9AF800174703 /* CustomizableTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomizableTabView.h; sourceTree = "<group>"; };
 		3280A6A0146D9AF800174703 /* CustomizableTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomizableTabView.m; sourceTree = "<group>"; };
-		3280A6A1146D9AF800174703 /* NSColorExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSColorExtensions.h; sourceTree = "<group>"; };
-		3280A6A2146D9AF800174703 /* NSColorExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSColorExtensions.m; sourceTree = "<group>"; };
+		3280A6A1146D9AF800174703 /* NSColorExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSColorExtensions.h; path = iRFExplorer/NSColorExtensions.h; sourceTree = "<group>"; };
+		3280A6A2146D9AF800174703 /* NSColorExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSColorExtensions.m; path = iRFExplorer/NSColorExtensions.m; sourceTree = "<group>"; };
 		3289D9171466C89F004FD9B7 /* _kiss_fft_guts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _kiss_fft_guts.h; sourceTree = "<group>"; };
 		3289D9181466C89F004FD9B7 /* CHANGELOG.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.markdown; sourceTree = "<group>"; };
 		3289D9191466C89F004FD9B7 /* CHANGES.dirkx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGES.dirkx; sourceTree = "<group>"; };
@@ -241,8 +241,8 @@
 		32A0D5C7143CEEE000464DCD /* PreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferenceController.h; sourceTree = "<group>"; };
 		32A0D5C8143CEEE000464DCD /* PreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferenceController.m; sourceTree = "<group>"; };
 		32A0D5D0143CF75E00464DCD /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		32A56297146314610086D894 /* NSUserInterfaceDefaultsExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSUserInterfaceDefaultsExtensions.h; sourceTree = "<group>"; };
-		32A56298146314610086D894 /* NSUserInterfaceDefaultsExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSUserInterfaceDefaultsExtensions.m; sourceTree = "<group>"; };
+		32A56297146314610086D894 /* NSUserInterfaceDefaultsExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSUserInterfaceDefaultsExtensions.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		32A56298146314610086D894 /* NSUserInterfaceDefaultsExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NSUserInterfaceDefaultsExtensions.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		32ACFE751448D3270098AB7C /* TickScaler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TickScaler.h; sourceTree = "<group>"; };
 		32ACFE761448D3270098AB7C /* TickScaler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TickScaler.m; sourceTree = "<group>"; };
 		32ACFE771448D3270098AB7C /* BasicNiceNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicNiceNumber.h; sourceTree = "<group>"; };
@@ -257,12 +257,16 @@
 		32ACFE801448D3270098AB7C /* TickMark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TickMark.m; sourceTree = "<group>"; };
 		32B4CA99145D828600D0661A /* TextFieldWithUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldWithUnit.h; sourceTree = "<group>"; };
 		32B4CA9A145D828600D0661A /* TextFieldWithUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextFieldWithUnit.m; sourceTree = "<group>"; };
-		32B4CAA0145DCC1400D0661A /* ScalarWithUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScalarWithUnit.h; sourceTree = "<group>"; };
-		32B4CAA1145DCC1400D0661A /* ScalarWithUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScalarWithUnit.m; sourceTree = "<group>"; };
-		32B643BC14569B280072A302 /* NSViewExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSViewExtensions.h; sourceTree = "<group>"; };
-		32B643BD14569B280072A302 /* NSViewExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSViewExtensions.m; sourceTree = "<group>"; };
+		32B4CAA0145DCC1400D0661A /* ScalarWithUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ScalarWithUnit.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		32B4CAA1145DCC1400D0661A /* ScalarWithUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ScalarWithUnit.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		32B643BC14569B280072A302 /* NSViewExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = NSViewExtensions.h; path = iRFExplorer/NSViewExtensions.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		32B643BD14569B280072A302 /* NSViewExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = NSViewExtensions.m; path = iRFExplorer/NSViewExtensions.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		32CBD2BD14485B8B004C88C2 /* dBmLegendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dBmLegendView.h; sourceTree = "<group>"; };
-		32CBD2BE14485B8B004C88C2 /* dBmLegendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = dBmLegendView.m; sourceTree = "<group>"; };
+		32CBD2BE14485B8B004C88C2 /* dBmLegendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = dBmLegendView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		32D2863D148028B4000220FD /* Appstore Blurp.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "Appstore Blurp.rtf"; sourceTree = "<group>"; };
+		32D2863E1480318F000220FD /* screenshot01-1280x800.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "screenshot01-1280x800.png"; path = "iRFExplorer/screenshot01-1280x800.png"; sourceTree = "<group>"; };
+		32D2863F1480374B000220FD /* screenshot02-12800x800.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "screenshot02-12800x800.png"; path = "iRFExplorer/screenshot02-12800x800.png"; sourceTree = "<group>"; };
+		32D286401480389F000220FD /* screenshot03-12800x800.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "screenshot03-12800x800.png"; path = "iRFExplorer/screenshot03-12800x800.png"; sourceTree = "<group>"; };
 		32E006E8146899F90024C638 /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
 		32E22918143D29F200FD9D19 /* SerialDeviceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerialDeviceTracker.h; sourceTree = "<group>"; };
 		32E22919143D29F200FD9D19 /* SerialDeviceTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SerialDeviceTracker.m; sourceTree = "<group>"; };
@@ -278,7 +282,7 @@
 		32F7D8D51449879B008886F3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32F7D8D81449879B008886F3 /* testScale-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "testScale-Prefix.pch"; sourceTree = "<group>"; };
 		32F9B73C144596F200226BE8 /* FrequencyLegendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrequencyLegendView.h; sourceTree = "<group>"; };
-		32F9B73D144596F200226BE8 /* FrequencyLegendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrequencyLegendView.m; sourceTree = "<group>"; };
+		32F9B73D144596F200226BE8 /* FrequencyLegendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FrequencyLegendView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		32F9B74014459ABF00226BE8 /* RFExplorer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFExplorer.h; sourceTree = "<group>"; };
 		32F9B74114459ABF00226BE8 /* RFExplorer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFExplorer.m; sourceTree = "<group>"; };
 		32FF0C55144C3DE70048FB0F /* DemoRFExplorerCmds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoRFExplorerCmds.h; sourceTree = "<group>"; };
@@ -309,7 +313,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3204E45414656D2F00A31B9A /* sc_listener_lib */ = {
+		3204E45414656D2F00A31B9A /* FFT sc_listener_lib */ = {
 			isa = PBXGroup;
 			children = (
 				3289D9171466C89F004FD9B7 /* _kiss_fft_guts.h */,
@@ -323,11 +327,24 @@
 				3289D91F1466C89F004FD9B7 /* SCListener.h */,
 				3289D9201466C89F004FD9B7 /* SCListener.m */,
 			);
-			name = sc_listener_lib;
+			name = "FFT sc_listener_lib";
 			path = iRFExplorer/sc_listener_lib;
 			sourceTree = "<group>";
 		};
-		32591B24144893D20093DDC9 /* RF Explorer Device */ = {
+		3246F2E8147EC5490022C0C5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3280A6A1146D9AF800174703 /* NSColorExtensions.h */,
+				3280A6A2146D9AF800174703 /* NSColorExtensions.m */,
+				32B643BC14569B280072A302 /* NSViewExtensions.h */,
+				32B643BD14569B280072A302 /* NSViewExtensions.m */,
+				3251BC7614406EC300196405 /* NSStringExtensions.h */,
+				3251BC7714406EC300196405 /* NSStringExtensions.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		32591B24144893D20093DDC9 /* Hardware and Device */ = {
 			isa = PBXGroup;
 			children = (
 				32312E7014441E6600488611 /* LCDImage.h */,
@@ -341,20 +358,15 @@
 				32F9B74014459ABF00226BE8 /* RFExplorer.h */,
 				32F9B74114459ABF00226BE8 /* RFExplorer.m */,
 			);
-			name = "RF Explorer Device";
+			name = "Hardware and Device";
+			path = iRFExplorer;
 			sourceTree = "<group>";
 		};
 		32591B25144893E10093DDC9 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				3280A6A1146D9AF800174703 /* NSColorExtensions.h */,
-				3280A6A2146D9AF800174703 /* NSColorExtensions.m */,
-				32B643BC14569B280072A302 /* NSViewExtensions.h */,
-				32B643BD14569B280072A302 /* NSViewExtensions.m */,
 				3236D0391452CAE700017FD7 /* AveragingNumber.h */,
 				3236D03A1452CAE700017FD7 /* AveragingNumber.m */,
-				3251BC7614406EC300196405 /* NSStringExtensions.h */,
-				3251BC7714406EC300196405 /* NSStringExtensions.m */,
 				32E22918143D29F200FD9D19 /* SerialDeviceTracker.h */,
 				32E22919143D29F200FD9D19 /* SerialDeviceTracker.m */,
 				32378F7A144F59F80059EAC8 /* ColourMap.h */,
@@ -367,7 +379,7 @@
 			name = Other;
 			sourceTree = "<group>";
 		};
-		326C2E1B145F33BF00F0965C /* UI Elements */ = {
+		326C2E1B145F33BF00F0965C /* Generic UI Elements */ = {
 			isa = PBXGroup;
 			children = (
 				3280A69F146D9AF800174703 /* CustomizableTabView.h */,
@@ -379,27 +391,16 @@
 				32E7089814614693004A7165 /* StopPauseView.h */,
 				32E7089914614693004A7165 /* StopPauseView.m */,
 			);
-			name = "UI Elements";
+			name = "Generic UI Elements";
+			path = iRFExplorer;
 			sourceTree = "<group>";
 		};
 		326C2E1D145F33F200F0965C /* Slider, Text, Unit combos */ = {
 			isa = PBXGroup;
 			children = (
-				326C2E1E145F342900F0965C /* TimePeriodTextField.h */,
-				326C2E1F145F342900F0965C /* TimePeriodTextField.m */,
-				326C2E21145F345300F0965C /* FrequencyTextField.h */,
-				326C2E22145F345300F0965C /* FrequencyTextField.m */,
-				326C2E24145F348900F0965C /* SignalTextField.h */,
-				326C2E25145F348900F0965C /* SignalTextField.m */,
-				326C2E3F145F395D00F0965C /* FrequencyTextFieldSliderView.h */,
-				326C2E40145F395E00F0965C /* FrequencyTextFieldSliderView.m */,
-				326C2E42145F398000F0965C /* SignalTextFieldSliderView.h */,
-				326C2E43145F398000F0965C /* SignalTextFieldSliderView.m */,
-				326C2E45145F399B00F0965C /* TimePeriodTextFieldSliderView.h */,
-				326C2E46145F399C00F0965C /* TimePeriodTextFieldSliderView.m */,
-				326C2E3E145F37CB00F0965C /* Base UI */,
 				326C2E34145F36C600F0965C /* Scalars */,
 				326C2E27145F35AB00F0965C /* Units */,
+				326C2E3E145F37CB00F0965C /* Base UI */,
 			);
 			name = "Slider, Text, Unit combos";
 			sourceTree = "<group>";
@@ -528,9 +529,13 @@
 			isa = PBXGroup;
 			children = (
 				32E92CC814482B9D000D12E9 /* TODO.txt */,
-				32A0D5B0143CEBDC00464DCD /* iRFExplorer */,
+				32D2863B1480288E000220FD /* Stuff for the AppStore */,
+				3246F2E8147EC5490022C0C5 /* Extensions */,
+				32A0D5B0143CEBDC00464DCD /* iRFExplorer - OSX User Interface and app */,
+				32591B24144893D20093DDC9 /* Hardware and Device */,
+				326C2E1B145F33BF00F0965C /* Generic UI Elements */,
 				32ACFE741448D3010098AB7C /* TickScaling */,
-				3204E45414656D2F00A31B9A /* sc_listener_lib */,
+				3204E45414656D2F00A31B9A /* FFT sc_listener_lib */,
 				32F7D8D41449879B008886F3 /* testScale */,
 				32A0D5A9143CEBDC00464DCD /* Frameworks */,
 				32A0D5A7143CEBDC00464DCD /* Products */,
@@ -571,7 +576,7 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		32A0D5B0143CEBDC00464DCD /* iRFExplorer */ = {
+		32A0D5B0143CEBDC00464DCD /* iRFExplorer - OSX User Interface and app */ = {
 			isa = PBXGroup;
 			children = (
 				32736AAD145C3A4900C1D917 /* PreferenceConstants.h */,
@@ -581,11 +586,11 @@
 				32A0D5C8143CEEE000464DCD /* PreferenceController.m */,
 				326C2E53145F838100F0965C /* Tabs */,
 				326C2E52145F836D00F0965C /* Drawers */,
-				32591B24144893D20093DDC9 /* RF Explorer Device */,
-				326C2E1B145F33BF00F0965C /* UI Elements */,
+				32DF4F20147DD98B0090BB0E /* UI Elements */,
 				32591B25144893E10093DDC9 /* Other */,
 				32A0D5B1143CEBDD00464DCD /* Supporting Files */,
 			);
+			name = "iRFExplorer - OSX User Interface and app";
 			path = iRFExplorer;
 			sourceTree = "<group>";
 		};
@@ -626,6 +631,36 @@
 			);
 			name = TickScaling;
 			path = iRFExplorer;
+			sourceTree = "<group>";
+		};
+		32D2863B1480288E000220FD /* Stuff for the AppStore */ = {
+			isa = PBXGroup;
+			children = (
+				32D286401480389F000220FD /* screenshot03-12800x800.png */,
+				32D2863F1480374B000220FD /* screenshot02-12800x800.png */,
+				32D2863E1480318F000220FD /* screenshot01-1280x800.png */,
+				32D2863D148028B4000220FD /* Appstore Blurp.rtf */,
+			);
+			name = "Stuff for the AppStore";
+			sourceTree = "<group>";
+		};
+		32DF4F20147DD98B0090BB0E /* UI Elements */ = {
+			isa = PBXGroup;
+			children = (
+				326C2E1E145F342900F0965C /* TimePeriodTextField.h */,
+				326C2E1F145F342900F0965C /* TimePeriodTextField.m */,
+				326C2E21145F345300F0965C /* FrequencyTextField.h */,
+				326C2E22145F345300F0965C /* FrequencyTextField.m */,
+				326C2E24145F348900F0965C /* SignalTextField.h */,
+				326C2E25145F348900F0965C /* SignalTextField.m */,
+				326C2E3F145F395D00F0965C /* FrequencyTextFieldSliderView.h */,
+				326C2E40145F395E00F0965C /* FrequencyTextFieldSliderView.m */,
+				326C2E42145F398000F0965C /* SignalTextFieldSliderView.h */,
+				326C2E43145F398000F0965C /* SignalTextFieldSliderView.m */,
+				326C2E45145F399B00F0965C /* TimePeriodTextFieldSliderView.h */,
+				326C2E46145F399C00F0965C /* TimePeriodTextFieldSliderView.m */,
+			);
+			name = "UI Elements";
 			sourceTree = "<group>";
 		};
 		32F7D8D41449879B008886F3 /* testScale */ = {
@@ -957,6 +992,7 @@
 				GCC_PREFIX_HEADER = "iRFExplorer/iRFExplorer-Prefix.pch";
 				INFOPLIST_FILE = "iRFExplorer/iRFExplorer-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -972,6 +1008,7 @@
 				GCC_PREFIX_HEADER = "iRFExplorer/iRFExplorer-Prefix.pch";
 				INFOPLIST_FILE = "iRFExplorer/iRFExplorer-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

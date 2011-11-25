@@ -18,17 +18,20 @@
 // limitations under the License.
 // 
 //
-
+#import "PreferenceConstants.h"
 #import "SpectrumGraphView.h"
 #import "NSViewExtensions.h"
+#import "NSStringExtensions.h"
 
 @implementation SpectrumGraphView
 
 @synthesize decayInSeconds, averagingTimeWindowInSeconds;
 
-const float SOX = 0.0; // spacing left/right (total)
-const float SOY = 0.0; // spacing top/bottom (total)
+const CGFloat SOX = 0.f; // spacing left/right (total)
+const CGFloat SOY = 0.f; // spacing top/bottom (total)
 const int OS = 8;      // overshoot axises
+
+#define CGPointMakeFromDoubles(x,y) CGPointMake((CGFloat)(x),(CGFloat)(y))
 
 -(void)newConfig:(id)sender {
     [super newConfig:sender];
@@ -101,14 +104,14 @@ const int OS = 8;      // overshoot axises
             [sdVals replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:sd]];                
         }
         if (maxVals && i < maxVals.count) {
-            float mm = [[maxVals objectAtIndex:i] floatValue];
-            float m = mm;
+            double mm = [[maxVals objectAtIndex:i] doubleValue];
+            double m = mm;
             if (v > m)
                 m = v;
             if (decayInSeconds > 0.0 && decay)
                 m -= (m - v) / decayInSeconds * updateTimeInterval;
             if (mm != m)
-                [maxVals replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:m]];
+                [maxVals replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:m]];
         }
     }
 }
@@ -163,49 +166,49 @@ const int OS = 8;      // overshoot axises
         CGContextFillRect(cref, NSRectToCGRect(rect));
     };
     
-    float sx = (rect.size.width-SOX) / device.fSpanHz;
-    float sy = (rect.size.height-SOY) / device.fAmplitudeSpan;
+    double sx = (rect.size.width-SOX) / device.fSpanHz;
+    double sy = (rect.size.height-SOY) / device.fAmplitudeSpan;
     
-    float ox = SOX/2 + rect.origin.x;
-    float oy = SOY/2 + rect.origin.y;
+    CGFloat ox = SOX/2 + rect.origin.x;
+    CGFloat oy = SOY/2 + rect.origin.y;
 
     // Draw axises used - to verify alighment with scales.
     //    
     if (FALSE) {
-        CGContextSetLineWidth(cref, 1.0);
-        CGContextSetRGBStrokeColor(cref, 0,0,0.4,1);
+        CGContextSetLineWidth(cref, 1.0f);
+        CGContextSetRGBStrokeColor(cref, 0.f,0.f,0.4f,1.f);
         
         CGPoint hl[] = { 
-            CGPointMake(ox-OS*10,oy), 
-            CGPointMake(ox+sx*spectrum.count+OS*10, oy) 
+            CGPointMakeFromDoubles(ox-OS*10,oy), 
+            CGPointMakeFromDoubles(ox+sx*spectrum.count+OS*10, oy) 
         };    
         CGContextStrokeLineSegments(cref, hl, 2 );
 
         CGPoint hl2[] = { 
-            CGPointMake(ox-10*OS,                   oy + sy*device.fAmplitudeSpan),
-            CGPointMake(ox+sx*spectrum.count+OS*10, oy + sy*device.fAmplitudeSpan) 
+            CGPointMakeFromDoubles(ox-10*OS,                   oy + sy*device.fAmplitudeSpan),
+            CGPointMakeFromDoubles(ox+sx*spectrum.count+OS*10, oy + sy*device.fAmplitudeSpan) 
         };    
         CGContextStrokeLineSegments(cref, hl2, 2 );
 
         CGPoint vl[] = { 
-            CGPointMake(ox,oy-OS*20), 
+            CGPointMakeFromDoubles(ox,oy-OS*20), 
             CGPointMake(ox, oy + sy * device.fAmplitudeSpan + OS) 
         };    
         CGContextStrokeLineSegments(cref, vl, 2 );
     };
     
     NSUInteger hi = 0;
-    float ha = 0;
+    double ha = 0;
     int src = 0;
     
     // Drawing of the vertial spectrum lines.
     //    
     if (TRUE) {
         for(NSUInteger i = 0; i < spectrum.count; i++) {
-            float f = [[spectrum.frequenciesHz objectAtIndex:i] floatValue];
+            double f = [[spectrum.frequenciesHz objectAtIndex:i] doubleValue];
             double x = ox + (device.fStepHz/2 + f - device.fStartHz) * sx;
             
-            float v = [[spectrum.dbValues objectAtIndex:i] floatValue];
+            double v = [[spectrum.dbValues objectAtIndex:i] doubleValue];
             
             if (i == 0 || v > ha) {
                 ha = v; hi = i; 
@@ -220,12 +223,11 @@ const int OS = 8;      // overshoot axises
             v -= device.fAmplitudeBottom;
             double y = oy + v * sy;
             
-            CGContextMoveToPoint(cref, x,oy);
-            CGContextAddLineToPoint(cref, x, y);
+            CGContextMoveToPoint(cref, (CGFloat)x,oy);
+            CGContextAddLineToPoint(cref, (CGFloat)x, (CGFloat)y);
             
         };
-        
-        CGContextSetLineWidth(cref, 0.42 * rect.size.width / device.nFreqSpectrumSteps);
+        CGContextSetLineWidth(cref, (CGFloat)(0.42 * rect.size.width / device.nFreqSpectrumSteps));
         CGContextSetRGBStrokeColor(cref, 0,0,0,1);
         CGContextStrokePath(cref);
     }
@@ -241,11 +243,11 @@ const int OS = 8;      // overshoot axises
         CGMutablePathRef encPath = CGPathCreateMutable();
         
         for(NSUInteger i = 0; i < avgVals.count; i++) {
-            float f = [[spectrum.frequenciesHz objectAtIndex:i] doubleValue];
+            double f = [[spectrum.frequenciesHz objectAtIndex:i] doubleValue];
             double x = ox + (device.fStepHz/2 + f - device.fStartHz) * sx;
             
-            float v = [[avgVals objectAtIndex:i] doubleValue];
-            float sd = [[sdVals  objectAtIndex:i] doubleValue];
+            double v = [[avgVals objectAtIndex:i] doubleValue];
+            double sd = [[sdVals  objectAtIndex:i] doubleValue];
  
             if (v >= ha) {
                 ha = v; hi = i; src = 1;
@@ -320,10 +322,10 @@ const int OS = 8;      // overshoot axises
     //
     if (maxVals) {
         for(NSUInteger i = 0; i < maxVals.count; i++) {
-            float f = [[spectrum.frequenciesHz objectAtIndex:i] floatValue];
+            double f = [[spectrum.frequenciesHz objectAtIndex:i] doubleValue];
             double x = ox + (device.fStepHz/2 +f - device.fStartHz) * sx;
             
-            float v = [[maxVals objectAtIndex:i] floatValue];
+            double v = [[maxVals objectAtIndex:i] doubleValue];
             
             if (v >= ha) {
                 ha = v; hi = i; src = 2;
@@ -352,27 +354,27 @@ const int OS = 8;      // overshoot axises
     // a transp. white rectangle with the value/frequency.
     //
     if (TRUE) {
-        float f = [[spectrum.frequenciesHz objectAtIndex:hi] floatValue];
+        double f = [[spectrum.frequenciesHz objectAtIndex:hi] doubleValue];
         double x = ox + (device.fStepHz/2 + f - device.fStartHz) * sx;
         
-        float v = ha;
-        float V = v; //  + device.fAmplitudeBottom;
+        double v = ha;
+        double V = v; //  + device.fAmplitudeBottom;
         double y = oy + (v - device.fAmplitudeBottom) * sy;
         
         y += OS + 2;
 
-        NSString * lf = [NSString stringWithFormat:@"%.2f Hz", f];
+        NSString * lf = [NSString stringFromHz:f];
         NSString * la = [NSString stringWithFormat:@"%.1f dBm", V];
         
         NSDictionary * attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                               // [NSFont fontWithName:@"Helvetica" size:36], NSFontAttributeName,
+                               [NSFont fontWithName:kMainFont size:kMainMediumFontSize], NSFontAttributeName,
                                [NSColor darkGrayColor], NSForegroundColorAttributeName, 
                                nil];
         
         NSSize sa = [la sizeWithAttributes:attr];
         NSSize sf = [lf sizeWithAttributes:attr];
         
-        float h = sa.height + sf.height + 3 * OS;
+        double h = sa.height + sf.height + 3 * OS;
 
         // using colour to indicate source of this value.
         //
@@ -407,9 +409,9 @@ const int OS = 8;      // overshoot axises
             y += OS *1.5 + 4;
         };        
         
-        float ss = MAX(sa.width, sf.width);
-        float xa = x - sa.width/2;
-        float xf = x - sf.width/2;
+        double ss = MAX(sa.width, sf.width);
+        double xa = x - sa.width/2;
+        double xf = x - sf.width/2;
         
         if (xa < OS || xf < OS) {
             xa = xf = OS;

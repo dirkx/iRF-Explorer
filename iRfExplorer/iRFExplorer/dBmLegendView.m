@@ -71,7 +71,7 @@
 
     // NSLog(@"drawRect of %@", self.className);
     
-    const float kMargin = 4; 
+    const double kMargin = 4; 
     
     NSGraphicsContext * nsGraphicsContext = [NSGraphicsContext currentContext];
     CGContextRef cref = (CGContextRef) [nsGraphicsContext graphicsPort];
@@ -84,22 +84,22 @@
     /* 2011-10-16 17:27:35.315 iRFExplorer[44812:707] LE: Frame: {{ 4,  5}, { 59, 278}} and bounds {{0, 0}, {59, 278}}
      * 2011-10-16 17:27:35.316 iRFExplorer[44812:707] GR: Frame: {{88, 75}, {355, 180}} and bounds {{0, 0}, {355, 180}}
      */
-    float dy = self.graphView.frame.origin.y - self.frame.origin.y + ( self.graphView.frame.size.height - self.frame.size.height);
+    double dy = self.graphView.frame.origin.y - self.frame.origin.y + ( self.graphView.frame.size.height - self.frame.size.height);
         
-    float height = graphRect.size.height;
+    double height = graphRect.size.height;
     
-    float sy = height - SOY;
-    float Sy = sy / device.fAmplitudeSpan;
+    double sy = height - SOY;
+    double Sy = sy / device.fAmplitudeSpan;
 
-    float oy = rect.origin.y + rect.size.height - height + dy + SOY/2;
-    float ox = rect.size.width + rect.origin.x - 2*kMargin;
+    double oy = rect.origin.y + rect.size.height - height + dy + SOY/2;
+    double ox = rect.size.width + rect.origin.x - 2*kMargin;
     
     // Main vertical line.
     CGContextSetLineWidth(cref, 1.0);
     CGContextSetRGBStrokeColor(cref, 0.4,0,0,1);
 
-    float y0 = oy;
-    float y1 = oy+sy;
+    double y0 = oy;
+    double y1 = oy+sy;
     if (ticks == nil || ticks.count == 0) {
         CGPoint v[] = { 
             CGPointMake(ox,y0), 
@@ -130,14 +130,14 @@
     // to a value just outside the actual data range. But we do
     // up to 4 pixels grace.
     //
-    float v0 = ((TickMark*)[ticks objectAtIndex:0]).value;
-    float y00 = oy + Sy * (v0 - device.fAmplitudeBottom);
+    double v0 = ((TickMark*)[ticks objectAtIndex:0]).value;
+    double y00 = oy + Sy * (v0 - device.fAmplitudeBottom);
     if (y00 < y0) {
         y0 = MAX(y00, y0 - 4);
     }
 
-    float v1 = ((TickMark*)[ticks lastObject]).value;
-    float y11 = oy + Sy * (v1 - device.fAmplitudeBottom);
+    double v1 = ((TickMark*)[ticks lastObject]).value;
+    double y11 = oy + Sy * (v1 - device.fAmplitudeBottom);
     if (y11 > y1) {
         y1 = MIN(y11, y1 + 4);
     };
@@ -150,8 +150,8 @@
 
     for(NSUInteger i = 0; i < ticks.count; i++) {
         TickMark * m = [ticks objectAtIndex:i];
-        float v = m.value;
-        float y = oy + Sy * (v - device.fAmplitudeBottom);
+        double v = m.value;
+        double y = oy + Sy * (v - device.fAmplitudeBottom);
 
         if (y < oy - 4)
             continue;
@@ -166,8 +166,8 @@
         
         NSSize s = [m.labelStr sizeWithAttributes:nil];
         
-        float lx = ox - s.width-2*kMargin;
-        float ly = y - s.height / 2.0 + kMargin / 2.0;
+        double lx = ox - s.width-2*kMargin;
+        double ly = y - s.height / 2.0 + kMargin / 2.0;
         
         [m.labelStr drawAtPoint:NSMakePoint(lx,ly)
                withAttributes:nil];
@@ -180,7 +180,7 @@
         NSString * graphLabel = @"signal (dBm)";
 
         NSDictionary * attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                               // [NSFont fontWithName:@"Helvetica" size:36], NSFontAttributeName,
+                               // [NSFont fontWithName:kMainFont size:kMainFontSize], NSFontAttributeName,
                                [NSColor darkGrayColor], NSForegroundColorAttributeName, 
                                nil];
 
