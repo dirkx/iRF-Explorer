@@ -6,6 +6,8 @@
 
 @implementation NSColor (CGColorAdditions)
 
+#if defined(__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__) && __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ < 1070
+
 - (CGColorRef)CGColor
 {
     NSColor *colorRGB = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -26,4 +28,6 @@
     CGFloat alpha = components[3];
     return [self colorWithDeviceRed:red green:green blue:blue alpha:alpha];
 }
+#endif
+
 @end

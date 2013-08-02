@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>deviceLabel</key>
+	<dict>
+		<key>0</key>
+		<string>443M</string>
+		<key>1</key>
+		<string>868M</string>
+		<key>2</key>
+		<string>915M</string>
+		<key>3</key>
+		<string>WSUB1G</string>
+		<key>4</key>
+		<string>2G4</string>
+		<key>5</key>
+		<string>SUB3G</string>
+		<key>254</key>
+		<string>demo</string>
+		<key>255</key>
+		<string>none</string>
+		<key>unknown</key>
+		<string>Unknown (%02x)</string>
+	</dict>
+	<key>modeLabel</key>
+	<dict>
+		<key>0</key>
+		<string>Spectrum-Analyser</string>
+		<key>1</key>
+		<string>RF-Generator</string>
+		<key>2</key>
+		<string>Wifi-Analyser</string>
+		<key>255</key>
+		<string>Unknown</string>
+		<key>unknown</key>
+		<string>Mode %d</string>
+	</dict>
+	<key>serialSpeedLabel</key>
+	<dict>
+		<key>0</key>
+		<string>500k</string>
+		<key>1</key>
+		<string>1200</string>
+		<key>2</key>
+		<string>2400</string>
+		<key>3</key>
+		<string>4800</string>
+		<key>4</key>
+		<string>9600</string>
+		<key>5</key>
+		<string>192k</string>
+		<key>6</key>
+		<string>384k</string>
+		<key>7</key>
+		<string>576k</string>
+		<key>unknown</key>
+		<string>Speed %02x</string>
+	</dict>
+</dict>
+</plist>

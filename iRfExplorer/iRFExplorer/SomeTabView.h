@@ -50,4 +50,5 @@ typedef enum {
 -(void)addView:(NSView *)aView toPasteboard:(NSPasteboard*)pasteBoard;
 -(void)addToPasteboard:(NSPasteboard*)pasteBoard;
 -(void)printView:(NSView *)view;
+
 @end

@@ -27,6 +27,16 @@
 		3253D16714600D4900C5C1E6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3253D16614600D4900C5C1E6 /* SystemConfiguration.framework */; };
 		32591B2314488CCB0093DDC9 /* Spectrum.m in Sources */ = {isa = PBXBuildFile; fileRef = 32591B2214488CCA0093DDC9 /* Spectrum.m */; };
 		325A62AD1462056A00BCD2F9 /* LIMS.m in Sources */ = {isa = PBXBuildFile; fileRef = 325A62AC1462056900BCD2F9 /* LIMS.m */; };
+		326A117614D9A27E003D1A15 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32A0D5AA143CEBDC00464DCD /* Cocoa.framework */; };
+		326A117C14D9A27E003D1A15 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 326A117A14D9A27E003D1A15 /* InfoPlist.strings */; };
+		326A117E14D9A27E003D1A15 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 326A117D14D9A27E003D1A15 /* main.m */; };
+		326A118214D9A27E003D1A15 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 326A118014D9A27E003D1A15 /* Credits.rtf */; };
+		326A118514D9A27E003D1A15 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 326A118414D9A27E003D1A15 /* AppDelegate.m */; };
+		326A118814D9A27E003D1A15 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 326A118614D9A27E003D1A15 /* MainMenu.xib */; };
+		326A118E14D9A9CF003D1A15 /* checks.sh in Resources */ = {isa = PBXBuildFile; fileRef = 326A118D14D9A9CF003D1A15 /* checks.sh */; };
+		326A118F14D9AE93003D1A15 /* checks.sh in Resources */ = {isa = PBXBuildFile; fileRef = 326A118D14D9A9CF003D1A15 /* checks.sh */; };
+		326A119314D9B308003D1A15 /* CheckInstalledDrivers.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 326A117414D9A27E003D1A15 /* CheckInstalledDrivers.app */; };
+		326A119A14D9B6FE003D1A15 /* ignoredSerialDevices.plist in Resources */ = {isa = PBXBuildFile; fileRef = 326A119914D9B6FE003D1A15 /* ignoredSerialDevices.plist */; };
 		326C2E20145F342900F0965C /* TimePeriodTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 326C2E1F145F342900F0965C /* TimePeriodTextField.m */; };
 		326C2E23145F345300F0965C /* FrequencyTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 326C2E22145F345300F0965C /* FrequencyTextField.m */; };
 		326C2E26145F348900F0965C /* SignalTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 326C2E25145F348900F0965C /* SignalTextField.m */; };
@@ -69,6 +79,7 @@
 		32ACFE841448D3270098AB7C /* NumericScaleDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE7C1448D3270098AB7C /* NumericScaleDefinition.m */; };
 		32ACFE851448D3270098AB7C /* StringScaleDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE7E1448D3270098AB7C /* StringScaleDefinition.m */; };
 		32ACFE861448D3270098AB7C /* TickMark.m in Sources */ = {isa = PBXBuildFile; fileRef = 32ACFE801448D3270098AB7C /* TickMark.m */; };
+		32B18CF9154E675800DFF597 /* devices.plist in Resources */ = {isa = PBXBuildFile; fileRef = 32B18CFB154E675800DFF597 /* devices.plist */; };
 		32B4CA9B145D828600D0661A /* TextFieldWithUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B4CA9A145D828600D0661A /* TextFieldWithUnit.m */; };
 		32B4CAA2145DCC1400D0661A /* ScalarWithUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B4CAA1145DCC1400D0661A /* ScalarWithUnit.m */; };
 		32B643BE14569B280072A302 /* NSViewExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B643BD14569B280072A302 /* NSViewExtensions.m */; };
@@ -109,6 +120,13 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		326A119014D9B2C1003D1A15 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 32A0D59D143CEBDB00464DCD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 326A117314D9A27E003D1A15;
+			remoteInfo = CheckInstalledDrivers;
+		};
 		32B4CA97145CC5EE00D0661A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 32A0D59D143CEBDB00464DCD /* Project object */;
@@ -119,6 +137,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		326A119214D9B2E6003D1A15 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				326A119314D9B308003D1A15 /* CheckInstalledDrivers.app in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		32F7D8CE1449879B008886F3 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -166,6 +194,17 @@
 		32591B2214488CCA0093DDC9 /* Spectrum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spectrum.m; sourceTree = "<group>"; };
 		325A62AB1462056900BCD2F9 /* LIMS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LIMS.h; sourceTree = "<group>"; };
 		325A62AC1462056900BCD2F9 /* LIMS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LIMS.m; sourceTree = "<group>"; };
+		326A117414D9A27E003D1A15 /* CheckInstalledDrivers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheckInstalledDrivers.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		326A117914D9A27E003D1A15 /* CheckInstalledDrivers-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CheckInstalledDrivers-Info.plist"; sourceTree = "<group>"; };
+		326A117B14D9A27E003D1A15 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		326A117D14D9A27E003D1A15 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		326A117F14D9A27E003D1A15 /* CheckInstalledDrivers-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CheckInstalledDrivers-Prefix.pch"; sourceTree = "<group>"; };
+		326A118114D9A27E003D1A15 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		326A118314D9A27E003D1A15 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		326A118414D9A27E003D1A15 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		326A118714D9A27E003D1A15 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		326A118D14D9A9CF003D1A15 /* checks.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = checks.sh; sourceTree = "<group>"; };
+		326A119914D9B6FE003D1A15 /* ignoredSerialDevices.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ignoredSerialDevices.plist; sourceTree = "<group>"; };
 		326C2E1E145F342900F0965C /* TimePeriodTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimePeriodTextField.h; sourceTree = "<group>"; };
 		326C2E1F145F342900F0965C /* TimePeriodTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimePeriodTextField.m; sourceTree = "<group>"; };
 		326C2E21145F345300F0965C /* FrequencyTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrequencyTextField.h; sourceTree = "<group>"; };
@@ -255,6 +294,8 @@
 		32ACFE7E1448D3270098AB7C /* StringScaleDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringScaleDefinition.m; sourceTree = "<group>"; };
 		32ACFE7F1448D3270098AB7C /* TickMark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TickMark.h; sourceTree = "<group>"; };
 		32ACFE801448D3270098AB7C /* TickMark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TickMark.m; sourceTree = "<group>"; };
+		32B18CFA154E675800DFF597 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = en.lproj/devices.plist; sourceTree = "<group>"; };
+		32B18CFC154E68FA00DFF597 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = nl; path = nl.lproj/devices.plist; sourceTree = "<group>"; };
 		32B4CA99145D828600D0661A /* TextFieldWithUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldWithUnit.h; sourceTree = "<group>"; };
 		32B4CA9A145D828600D0661A /* TextFieldWithUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextFieldWithUnit.m; sourceTree = "<group>"; };
 		32B4CAA0145DCC1400D0661A /* ScalarWithUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ScalarWithUnit.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -290,6 +331,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		326A117114D9A27E003D1A15 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				326A117614D9A27E003D1A15 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		32A0D5A3143CEBDC00464DCD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -347,6 +396,7 @@
 		32591B24144893D20093DDC9 /* Hardware and Device */ = {
 			isa = PBXGroup;
 			children = (
+				32B18CFB154E675800DFF597 /* devices.plist */,
 				32312E7014441E6600488611 /* LCDImage.h */,
 				32312E7114441E6600488611 /* LCDImage.m */,
 				32591B2114488CCA0093DDC9 /* Spectrum.h */,
@@ -377,6 +427,30 @@
 				32A03268145973600045DC53 /* NamedArray.m */,
 			);
 			name = Other;
+			sourceTree = "<group>";
+		};
+		326A117714D9A27E003D1A15 /* CheckInstalledDrivers */ = {
+			isa = PBXGroup;
+			children = (
+				326A118314D9A27E003D1A15 /* AppDelegate.h */,
+				326A118414D9A27E003D1A15 /* AppDelegate.m */,
+				326A118614D9A27E003D1A15 /* MainMenu.xib */,
+				326A117814D9A27E003D1A15 /* Supporting Files */,
+			);
+			path = CheckInstalledDrivers;
+			sourceTree = "<group>";
+		};
+		326A117814D9A27E003D1A15 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				326A117914D9A27E003D1A15 /* CheckInstalledDrivers-Info.plist */,
+				326A117A14D9A27E003D1A15 /* InfoPlist.strings */,
+				326A117D14D9A27E003D1A15 /* main.m */,
+				326A117F14D9A27E003D1A15 /* CheckInstalledDrivers-Prefix.pch */,
+				326A118014D9A27E003D1A15 /* Credits.rtf */,
+				326A118D14D9A9CF003D1A15 /* checks.sh */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		326C2E1B145F33BF00F0965C /* Generic UI Elements */ = {
@@ -537,6 +611,7 @@
 				32ACFE741448D3010098AB7C /* TickScaling */,
 				3204E45414656D2F00A31B9A /* FFT sc_listener_lib */,
 				32F7D8D41449879B008886F3 /* testScale */,
+				326A117714D9A27E003D1A15 /* CheckInstalledDrivers */,
 				32A0D5A9143CEBDC00464DCD /* Frameworks */,
 				32A0D5A7143CEBDC00464DCD /* Products */,
 			);
@@ -547,6 +622,7 @@
 			children = (
 				32A0D5A6143CEBDC00464DCD /* iRFExplorer.app */,
 				32F7D8D01449879B008886F3 /* testScale */,
+				326A117414D9A27E003D1A15 /* CheckInstalledDrivers.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -609,6 +685,7 @@
 				32A0D5B6143CEBDD00464DCD /* main.m */,
 				32A0D5B8143CEBDD00464DCD /* iRFExplorer-Prefix.pch */,
 				32A0D5B9143CEBDD00464DCD /* Credits.rtf */,
+				326A119914D9B6FE003D1A15 /* ignoredSerialDevices.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -700,6 +777,23 @@
 /* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
+		326A117314D9A27E003D1A15 /* CheckInstalledDrivers */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 326A118B14D9A27E003D1A15 /* Build configuration list for PBXNativeTarget "CheckInstalledDrivers" */;
+			buildPhases = (
+				326A117014D9A27E003D1A15 /* Sources */,
+				326A117114D9A27E003D1A15 /* Frameworks */,
+				326A117214D9A27E003D1A15 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CheckInstalledDrivers;
+			productName = CheckInstalledDrivers;
+			productReference = 326A117414D9A27E003D1A15 /* CheckInstalledDrivers.app */;
+			productType = "com.apple.product-type.application";
+		};
 		32A0D5A5143CEBDC00464DCD /* iRFExplorer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 32A0D5C4143CEBDF00464DCD /* Build configuration list for PBXNativeTarget "iRFExplorer" */;
@@ -707,11 +801,13 @@
 				32A0D5A2143CEBDC00464DCD /* Sources */,
 				32A0D5A3143CEBDC00464DCD /* Frameworks */,
 				32A0D5A4143CEBDC00464DCD /* Resources */,
+				326A119214D9B2E6003D1A15 /* CopyFiles */,
 			);
 			buildRules = (
 				32B4CA91145CC2C800D0661A /* PBXBuildRule */,
 			);
 			dependencies = (
+				326A119114D9B2C1003D1A15 /* PBXTargetDependency */,
 				32B4CA98145CC5EE00D0661A /* PBXTargetDependency */,
 			);
 			name = iRFExplorer;
@@ -742,7 +838,7 @@
 		32A0D59D143CEBDB00464DCD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = 32A0D5A0143CEBDB00464DCD /* Build configuration list for PBXProject "iRFExplorer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -760,11 +856,23 @@
 				32A0D5A5143CEBDC00464DCD /* iRFExplorer */,
 				32F7D8CF1449879B008886F3 /* testScale */,
 				32B4CA93145CC37F00D0661A /* Generate SVN Revision define */,
+				326A117314D9A27E003D1A15 /* CheckInstalledDrivers */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		326A117214D9A27E003D1A15 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				326A118F14D9AE93003D1A15 /* checks.sh in Resources */,
+				326A117C14D9A27E003D1A15 /* InfoPlist.strings in Resources */,
+				326A118214D9A27E003D1A15 /* Credits.rtf in Resources */,
+				326A118814D9A27E003D1A15 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		32A0D5A4143CEBDC00464DCD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -777,12 +885,24 @@
 				32510761146F29E80022A75A /* ConfigTabView.xib in Resources */,
 				32E006E9146899F90024C638 /* defaults.plist in Resources */,
 				32510758146F21F90022A75A /* Localizable.strings in Resources */,
+				326A118E14D9A9CF003D1A15 /* checks.sh in Resources */,
+				326A119A14D9B6FE003D1A15 /* ignoredSerialDevices.plist in Resources */,
+				32B18CF9154E675800DFF597 /* devices.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		326A117014D9A27E003D1A15 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				326A117E14D9A27E003D1A15 /* main.m in Sources */,
+				326A118514D9A27E003D1A15 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		32A0D5A2143CEBDC00464DCD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -874,6 +994,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		326A119114D9B2C1003D1A15 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 326A117314D9A27E003D1A15 /* CheckInstalledDrivers */;
+			targetProxy = 326A119014D9B2C1003D1A15 /* PBXContainerItemProxy */;
+		};
 		32B4CA98145CC5EE00D0661A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 32B4CA93145CC37F00D0661A /* Generate SVN Revision define */;
@@ -907,6 +1032,30 @@
 			name = ConfigTabView.xib;
 			sourceTree = "<group>";
 		};
+		326A117A14D9A27E003D1A15 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				326A117B14D9A27E003D1A15 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		326A118014D9A27E003D1A15 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				326A118114D9A27E003D1A15 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		326A118614D9A27E003D1A15 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				326A118714D9A27E003D1A15 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
 		32A0D5B3143CEBDD00464DCD /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -931,9 +1080,49 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
+		32B18CFB154E675800DFF597 /* devices.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32B18CFA154E675800DFF597 /* en */,
+				32B18CFC154E68FA00DFF597 /* nl */,
+			);
+			name = devices.plist;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		326A118914D9A27E003D1A15 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CheckInstalledDrivers/CheckInstalledDrivers-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INFOPLIST_FILE = "CheckInstalledDrivers/CheckInstalledDrivers-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		326A118A14D9A27E003D1A15 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CheckInstalledDrivers/CheckInstalledDrivers-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INFOPLIST_FILE = "CheckInstalledDrivers/CheckInstalledDrivers-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 		32A0D5C2143CEBDF00464DCD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -955,9 +1144,10 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				VALID_ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 			};
 			name = Debug;
 		};
@@ -966,7 +1156,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -974,16 +1164,17 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
+				VALID_ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 			};
 			name = Release;
 		};
 		32A0D5C5143CEBDF00464DCD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1000,6 +1191,7 @@
 		32A0D5C6143CEBDF00464DCD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1055,6 +1247,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		326A118B14D9A27E003D1A15 /* Build configuration list for PBXNativeTarget "CheckInstalledDrivers" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				326A118914D9A27E003D1A15 /* Debug */,
+				326A118A14D9A27E003D1A15 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		32A0D5A0143CEBDB00464DCD /* Build configuration list for PBXProject "iRFExplorer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

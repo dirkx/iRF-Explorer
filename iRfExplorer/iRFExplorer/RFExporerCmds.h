@@ -22,12 +22,15 @@
 #import <Foundation/Foundation.h>
 #include <termios.h>
 
+// To stay in sync iwth devices.plist
+//
 typedef enum {
     EXPANSION_433M = 0,
     EXPANSION_868M,
     EXPANSION_915M,
     EXPANSION_WSUB1G,
     EXPANSION_2G4,
+    EXPANSION_3G, 
     EXPANSION_DEMO=254,
     EXPANSION_NONE=255  // only valid for the expansion card - always a main board.
 } RF_model_t;

@@ -86,7 +86,7 @@
              "  %% ensure that \\usepackage{multirow} is included in the pre-amble\n"
              "  %%\n"
              "  \\caption{Settings of the %@ Spectrum Analyser}\n"
-             "  \\label{SettingsTable_%05d}\n"
+             "  \\label{SettingsTable_%05ld}\n"
              "  %%\n"
              "  \\begin{center}\n"
              "      \\begin{tabular}{|r|l|}\n"

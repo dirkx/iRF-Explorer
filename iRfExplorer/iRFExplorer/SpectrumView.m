@@ -43,6 +43,40 @@
     [self setNeedsDisplay:YES];
 }
 
+-(NSData *)dataAsCSV:(id)sender {
+    NSMutableData * data = [NSMutableData data];
+    
+    [data appendData:[@"\"frequency (Hz)\",\"signal (dBm)|\n" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
+    [data appendData:[self data:sender withSeparator:@","]];
+
+    return data;
+}
+
+-(NSData *)dataAsTSV:(id)sender {
+    NSMutableData * data = [NSMutableData data];
+    
+    [data appendData:[@"# frequency (Hz)\tsignal (dBm)\n" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
+    [data appendData:[self data:sender withSeparator:@"\t"]];
+    
+    return data;
+}
+
+-(NSData *)data:(id)sender withSeparator:(NSString *)sep {
+    NSString *lineSep = @"\n";
+    
+    NSMutableData * data = [NSMutableData data];
+    
+    for(NSUInteger i = 0; i < spectrumGraphView.spectrum.count; i++) {
+        double f = [[spectrumGraphView.spectrum.frequenciesHz objectAtIndex:i] doubleValue];
+        double v = [[spectrumGraphView.spectrum.dbValues objectAtIndex:i] doubleValue];
+
+        //    NSMutableArray *avgVals, *maxVals, *sdVals;
+        NSString *line = [NSString stringWithFormat:@"%f%@%f%@",f,sep,v,lineSep];
+        [data appendData:[line dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES]];
+    }
+    return data;
+};
+
 -(void)setNeedsDisplay:(BOOL)flag {
     [frequencyLegendView setNeedsDisplay:flag];
     [dbmLegendView setNeedsDisplay:flag];    
@@ -67,4 +101,5 @@
     [super addToPasteboard:pasteBoard];
     [spectrumGraphView.spectrum addToPasteboard:pasteBoard];
 }
+
 @end

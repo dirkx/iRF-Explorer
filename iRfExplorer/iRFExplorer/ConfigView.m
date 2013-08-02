@@ -74,13 +74,17 @@
         return;
     };
 
-    if (device.hasC2F) {
+    if (device.hasReceivedC2FReply) {
         infoBandMinFreq.stringValue = [NSString stringFromHz:device.fStartHz];
         infoBandMaxFreq.stringValue = [NSString stringFromHz:device.fEndHz];
         infoBandCenterFreq.stringValue = [NSString stringFromHz:device.fCenterHz];
         infoBandSpanFreq.stringValue = [NSString stringFromHz:device.fSpanHz];
         
         // http://groups.google.com/group/rf-explorer/browse_frm/thread/bcf2711c40e12993
+        // However observed in the wild:
+        // On 2.4Ghz - display 50k; shown  17.857k
+        // On Sub1G - display 600k; shown 892.57 k
+        //
         infoBandApproxRbm.stringValue =[NSString stringFromHz:device.fStepHz]; // approx
         
         infoAttenTop.stringValue = [NSString stringWithFormat:@"%.1f dBm", device.fAmplitudeTop];
@@ -92,11 +96,11 @@
     // Check if we have C2-M info. If not - rely on
     // the app delegate whe/if to (re) request it.
     
-    if (device.hasC2M && device.hasC2F) {
+    if (device.hasReceivedC2MReply && device.hasReceivedC2FReply) {
         infoBoardTitle.stringValue = device.expansionBoardActive ? device.expansionBoard : device.mainBoard;
         infoBoardMinFreq.stringValue = [NSString stringFromHz:device.fMinFreqHz];
         infoBoardMaxFreq.stringValue = [NSString stringFromHz:device.fMaxFreqHz];
-        infoBoardSteps.stringValue = [NSString stringWithFormat:@"%d", device.nFreqSpectrumSteps];
+        infoBoardSteps.stringValue = [NSString stringWithFormat:@"%lu", device.nFreqSpectrumSteps];
     }
 }
 
@@ -109,7 +113,7 @@
     // Check if we have C2-M info. If not - rely on
     // the app delegate whe/if to (re) request it.
     //
-    if (!device.hasC2M)
+    if (!device.hasReceivedC2MReply)
         return;
 
     infoDevMain.stringValue = device.mainBoard;

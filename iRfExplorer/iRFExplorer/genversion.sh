@@ -1,7 +1,7 @@
 #!/bin/sh
 FILE=${1:-${PRODUCT_NAME}/revision.h}
 
-V=$(/usr/bin/svnversion)
+V=$(svnversion)
 T=$(TZ=UTV date +%Y/%m/%d.%TZ)
 
 cat > "${FILE}" <<EOM

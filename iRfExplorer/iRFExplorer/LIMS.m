@@ -58,7 +58,7 @@
         [lims addValue:[NSString stringWithFormat:@"%.2f",aDevice.fMaxFreqHz/1e6] withTitle:@"Board Frequency until (Mhz)"];
         [lims addValue:[NSString stringWithFormat:@"%.2f",aDevice.fMaxSpanHz/1e6] withTitle:@"Board Frequency max band span (Mhz)"];
         [lims addValue:[NSString stringWithFormat:@"%.2f",aDevice.fMinSpanHz/1e6] withTitle:@"Board Frequency min band span (Mhz)"];
-        [lims addValue:[NSString stringWithFormat:@"%d",aDevice.nFreqSpectrumSteps] withTitle:@"Board Frequency bands (#)"];
+        [lims addValue:[NSString stringWithFormat:@"%lu",aDevice.nFreqSpectrumSteps] withTitle:@"Board Frequency bands (#)"];
         [lims addValue:[NSString stringWithFormat:@"%.1f",aDevice.fAmplitudeMin] withTitle:@"Board Signal strenght from (dBm)"];
         [lims addValue:[NSString stringWithFormat:@"%.1f",aDevice.fAmplitudeMax] withTitle:@"Board Signal strenght until (dBm)"];
         [lims addValue:[NSString stringWithFormat:@"%.1f",aDevice.fAmplitudeMinSpan] withTitle:@"Board Signal strenght smallest range (dBm)"];

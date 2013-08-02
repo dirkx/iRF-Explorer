@@ -19,6 +19,6 @@
 // 
 //
 
-@interface NoPrefixes
+@interface NoPrefixes : NSObject
 +(NSArray *)defs;
 @end

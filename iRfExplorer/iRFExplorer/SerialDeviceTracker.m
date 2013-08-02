@@ -22,7 +22,7 @@
 #import "SerialDeviceTracker.h"
 
 @implementation SerialDeviceTracker
-@synthesize devices;
+@synthesize devices, unliked;
 
 - (id)init
 {
@@ -31,6 +31,11 @@
         return nil;
     
     self.devices = [NSMutableDictionary dictionaryWithCapacity:5];
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"ignoredSerialDevices"
+                                                     ofType:@"plist"];
+    
+    self.unliked = [NSArray arrayWithContentsOfFile:path];
     return self;
 }
 
@@ -59,7 +64,13 @@
         CFStringRef streamName = IORegistryEntryCreateCFProperty( serial, CFSTR(kIOTTYDeviceKey), kCFAllocatorDefault, 0 );
         CFStringRef pathName = IORegistryEntryCreateCFProperty( serial, CFSTR(kIOCalloutDeviceKey), kCFAllocatorDefault, 0 );
         if (streamName && pathName) {
-            [devicesFound setValue:(NSString *)pathName forKey:(NSString *)streamName];            
+            BOOL isLiked = TRUE;
+            for(NSString * s in unliked) 
+                if ([s isEqualToString:(NSString *)streamName])
+                    isLiked = FALSE;
+            if (isLiked)
+                [devicesFound setValue:(NSString *)pathName 
+                                forKey:(NSString *)streamName];            
 		};
         if (streamName) 
             CFRelease(streamName);
@@ -119,10 +130,15 @@
             [delegate changeInDevices:deviceAdded 
                             withTitle:(NSString*)streamName 
                              withPath:(NSString*)pathName];
-            if (deviceAdded)
+            if (deviceAdded) {
+                if ([unliked containsObject:(NSString *)streamName]) {
+                    NSLog(@"Ignoring %@, unliked", streamName);
+                } else {
                 [devices setValue:(NSString*)pathName forKey:(NSString*)streamName];
-            else
+                }
+            } else {
                 [devices removeObjectForKey:(NSString*)streamName];
+            }
         };
         if (streamName) 
             CFRelease(streamName);

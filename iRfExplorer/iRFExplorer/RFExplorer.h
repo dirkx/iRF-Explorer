@@ -58,6 +58,7 @@ NSString const *kDemoAudio;
     RF_model_t activeBoardModel;
 
     RF_speed_t commsSpeed;
+    int eMode;
     
     NSDate* connectedTime, *configTime, *spectrumTime;
     
@@ -78,15 +79,18 @@ NSString const *kDemoAudio;
 @property (assign, readonly) double fMinFreqHz, fMaxFreqHz, fMaxSpanHz, fFullRangeHz;
 @property (assign, readonly) double fEndHz, fMinSpanHz;
 @property (assign, readonly) NSString * mainBoard, *expansionBoard, *firmware, *path;
-@property (assign, readonly) double fAmplitudeMin, fAmplitudeMax, fAmplitudeMinSpan, fAmplitudeFullRange;
+@property (assign, readonly) double fAmplitudeMin, fAmplitudeMax;
+@property (assign, readonly) double fAmplitudeMinSpan, fAmplitudeFullRange;
 @property (assign) BOOL expansionBoardActive;
 @property (assign, readonly) RF_speed_t commsSpeed;
 @property (retain, readonly) NSString * commsSpeedAsString;
+@property (assign, readonly) int eMode;
+@property (retain, readonly) NSString * modeAsString;
 @property (retain, readonly) NSString * activeBoard;
 @property (assign, readonly) RF_model_t activeModel;
 @property (assign, readonly) BOOL hasExpansionBoard;
-@property (assign, readonly) BOOL hasC2M;
-@property (assign, readonly) BOOL hasC2F;
+@property (assign, readonly) BOOL hasReceivedC2MReply;
+@property (assign, readonly) BOOL hasReceivedC2FReply;
 
 @property (retain) NSDate * connectedTime, *configTime, *spectrumTime;
 

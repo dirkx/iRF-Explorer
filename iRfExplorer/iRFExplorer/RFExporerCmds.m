@@ -25,18 +25,26 @@
 #import "RFExporerCmds.h"
 #import "NSStringExtensions.h"
 #import "LCDImage.h"
+#import "iRFExplorerAppDelegate.h"
 
 #include <sys/ioctl.h>
 #include <IOKit/IOKitLib.h>
 #include <IOKit/serial/ioss.h>
 #import "PreferenceConstants.h"
 
+
 @implementation RFExporerCmds
 @synthesize delegate;
 
 
-
 #pragma mark init and related sundry such as thread kickoff.
+
+#ifdef SIGNAL_TIMEOUT
+static jmp_buf preopen;
+static void breakout(int argv) {
+    longjmp(preopen,1);
+}
+#endif
 
 - (id)initWithPath:(NSString *)_path withSlowSpeed:(BOOL)_isSlow {
     self = [super init];
@@ -84,6 +92,15 @@
 
 #define ME_UNDERSTAND_PROFILER_OBJECTION_TO_THIS 0
     
+#ifdef SIGNAL_TIMEOUT
+    if (setjmp(preopen)) {
+        NSLog(@"Timeout on opening device %s", cpath);
+        goto error;        
+    }
+    sig_t oldalarm = signal(SIGALRM, &breakout);
+    alarm(SIGNAL_TIMEOUT);
+#endif
+    
 #if ME_UNDERSTAND_PROFILER_OBJECTION_TO_THIS
     if ((nfd = open(cpath , O_RDWR | O_NOCTTY | O_NONBLOCK ))<0)
 #else
@@ -99,9 +116,7 @@
         NSLog(@"Error - failed to get a lock on '%s': %s",  cpath, strerror(errno));
         goto error;
     }
-#endif
     
-#if ME_UNDERSTAND_PROFILER_OBJECTION_TO_THIS
     int flag = 0;
     if (fcntl(fd, F_SETFL, &flag) == -1)
     {
@@ -134,6 +149,11 @@
         close(nfd);
         return nil;
     };
+
+#ifdef SIGNAL_TIMEOUT
+    signal(SIGALRM, oldalarm);
+    alarm(0);
+#endif
     
     // XX todo - we could do a IOSSDATALAT and set it at 500k x 100 bytes or
     //    so; as we know that faster reading makes no sense (and we know that
@@ -215,21 +235,20 @@ error:
 -(void)setTimeoutMask:(NSUInteger)aMask withTimeout:(NSTimeInterval)tOut {
     [timeoutTimer invalidate];
     [timeoutTimer release];
+    
     timeoutTimer = [[NSTimer scheduledTimerWithTimeInterval:tOut 
                                                      target:self 
                                                    selector:@selector(timeoutCallback:) 
                                                    userInfo:self 
                                                     repeats:NO] retain];
     timeoutMask |= aMask;
-    // NSLog(@"Timout set %lx", timeoutMask);
 }
 
 -(void)setTimeoutMask:(NSUInteger)aMask {
-    [self setTimeoutMask:aMask withTimeout:2.5];
+    [self setTimeoutMask:aMask withTimeout:3.5];
 }
 
 -(void)timeoutCallback:(id)sender {
-    // NSLog(@"Timout hit %lx", timeoutMask);
     [timeoutTimer invalidate];
     [timeoutTimer release];
     timeoutTimer = nil;
@@ -239,16 +258,27 @@ error:
     
     if (timeoutMask & TO_FIRST) {
         // try a reset and one more try - and do it longer.
-        NSLog(@"Retry the init sequence...");
+        NSLog(@"Retry the init sequence (10 seconds)...");
+        [[NSNotificationCenter defaultCenter] postNotificationName:kConnectionNotification
+                                                            object:@"retry"];
         
-        timeoutMask &= ~TO_FIRST;
         [self setTimeoutMask:0 
-                 withTimeout:5.0];
-        [self sendCmd:@"C0"];
+                 withTimeout:10.0];
+        
+        [NSTimer scheduledTimerWithTimeInterval:1.0
+                                         target:self 
+                                       selector:@selector(forecfulResend:) 
+                                       userInfo:nil
+                                        repeats:NO];
+        return;
     }
-    [self close];
+    // [self close];
+    fd = -1;
     [delegate alertUser:NSLocalizedString(@"Communication with RF Explorer timed out.",
                                           @"Error in comms timeout/silence")];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kConnectionNotification
+                                                        object:@"timeout"];
 };
 
 -(void)clearTimeoutMask:(NSUInteger)aMask {
@@ -261,8 +291,20 @@ error:
     // NSLog(@"Timout clear %lx", timeoutMask);
 }
     
+-(void)resend:(NSTimer*)aTimer {
+    timeoutMask &= ~TO_FIRST;
+    [self sendCmd:@"C0"];
+}
+
+-(void)forecfulResend:(NSTimer *)aTimer {
+    timeoutMask &= ~TO_FIRST;
+    [self sendCmd:@"CH"];
+    [self sendCmd:@"CS"];
+    [self sendCmd:@"D0"];
+}
+
 -(void)getConfigData {
-    [self setTimeoutMask:TO_CONFIG_F | TO_SPECTRUM | TO_CONFIG_M | TO_FIRST];
+    [self setTimeoutMask:TO_CONFIG_F | TO_CONFIG_M | TO_FIRST];
     [self sendCmd:@"C0"];
 }
 
@@ -354,6 +396,9 @@ error:
                       alternateButton:nil 
                           otherButton:nil 
             informativeTextWithFormat:@"The RF-Exporer device is (re)booting. Will try to re-establish contact in a few seconds."];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kConnectionNotification
+                                                            object:@"restarting"];
         return;
     }
     
@@ -371,9 +416,9 @@ error:
      *      5 ASCII chars
      *      Standard format xx.yy, may change format for betas or custom version
      * E.g.
-     *   #C2-M:003,255,01.07<CRLF>
+     *   #C2-M:003,255,01.07[few more chars for beta]<CRLF>
      */
-    if (!strncmp("#C2-M:",p,6) && l < 22) {
+    if (!strncmp("#C2-M:",p,6) && l < 48) {
         if (cmdRH) NSLog(@"C2-M '%s'", p);
         
         NSString *main = [NSString stringWithCString:p+6 withLength:3 encoding:NSASCIIStringEncoding];
@@ -545,13 +590,13 @@ error:
     }
 
     if (unkPktTypeCount++ < 5) {
-        char ign[8];
+        char ign[24];
         for(int i = 0; i < sizeof(ign)-1 && i < l; i++) {
             // rely on *p to be unsigned char; so >128 is in fact below 32.
             ign[i] = (p[i]<32) ? '.' : p[i];
         }
         ign[sizeof(ign)-1] = '\0';
-	    NSLog(@"No idea what to do with <%s..> - ignoring.%@",p,
+	    NSLog(@"No idea what to do with <%s..> - ignoring.%@",ign,
               ((unkPktTypeCount==5) ? @" And won't tell you about it any more" : @""));
     }
 }

@@ -43,9 +43,11 @@
 	io_iterator_t addDeviceIterator, removeDeviceIterator ;
     
     NSMutableDictionary * devices;
+    NSArray * unliked;
 }
 
 @property (retain) NSDictionary * devices;
+@property (retain) NSArray * unliked;
 @property (assign) id <SerialDeviceTrackerDelegate> delegate;
 
 // Rescan all serial ports.

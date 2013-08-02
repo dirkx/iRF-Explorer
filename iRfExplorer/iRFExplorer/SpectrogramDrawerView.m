@@ -94,6 +94,7 @@
 }
 
 -(void)updateTimers {
+    NSLog(@"Update timer");
     if (device == nil)
         return;
     
@@ -113,10 +114,6 @@
             dt = linesPerSecond / 2 / (device.fMaxSpanHz / device.fSpanHz);
             break;
             
-        case SCAN_LINGER:
-            dt = lingerTimeInSeconds;
-            break;
-            
         case SCAN_FAST:
             dt = 0.1;   
             // need to check datasheet - or is this really 3-4 values (or 
@@ -124,9 +121,16 @@
             // already have the unit reporting back the new value. So we
             // can prolly be quite agressive.
             break;
+
+        case SCAN_LINGER:
+            dt = lingerTimeInSeconds;
+            break;
+            
     };
     
     if (dt) {
+        NSLog(@"Timer (mode %d, linger=%f, lps=%f) set at %f",scanStrategy, lingerTimeInSeconds, linesPerSecond, dt);
+        
         self.scanTimer = [NSTimer timerWithTimeInterval:dt
                                                  target:self 
                                                selector:@selector(scan:)
@@ -141,6 +145,8 @@
 
 
 -(void)scan:(NSTimer *)timer {
+    NSLog(@"scan: tock");
+
     self.scanTimer = nil;
     
     if (![self isScanning])

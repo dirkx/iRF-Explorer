@@ -19,6 +19,6 @@
 // 
 //
 
-@interface TimePeriodPrefixes 
+@interface TimePeriodPrefixes  : NSObject
 +(NSArray *)defs;
 @end

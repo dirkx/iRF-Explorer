@@ -25,6 +25,8 @@
 #import "NSStringExtensions.h"
 #import "Spectrum.h"
 
+NSString * const kConnectionNotification = @"connectionNotifcation";
+
 @implementation iRFExplorerAppDelegate
 
 // window and general backgroud threads.
@@ -68,6 +70,21 @@ const BOOL debug = FALSE;
 #pragma mark Startup and application level sundry.
 
 NSString * const kDefaultSiLABSdriver = @"SLAB_USBtoUART";
+NSString * const kFirstTimeFlag = @"firstStartup";
+
+-(IBAction)checkDrivers:(id)sender {
+    NSString *appPath = [NSString stringWithFormat:@"%@/CheckInstalledDrivers.app",
+                         [[NSBundle mainBundle] resourcePath]];
+    
+    if (!appPath) {
+        NSLog(@"Lost the installed driver app.");
+        return;
+    }
+    
+    [[NSWorkspace sharedWorkspace] launchApplication:appPath
+                                            showIcon:NO 
+                                          autolaunch:YES];
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -89,6 +106,12 @@ NSString * const kDefaultSiLABSdriver = @"SLAB_USBtoUART";
                                        forKey:demoTitle];
         self.settingDeviceTitle = demoTitle;
     }
+    
+    BOOL firstTime =  [[NSUserDefaults standardUserDefaults] boolForKey:kFirstTimeFlag];
+    if (firstTime == FALSE) {
+        [[NSUserDefaults standardUserDefaults] setBool:TRUE forKey:kFirstTimeFlag];
+        [self checkDrivers:self];        
+    };
     
     // we do this after the demo device creation - so that it is picked up without ado.
     //
@@ -134,6 +157,16 @@ NSString * const kDefaultSiLABSdriver = @"SLAB_USBtoUART";
     
     double avgSpeedInSeconds =[[[NSUserDefaults standardUserDefaults] valueForKey:kPreferenceAvgValue] doubleValue];
     spectrumGraphView.averagingTimeWindowInSeconds = avgSpeedInSeconds;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(statusUpdate:)
+                                                 name:kConnectionNotification
+                                               object:nil];
+}
+
+-(void)statusUpdate:(NSNotification *)notification {
+    NSString *msg = [notification object];
+    firmwareLabel.stringValue = NSLocalizedString(msg, msg);
 }
 
 // Simple way to get an about number with the
@@ -195,9 +228,14 @@ NSString * const kDefaultSiLABSdriver = @"SLAB_USBtoUART";
 };
 
 #pragma mark (Re)opening of main window.
+     
+-(IBAction)reconnect:(id)sender {
+    [self changedPreferences];
+}
+
 // Mainly some trickery to avoid a real close; as to save us having to reload the NIB.
-//
--(void)newDocument:(id)sender {
+//     
+-(IBAction)newDocument:(id)sender {
     [self.window makeKeyAndOrderFront:nil];
 }
 
@@ -232,7 +270,9 @@ NSString * const kDefaultSiLABSdriver = @"SLAB_USBtoUART";
     if (rfExplorer)
         return;
     
-    if (debug) NSLog(@"Self initiated attempt to connect to %@", devTitle);
+    if (debug) 
+        NSLog(@"Self initiated attempt to connect to %@", devTitle);
+    
     [preferenceController.deviceSelectionButton selectItemWithTitle:devTitle];
     self.settingDeviceTitle = devTitle;
         
@@ -492,6 +532,37 @@ NSString * const kDefaultSiLABSdriver = @"SLAB_USBtoUART";
     }
 }
 
+-(IBAction)openDocument :(id)sender {
+    NSLog(@"Open something");    
+}
+
+- (IBAction)saveDocumentAs:(id)sender {
+    SomeTabView * tabView = (SomeTabView *)mainView.selectedTabViewItem.view;
+    if ([tabView respondsToSelector:@selector(saveDocumentAs:)])
+        [tabView saveDocumentAs:sender];
+}
+
+- (IBAction)saveDocument:(id)sender {
+    NSLog(@"Saving spectrum view");
+}
+
+-(void)saveTo:(NSString *)path {
+    SomeTabView * tabView = (SomeTabView *)mainView.selectedTabViewItem.view;
+
+    switch ([mainView indexOfTabViewItem:mainView.selectedTabViewItem]) {
+        case TAB_SCREEN:
+            [liveImageCell saveTo:path];
+            break;
+        case TAB_SPECTRUM:
+        case TAB_CONFIG:
+            break;
+        case TAB_SPECTROGRAM:
+            [tabView print:path];
+            break;
+        default: // and everything else.
+            break;
+    }
+}
 #pragma mark Updating form the RF Explorer
 
 -(void)newScreen:(NSImage *)img {

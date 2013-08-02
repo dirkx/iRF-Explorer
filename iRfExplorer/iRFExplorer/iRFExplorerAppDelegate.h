@@ -42,6 +42,8 @@
 
 #import "svnrevision.h"
 
+extern NSString * const kConnectionNotification;
+
 @interface iRFExplorerAppDelegate : NSObject <NSApplicationDelegate, 
                                        // NSWindowDelegate,
                                        NSTabViewDelegate,
@@ -59,7 +61,6 @@
     IBOutlet CustomizableTabView *mainView;
     IBOutlet NSDrawer *drawerView;
     IBOutlet NSWindow *window;
-    
 
     // tab 1 -- main graph display
     IBOutlet SpectrumView * spectrumView;
@@ -118,7 +119,6 @@
 @property (assign) IBOutlet NSButton *liveButton;
 @property (assign) IBOutlet NSTextField *pausedLabel;
 
-
 // tab 3 - spectrogram
 @property (assign) IBOutlet SpectrogramView * spectrogramView;
 @property (assign) IBOutlet SpectrogramGraphView * spectrogramGraphView;
@@ -154,4 +154,8 @@
 
 // Callback -- Preference Panel
 -(void) changedPreferences;
+-(IBAction)checkDrivers:(id)sender;
+
+// Respond to menu
+-(IBAction)reconnect:(id)sender;
 @end

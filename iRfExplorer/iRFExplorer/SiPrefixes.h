@@ -19,7 +19,7 @@
 // 
 //
 
-@interface SiPrefixes
+@interface SiPrefixes  : NSObject
 +(NSArray *)defs;
 @end
 

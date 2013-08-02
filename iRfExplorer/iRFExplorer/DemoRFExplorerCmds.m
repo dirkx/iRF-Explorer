@@ -89,7 +89,7 @@ double const kGAIN = 0.31;
 // #C2-F:<Start_Freq KHZ>, <Freq_Step HZ>, <Amp_Top>, <Amp_Bottom>, <Sweep_Steps>, <ExpModuleActive>, 
 //    <CurrentMode>, <Min_Freq KHZ>, <Max_Freq KHZ>, <Max_Span KHZ> <EOL>
 -(NSString *)c2String {
-    return [NSString stringWithFormat:@"#C2-F:%07ld,%07d,-%03.0f,-%03.0f,%04d,%1d,%03d,%07d,%07d,%07d\r\n",
+    return [NSString stringWithFormat:@"#C2-F:%07ld,%07ld,-%03.0f,-%03.0f,%04d,%1d,%03d,%07ld,%07ld,%07ld\r\n",
             (long)floor(startFreq/1000.),
             (long)floor((endFreq-startFreq)/steps), 
             -topAmp,
@@ -180,7 +180,7 @@ double const kGAIN = 0.31;
             double fftRange = kSAMPLERATE / 2;
             double fftSpan = fftRange / fftN;
             double spanRage = endFreq - startFreq;
-            double bwidth = spanRage / steps;
+            double bwidth = spanRage / steps; // Shannons ?
             
             for(int i = 0; i < steps; i++) {
                 double f = startFreq + i * bwidth;

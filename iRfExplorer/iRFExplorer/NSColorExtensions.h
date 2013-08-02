@@ -5,6 +5,8 @@
 
 
 @interface NSColor (CGColorAdditions)
+
+#if defined(__ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__) && __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ < 1070
 /**
  Return CGColor representation of the NSColor in the RGB color space
  */
@@ -13,5 +15,7 @@
  Create new NSColor from a CGColorRef
  */
 + (NSColor*)colorWithCGColor:(CGColorRef)aColor;
+#endif
+
 @end
 

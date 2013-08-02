@@ -26,6 +26,15 @@
 NSString const *kDemoPrefix = @"demo";
 NSString const *kDemoAudio = @"demo1";
 
+// Label useds used at toplevel in de devices.plist.
+//
+NSString const * kDeviceLabel = @"deviceLabel";
+NSString const * kModeLabel = @"modeLabel";
+NSString const * kSerialSpeedLabel = @"serialSpeedLabel";
+
+// Label used at secondary level when no (localized) string is known.
+NSString const * kUnknownLabel = @"unknown";
+
 @implementation RFExplorer
 @synthesize parser;
 
@@ -33,11 +42,72 @@ NSString const *kDemoAudio = @"demo1";
     fStartHz, fStepHz,
     fAmplitudeSpan, 
     fAmplitudeMin, fAmplitudeMax, fAmplitudeMinSpan, fAmplitudeFullRange,
-    nFreqSpectrumSteps, 
+    nFreqSpectrumSteps, eMode,
     fEndHz, fMinSpanHz,
     fMinFreqHz, fMaxFreqHz, fMaxSpanHz, fFullRangeHz,
     mainBoard, expansionBoard, firmware, commsSpeed,
     connectedTime, configTime, spectrumTime;
+
+static NSDictionary * _deviceInfo;
+
+// Keep devices.plist around as a simple static.
+// Note that this file is *localized*/
+//
++(void)initialize {
+    NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"devices" 
+                                                         ofType:@"plist"];
+    
+    _deviceInfo = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+}
+
+-(NSString *)numToBoard:(RF_model_t)board {
+    NSDictionary * _numToBoard = [_deviceInfo objectForKey:kDeviceLabel];
+    NSString * key = [NSString stringWithFormat:@"%d", board];
+    NSString * label = [_numToBoard objectForKey:key];
+    
+    // Node that label from devices.plist is *already* localized.
+    if (label)
+        return label;
+    
+    label = [_numToBoard objectForKey:kUnknownLabel];
+    if (!label)
+        label = NSLocalizedString(@"<unknown baudrate %d>",@"Baud rates");
+    
+    return [NSString stringWithFormat:label, board];
+}
+
+
+-(NSString *)commsSpeedAsString {
+    NSDictionary * _speeds = [_deviceInfo objectForKey:kDeviceLabel];
+    NSString * key = [NSString stringWithFormat:@"%d", commsSpeed];
+    NSString * label = [_speeds objectForKey:key];
+    
+    // Node that label from devices.plist is *already* localized.
+    if (label)
+        return label;
+    
+    label = [_speeds objectForKey:kUnknownLabel];
+    if (!label)
+        label = NSLocalizedString(@"<unknown baudrate %d>",@"Baud rates");
+    
+    return [NSString stringWithFormat:label, commsSpeed];
+}
+
+-(NSString *)modeAsString {
+    NSDictionary * _modes = [_deviceInfo objectForKey:kModeLabel];
+    NSString * key = [NSString stringWithFormat:@"%d", eMode];
+    NSString * label = [_modes objectForKey:key];
+    
+    // Node that label from devices.plist is *already* localized.
+    if (label)
+        label = label;
+    
+    label = [_modes objectForKey:kUnknownLabel];
+    if (!label)
+        label = NSLocalizedString(@"<unknown baudrate %d>",@"Baud rates");
+    
+    return [NSString stringWithFormat:label, eMode];
+}
 
 -(id)init {
     assert(1 == 2);
@@ -89,11 +159,11 @@ NSString const *kDemoAudio = @"demo1";
     [parser getConfigData];
 }
 
--(BOOL) hasC2M {
+-(BOOL) hasReceivedC2MReply {
     return mainBoard != nil;
 }
 
--(BOOL) hasC2F {
+-(BOOL) hasReceivedC2FReply {
     return nFreqSpectrumSteps > 0;
 }
 
@@ -107,34 +177,6 @@ NSString const *kDemoAudio = @"demo1";
     [self performSelector:@selector(getConfigData) 
                  withObject:nil 
                  afterDelay:0.300];   
-}
-
-
--(NSString *)numToBoard:(RF_model_t)board {
-    switch (board) {
-        case EXPANSION_433M: 
-            return @"443M"; 
-            break;
-        case EXPANSION_868M: 
-            return @"868M"; 
-            break;
-        case EXPANSION_915M: 
-            return @"915M"; 
-            break;
-        case EXPANSION_WSUB1G: 
-            return @"WSUB1GM"; 
-            break;
-        case EXPANSION_2G4: 
-            return @"2.4GM"; 
-            break;
-        case EXPANSION_DEMO:
-            return NSLocalizedString(@"Emulator", @"Emulator - name of demo device");
-            break;
-        case 255: 
-            return nil; 
-            break;
-    }
-    return @"Unkown";
 }
 
 -(void)configWithBoard:(RF_model_t)_mainBoard
@@ -184,6 +226,7 @@ NSString const *kDemoAudio = @"demo1";
     fAmplitudeBottom = _fAmplitudeBottom;
     fAmplitudeSpan = _fAmplitudeTop - _fAmplitudeBottom;
     
+    // XXX hardcoded - asked Archoll for a proto upgrade to learn those.
     fAmplitudeMin = -120;  
     fAmplitudeMax = -1;
     fAmplitudeMinSpan = 10;
@@ -194,15 +237,42 @@ NSString const *kDemoAudio = @"demo1";
     fMinFreqHz = _fMinFreqHz;
     fMaxFreqHz = _fMaxFreqHz;
     fMaxSpanHz = _fSpanFreqHz;
+    
+    // XXX hardcoded - asked Archoll for a proto upgrade to learn those.
+    //
     switch ([self activeModel]) {
+        case EXPANSION_433M:
+            // http://www.seeedstudio.com/depot/rf-explorer-433m-p-784.html
+        case EXPANSION_868M:
+            // http://www.seeedstudio.com/depot/rf-explorer-868m-p-782.html
+        case EXPANSION_915M:
+            // http://www.seeedstudio.com/depot/rf-explorer-915m-p-783.html
+        case EXPANSION_WSUB1G:
+            //http://www.seeedstudio.com/depot/rf-explorer-model-wsub1g-p-922.html
+        case EXPANSION_3G:
+            // http://www.arocholl.com/Datos/RFExplorer/WSUB3GBETA/RFEMWSUB3G_module_for_RF_Explorer.htm - bottom page
+        
+            // All 5 boards above are 112kHz. Some exist in internal/external
+            // versions - with slightly different seedstudio designators.
+            //
+            fMinSpanHz = 112.0e3f; 
+            break;
+            
         case EXPANSION_2G4:    
-            fMinSpanHz = 2e6f;
-            break;
+            // http://www.seeedstudio.com/depot/rf-explorer-model-24g-p-924.html
+            fMinSpanHz = 2.00e6f;  // 2Mhz
+            break;            
+            
         case EXPANSION_DEMO:
-            fMinSpanHz = 250.0;
-            break;
+            // Nothing sensible but DC and noise below 250hz the fft/microphone of 
+            // the MBA.
+            fMinSpanHz = 250.0f;
+            break;            
+            
         default:
-           fMinSpanHz = 1.12e5f; // 2MHz, 112kHz - see spec link above.
+            fMinSpanHz = 112.0e3f; // Just guess 112kHz
+            NSLog(@"No fMinSpanHz known for card %d. Using %.1fkHz.", 
+                  [self activeModel], fMaxFreqHz/1000.f);
             break;
     }
     fFullRangeHz = _fMaxFreqHz - _fMinFreqHz;
@@ -227,15 +297,16 @@ NSString const *kDemoAudio = @"demo1";
 }
 
 -(RF_model_t) activeModel {
-    if (!self.hasC2M || !self.hasC2F)
+    if (!self.hasReceivedC2MReply || !self.hasReceivedC2FReply)
         return 255;
     
     return expansionBoardActive ? expansionModel : mainBoardModel;
 }
 
 -(NSString *) activeBoard {
-    if (!self.hasC2M || !self.hasC2F)
-        return @"unknown";
+    if (!self.hasReceivedC2MReply || !self.hasReceivedC2FReply)
+        return NSLocalizedString(@"unknown",
+                                 @"Unknown/not yet knowing the active board name");
     
     return expansionBoardActive ? expansionBoard : mainBoard;
 }
@@ -380,40 +451,6 @@ NSString const *kDemoAudio = @"demo1";
 
 -(void)alertUser:(NSString *)userMsg {
     [delegate alertUser:userMsg];
-}
-
--(NSString *)commsSpeedAsString {
-    switch (commsSpeed) {
-        case SPEED_1k2:
-            return @"1200 bps";
-            break;
-        case SPEED_2k4:
-            return @"2400 bps";
-            break;
-        case SPEED_4k8:
-            return @"4800 bps";
-            break;
-        case SPEED_9k6:
-            return @"9600 bps";
-            break;
-        case SPEED_19k2:
-            return @"19.2 kbps";
-            break;
-        case SPEED_38k4:
-            return @"38.4 kbps";
-            break;
-        case SPEED_57k6:
-            return @"56.6 kbps";
-            break;
-        case SPEED_115k:
-            return @"115 kbps";
-            break;
-        case SPEED_500k:
-            return @"500 kbps";
-            break;
-        default:
-            return NSLocalizedString(@"<unknown baudrate>", @"Unknown baudrate");
-    };    
 }
 
 -(void)dealloc {
